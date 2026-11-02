@@ -23,6 +23,7 @@ ENV/
 *.egg
 
 # Environment variables
+*.env
 .env
 .env.local
 .env.development.local
