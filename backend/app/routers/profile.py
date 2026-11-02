@@ -97,7 +97,8 @@ def update_profile(body: ProfileUpdate, _: dict = Depends(require_admin)):
     updates = {k: v for k, v in body.model_dump().items() if v is not None}
     if not updates:
         raise HTTPException(status_code=400, detail="No fields to update")
-    return db.update_item(TABLE, PROFILE_KEY, updates)
+    db.update_item(TABLE, PROFILE_KEY, updates)
+    return _ensure_seeded()
 
 
 @router.post("/photo", response_model=ProfileResponse)
@@ -109,7 +110,8 @@ async def upload_profile_photo(
     _ensure_seeded()
     content = await file.read()
     url = s3.upload_file(content, file.filename or "photo.jpg", "profile/", file.content_type or "image/jpeg")
-    return db.update_item(TABLE, PROFILE_KEY, {"profile_photo_url": url, "photo_url": url})
+    db.update_item(TABLE, PROFILE_KEY, {"profile_photo_url": url, "photo_url": url})
+    return _ensure_seeded()
 
 
 @router.delete("/photo", response_model=ProfileResponse)
@@ -121,7 +123,8 @@ def delete_profile_photo(_: dict = Depends(require_admin)):
         key = s3.key_from_url(old_url)
         if key:
             s3.delete_file(key)
-    return db.update_item(TABLE, PROFILE_KEY, {"profile_photo_url": None, "photo_url": None})
+    db.update_item(TABLE, PROFILE_KEY, {"profile_photo_url": None, "photo_url": None})
+    return _ensure_seeded()
 
 
 @router.post("/resume", response_model=ProfileResponse)
@@ -135,7 +138,8 @@ async def upload_resume(
         raise HTTPException(status_code=400, detail="Resume must be a PDF file")
     content = await file.read()
     url = s3.upload_file(content, file.filename or "resume.pdf", "resume/", "application/pdf")
-    return db.update_item(TABLE, PROFILE_KEY, {"resume_url": url})
+    db.update_item(TABLE, PROFILE_KEY, {"resume_url": url})
+    return _ensure_seeded()
 
 
 @router.delete("/resume", response_model=ProfileResponse)
@@ -147,4 +151,5 @@ def delete_resume(_: dict = Depends(require_admin)):
         key = s3.key_from_url(old_url)
         if key:
             s3.delete_file(key)
-    return db.update_item(TABLE, PROFILE_KEY, {"resume_url": None})
+    db.update_item(TABLE, PROFILE_KEY, {"resume_url": None})
+    return _ensure_seeded()

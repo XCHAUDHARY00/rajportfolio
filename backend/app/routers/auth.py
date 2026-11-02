@@ -73,3 +73,4 @@ def login(req: LoginRequest):
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid username or password",
     )
+

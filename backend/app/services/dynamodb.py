@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from decimal import Decimal
 from pathlib import Path
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
@@ -13,6 +14,30 @@ _dynamodb_resource = None
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def _floats_to_decimals(obj):
+    """Recursively convert float values to Decimal for DynamoDB serialization."""
+    if isinstance(obj, float):
+        return Decimal(str(obj))
+    if isinstance(obj, dict):
+        return {k: _floats_to_decimals(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_floats_to_decimals(x) for x in obj]
+    return obj
+
+
+def _decimals_to_floats(obj):
+    """Recursively convert Decimal values back to float/int for JSON/FastAPI serialization."""
+    if isinstance(obj, Decimal):
+        if obj % 1 == 0:
+            return int(obj)
+        return float(obj)
+    if isinstance(obj, dict):
+        return {k: _decimals_to_floats(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_decimals_to_floats(x) for x in obj]
+    return obj
 
 
 def is_aws_configured() -> bool:
@@ -67,27 +92,30 @@ def _table(table_name: str):
 
 def get_item(table_name: str, key: dict) -> dict | None:
     """Fetch a single item by primary key."""
+    key = _floats_to_decimals(key)
     if not is_aws_configured():
         items = _read_local_data(table_name)
         for it in items:
             if all(it.get(k) == v for k, v in key.items()):
-                return it
+                return _decimals_to_floats(it)
         return None
 
     try:
         response = _table(table_name).get_item(Key=key)
-        return response.get("Item")
+        item = response.get("Item")
+        return _decimals_to_floats(item) if item else None
     except (ClientError, BotoCoreError) as e:
         logger.warning("DynamoDB get_item error, using local fallback: %s", e)
         items = _read_local_data(table_name)
         for it in items:
             if all(it.get(k) == v for k, v in key.items()):
-                return it
+                return _decimals_to_floats(it)
         return None
 
 
 def put_item(table_name: str, item: dict) -> dict:
     """Put (create/replace) an item."""
+    item_clean = _floats_to_decimals(item)
     if not is_aws_configured():
         items = _read_local_data(table_name)
         pk_keys = ["id", "pk"]
@@ -104,24 +132,27 @@ def put_item(table_name: str, item: dict) -> dict:
         else:
             items.append(item)
         _write_local_data(table_name, items)
-        return item
+        return _decimals_to_floats(item)
 
     try:
-        _table(table_name).put_item(Item=item)
-        return item
+        _table(table_name).put_item(Item=item_clean)
+        return _decimals_to_floats(item)
     except (ClientError, BotoCoreError) as e:
         logger.warning("DynamoDB put_item error, using local fallback: %s", e)
         items = _read_local_data(table_name)
         items = [i for i in items if not (("id" in item and i.get("id") == item["id"]) or ("pk" in item and i.get("pk") == item["pk"]))]
         items.append(item)
         _write_local_data(table_name, items)
-        return item
+        return _decimals_to_floats(item)
 
 
 def update_item(table_name: str, key: dict, updates: dict) -> dict:
     """Update only supplied fields."""
     if not updates:
         return get_item(table_name, key) or {}
+
+    key_clean = _floats_to_decimals(key)
+    updates_clean = _floats_to_decimals(updates)
 
     if not is_aws_configured():
         items = _read_local_data(table_name)
@@ -136,13 +167,13 @@ def update_item(table_name: str, key: dict, updates: dict) -> dict:
         else:
             target.update(updates)
         _write_local_data(table_name, items)
-        return target
+        return _decimals_to_floats(target)
 
     try:
         expr_parts = []
         expr_names: dict = {}
         expr_values: dict = {}
-        for i, (k, v) in enumerate(updates.items()):
+        for i, (k, v) in enumerate(updates_clean.items()):
             placeholder = f"#f{i}"
             value_key = f":v{i}"
             expr_parts.append(f"{placeholder} = {value_key}")
@@ -151,13 +182,13 @@ def update_item(table_name: str, key: dict, updates: dict) -> dict:
 
         update_expression = "SET " + ", ".join(expr_parts)
         response = _table(table_name).update_item(
-            Key=key,
+            Key=key_clean,
             UpdateExpression=update_expression,
             ExpressionAttributeNames=expr_names,
             ExpressionAttributeValues=expr_values,
             ReturnValues="ALL_NEW",
         )
-        return response.get("Attributes", {})
+        return _decimals_to_floats(response.get("Attributes", {}))
     except (ClientError, BotoCoreError) as e:
         logger.warning("DynamoDB update_item error, using local fallback: %s", e)
         items = _read_local_data(table_name)
@@ -172,11 +203,12 @@ def update_item(table_name: str, key: dict, updates: dict) -> dict:
         else:
             target.update(updates)
         _write_local_data(table_name, items)
-        return target
+        return _decimals_to_floats(target)
 
 
 def delete_item(table_name: str, key: dict) -> None:
     """Delete an item by primary key."""
+    key_clean = _floats_to_decimals(key)
     if not is_aws_configured():
         items = _read_local_data(table_name)
         items = [it for it in items if not all(it.get(k) == v for k, v in key.items())]
@@ -184,7 +216,7 @@ def delete_item(table_name: str, key: dict) -> None:
         return
 
     try:
-        _table(table_name).delete_item(Key=key)
+        _table(table_name).delete_item(Key=key_clean)
     except (ClientError, BotoCoreError) as e:
         logger.warning("DynamoDB delete_item error, using local fallback: %s", e)
         items = _read_local_data(table_name)
@@ -195,7 +227,7 @@ def delete_item(table_name: str, key: dict) -> None:
 def scan_table(table_name: str) -> list[dict]:
     """Full table scan."""
     if not is_aws_configured():
-        return _read_local_data(table_name)
+        return _decimals_to_floats(_read_local_data(table_name))
 
     try:
         table = _table(table_name)
@@ -205,10 +237,10 @@ def scan_table(table_name: str) -> list[dict]:
         while "LastEvaluatedKey" in response:
             response = table.scan(ExclusiveStartKey=response["LastEvaluatedKey"])
             items.extend(response.get("Items", []))
-        return items
+        return _decimals_to_floats(items)
     except (ClientError, BotoCoreError) as e:
         logger.warning("DynamoDB scan error, using local fallback: %s", e)
-        return _read_local_data(table_name)
+        return _decimals_to_floats(_read_local_data(table_name))
 
 
 def query_table(
@@ -219,8 +251,9 @@ def query_table(
     index_name: str | None = None,
 ) -> list[dict]:
     """Query items by key condition."""
+    expression_attribute_values = _floats_to_decimals(expression_attribute_values)
     if not is_aws_configured():
-        return _read_local_data(table_name)
+        return _decimals_to_floats(_read_local_data(table_name))
 
     try:
         kwargs: dict = {
@@ -240,7 +273,7 @@ def query_table(
             kwargs["ExclusiveStartKey"] = response["LastEvaluatedKey"]
             response = table.query(**kwargs)
             items.extend(response.get("Items", []))
-        return items
+        return _decimals_to_floats(items)
     except (ClientError, BotoCoreError) as e:
         logger.warning("DynamoDB query error, using local fallback: %s", e)
-        return _read_local_data(table_name)
+        return _decimals_to_floats(_read_local_data(table_name))
