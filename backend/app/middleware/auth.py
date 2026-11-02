@@ -97,9 +97,19 @@ async def require_admin(
 ) -> dict:
     """
     FastAPI dependency that enforces admin authentication.
-    Extracts the Bearer token from the Authorization header,
-    verifies it against Cognito, and returns the decoded claims.
+    Extracts the Bearer token from the Authorization header.
+    If Cognito is configured, verifies against Cognito.
+    Otherwise, verifies against HMAC signed admin tokens.
     """
     token = credentials.credentials
-    claims = verify_cognito_token(token)
-    return claims
+    if settings.COGNITO_USER_POOL_ID and settings.COGNITO_USER_POOL_ID != "your_pool_id":
+        return verify_cognito_token(token)
+
+    from app.routers.auth import verify_token
+    if verify_token(token):
+        return {"sub": "admin", "username": settings.ADMIN_USERNAME, "email": settings.ADMIN_EMAIL}
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid or expired admin session token. Please log in again.",
+    )

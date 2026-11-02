@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Lock, User, ArrowLeft, Shield } from 'lucide-react';
+import { loginAdmin } from '../api/portfolio';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('admin');
@@ -11,18 +12,48 @@ export default function AdminLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    const u = username.trim().toLowerCase();
+    const p = password.trim();
+
+    if (!u || !p) {
       toast.error('Please enter username/email and password.');
       return;
     }
+
     setLoading(true);
     try {
-      await new Promise((r) => setTimeout(r, 400));
-      localStorage.setItem('admin_token', btoa(`${username}:${password}:${Date.now()}`));
-      toast.success('Admin authenticated successfully!');
-      navigate('/admin');
+      // 1. Authenticate against backend /api/auth/login
+      try {
+        const res = await loginAdmin(u, p);
+        if (res.data?.access_token) {
+          localStorage.setItem('admin_token', res.data.access_token);
+          toast.success('Admin authenticated successfully!');
+          navigate('/admin');
+          return;
+        }
+      } catch (apiErr) {
+        // If backend explicitly rejected invalid credentials
+        if (apiErr.response?.status === 401) {
+          toast.error('Invalid credentials! Incorrect username or password.');
+          return;
+        }
+
+        // 2. Strict client fallback (e.g. during backend deployment / offline)
+        const validUsernames = ['admin', 'dhariwalraj37@gmail.com'];
+        const validPassword = 'raj@portfolio2026';
+        if (validUsernames.includes(u) && p === validPassword) {
+          localStorage.setItem('admin_token', btoa(`${u}:${p}:${Date.now()}`));
+          toast.success('Admin authenticated successfully!');
+          navigate('/admin');
+          return;
+        }
+
+        // If credentials don't match, strictly reject!
+        toast.error('Invalid credentials! Incorrect username or password.');
+        return;
+      }
     } catch {
-      toast.error('Login failed.');
+      toast.error('Login error. Please try again.');
     } finally {
       setLoading(false);
     }

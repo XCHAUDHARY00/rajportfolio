@@ -76,3 +76,7 @@ export const deleteAchievement = (id) => api.delete(`/api/achievements/${id}`);
 // ---------- Contact ----------
 export const sendContact = (data) => api.post('/api/contact', data);
 
+// ---------- Auth ----------
+export const loginAdmin = (username, password) => api.post('/api/auth/login', { username, password });
+
+

@@ -6,6 +6,7 @@ from mangum import Mangum
 
 from app.routers import (
     achievements,
+    auth,
     certifications,
     contact,
     experience,
@@ -52,6 +53,7 @@ _uploads_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(_uploads_dir)), name="uploads")
 
 # ── Routers ───────────────────────────────────────────────────────────────────
+app.include_router(auth.router)
 app.include_router(profile.router)
 app.include_router(projects.router)
 app.include_router(skills.router)
