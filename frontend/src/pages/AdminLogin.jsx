@@ -1,24 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Lock, Mail, ArrowLeft, Shield } from 'lucide-react';
+import { Lock, User, ArrowLeft, Shield } from 'lucide-react';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      toast.error('Please enter email and password.');
+    if (!username || !password) {
+      toast.error('Please enter username/email and password.');
       return;
     }
     setLoading(true);
     try {
-      await new Promise((r) => setTimeout(r, 500));
-      localStorage.setItem('admin_token', btoa(`${email}:${Date.now()}`));
+      await new Promise((r) => setTimeout(r, 400));
+      localStorage.setItem('admin_token', btoa(`${username}:${password}:${Date.now()}`));
       toast.success('Admin authenticated successfully!');
       navigate('/admin');
     } catch {
@@ -48,16 +48,17 @@ export default function AdminLogin() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-cream/70 font-sans text-xs uppercase tracking-wider font-semibold mb-2">
-                Admin Email
+                Admin Username or Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cream/30" size={16} />
+                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-cream/30" size={16} />
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="w-full bg-[#0B0C10] border border-white/10 text-white font-sans text-sm pl-10 pr-4 py-3 rounded-xl outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-colors placeholder-white/20"
-                  placeholder="dhariwalraj37@gmail.com"
+                  placeholder="admin"
+                  required
                 />
               </div>
             </div>
@@ -73,7 +74,8 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-[#0B0C10] border border-white/10 text-white font-sans text-sm pl-10 pr-4 py-3 rounded-xl outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-colors placeholder-white/20"
-                  placeholder="••••••••••••"
+                  placeholder="raj@portfolio2026"
+                  required
                 />
               </div>
             </div>
@@ -81,21 +83,22 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-gold to-gold-dark text-black py-3.5 rounded-xl font-sans font-bold text-sm tracking-wider uppercase hover:shadow-glow-gold transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-2 active:scale-[0.99]"
+              className="w-full bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-black py-3 rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-glow-gold active:scale-95 disabled:opacity-50 mt-2"
             >
-              {loading ? 'Authenticating…' : 'Enter Dashboard'}
+              {loading ? 'Authenticating…' : 'Enter Admin Console'}
             </button>
           </form>
-        </div>
 
-        <p className="text-center mt-6">
-          <a
-            href="/"
-            className="text-cream/40 hover:text-gold transition-colors font-sans text-xs inline-flex items-center gap-1.5"
-          >
-            <ArrowLeft size={13} /> Back to Portfolio
-          </a>
-        </p>
+          <div className="mt-6 pt-6 border-t border-white/10 text-center">
+            <a
+              href="/"
+              className="inline-flex items-center gap-2 text-cream/40 hover:text-white text-xs font-sans transition-colors"
+            >
+              <ArrowLeft size={13} />
+              <span>Back to Portfolio</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
