@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, ArrowDown } from 'lucide-react';
 
 export default function Hero({ profile }) {
+  const [imgError, setImgError] = useState(false);
   const handleScroll = (id) => {
     const el = document.querySelector(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -74,11 +76,12 @@ export default function Hero({ profile }) {
             <div className="w-full max-w-[340px] sm:max-w-[370px]">
               {/* Outer Warm Sand Frame */}
               <div className="rounded-[2.5rem] border-[10px] border-[#F2ECE3] bg-[#EFE9DF] overflow-hidden shadow-sm aspect-[3.2/4] relative">
-                {photoUrl ? (
+                {photoUrl && !imgError ? (
                   <img
                     src={photoUrl}
                     alt={profile?.name || 'Raj Chaudhary'}
                     className="w-full h-full object-cover object-top"
+                    onError={() => setImgError(true)}
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-[#F4EFE7]">
