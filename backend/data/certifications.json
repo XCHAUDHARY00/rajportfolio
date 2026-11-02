@@ -1,0 +1,72 @@
+[
+  {
+    "id": "cert-001",
+    "name": "Software Engineering Job Simulation",
+    "issuer": "JPMorgan Chase & Co. (Forage)",
+    "issue_date": "2024",
+    "verify_url": null,
+    "description": "Completed JPMorgan Chase's software engineering virtual experience, fixing broken code and using JPMorgan's open-source Perspective library to build a financial data feed dashboard.",
+    "badge_url": null,
+    "created_at": "2026-11-02T12:24:39.497714"
+  },
+  {
+    "id": "cert-002",
+    "name": "Generative AI Career Essentials",
+    "issuer": "Infosys Springboard",
+    "issue_date": "2024",
+    "verify_url": null,
+    "description": "Covered fundamentals of Generative AI, prompt engineering, LLM architecture, and responsible AI practices.",
+    "badge_url": null,
+    "created_at": "2026-11-02T12:24:39.497723"
+  },
+  {
+    "id": "cert-003",
+    "name": "Hacknovate Participation",
+    "issuer": "AKGEC Hacknovate",
+    "issue_date": "2025",
+    "verify_url": null,
+    "description": "Participated in Hacknovate hackathon at Ajay Kumar Garg Engineering College, building innovative solutions under time constraints.",
+    "badge_url": null,
+    "created_at": "2026-11-02T12:24:39.497726"
+  },
+  {
+    "id": "1ced310f-3f8f-4f87-b933-6c07c245e499",
+    "badge_url": null,
+    "created_at": "2026-11-02T13:25:06.259831",
+    "name": "hkhk",
+    "issuer": "",
+    "issue_date": "",
+    "verify_url": "",
+    "description": ""
+  },
+  {
+    "id": "9465bb92-5d0b-4774-b87a-5903d7972782",
+    "badge_url": null,
+    "created_at": "2026-11-02T13:25:10.351647",
+    "name": "jkjk",
+    "issuer": "",
+    "issue_date": "",
+    "verify_url": "",
+    "description": ""
+  },
+  {
+    "id": "7c87bd95-2e8f-4685-8316-71192b4176cf",
+    "badge_url": null,
+    "created_at": "2026-11-02T13:25:16.040975",
+    "name": "kjk",
+    "issuer": "",
+    "issue_date": "",
+    "verify_url": "",
+    "description": ""
+  },
+  {
+    "id": "42f5c716-f589-4640-b1f5-927657905c93",
+    "badge_url": null,
+    "created_at": "2026-11-02T13:30:25.142193",
+    "name": "defef",
+    "issuer": "",
+    "issue_date": "",
+    "verify_url": "",
+    "description": ""
+  }
+]

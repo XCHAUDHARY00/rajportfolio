@@ -1,0 +1,59 @@
+[
+  {
+    "id": "proj-001",
+    "title": "SkillForge AI \u2014 Full-Stack AI Career Operating System",
+    "description": "An AI-powered career platform featuring ATS resume analysis, mock interview simulation with Gemini AI, and personalized skill-gap roadmaps with intelligent caching.",
+    "stack": [
+      "Python",
+      "Django 5",
+      "DRF",
+      "PostgreSQL",
+      "React 18",
+      "Tailwind CSS",
+      "Google Gemini AI",
+      "PyPDF2",
+      "JWT",
+      "GitHub REST API"
+    ],
+    "github_url": "https://github.com/XCHAUDHARY00",
+    "live_url": null,
+    "start_date": "2026-01",
+    "end_date": "2026-04",
+    "featured": true,
+    "bullets": [
+      "Engineered an AI-powered resume analyser using PyPDF2 and Google Gemini AI delivering real-time ATS readiness scores with prioritised improvement recommendations.",
+      "Built a mock interview simulator powered by Gemini AI generating role-specific technical questions and evaluating responses with structured rubric-based feedback.",
+      "Designed a skill-gap analysis engine cross-referencing user competencies against target job requirements to auto-generate personalised 4-week learning roadmaps.",
+      "Implemented multi-layer caching strategy (Django cache framework) for Gemini AI responses, skill-gap results, and GitHub data \u2014 reducing redundant API calls by 60%+.",
+      "Built an AI fallback system that gracefully degrades to pre-computed heuristic responses and cached results when Gemini is rate-limited, ensuring zero user-facing downtime.",
+      "Architected scalable Django 5 + DRF backend with JWT authentication and silent token refresh, paired with responsive React 18 + Tailwind CSS frontend."
+    ],
+    "image_url": null,
+    "created_at": "2026-11-02T12:24:39.525379",
+    "images": []
+  },
+  {
+    "id": "proj-002",
+    "title": "E-Commerce Full-Stack Web Application",
+    "description": "A production-grade full-stack e-commerce platform with a DRF + PostgreSQL backend and React (Vite) + Tailwind CSS frontend delivering end-to-end shopping and order management.",
+    "stack": [
+      "Django",
+      "DRF",
+      "PostgreSQL",
+      "React.js",
+      "Vite",
+      "Tailwind CSS"
+    ],
+    "github_url": "https://github.com/XCHAUDHARY00",
+    "live_url": null,
+    "start_date": "2025-08",
+    "end_date": "2025-12",
+    "featured": true,
+    "bullets": [
+      "Built and deployed a production-grade full-stack e-commerce platform with DRF + PostgreSQL backend and React (Vite) + Tailwind CSS frontend.",
+      "Implemented end-to-end user authentication, dynamic product catalogue, shopping cart, and order management using a clean, decoupled API-client architecture."
+    ],
+    "image_url": null,
+    "created_at": "2026-11-02T12:24:39.525386"
+  }
+]

@@ -1,0 +1,157 @@
+[
+  {
+    "id": "b2de7d5b-e0b3-4232-bde2-c59661b2338a",
+    "name": "Python",
+    "category": "Programming"
+  },
+  {
+    "id": "d4071c60-de63-4b5c-bffe-1aa54c27ecb3",
+    "name": "C++",
+    "category": "Programming"
+  },
+  {
+    "id": "d148e12d-0d2a-4517-8325-c7693ab580b7",
+    "name": "JavaScript",
+    "category": "Programming"
+  },
+  {
+    "id": "e819ad6a-9866-46de-bc4b-898b4305cd41",
+    "name": "SQL",
+    "category": "Programming"
+  },
+  {
+    "id": "df80db0d-d621-49ee-8c2f-4b83f6e6154c",
+    "name": "Django",
+    "category": "Backend"
+  },
+  {
+    "id": "caa1ba3c-85e8-4b6f-adc7-4d43fe304861",
+    "name": "Django REST Framework",
+    "category": "Backend"
+  },
+  {
+    "id": "a18088d9-6b92-452e-bf0b-2e86111062b6",
+    "name": "FastAPI",
+    "category": "Backend"
+  },
+  {
+    "id": "b808e55e-0fc2-401c-9683-07459a04e3e4",
+    "name": "PostgreSQL",
+    "category": "Backend"
+  },
+  {
+    "id": "56437ecc-814d-4f7f-ba84-ee199d99872c",
+    "name": "REST API Design",
+    "category": "Backend"
+  },
+  {
+    "id": "8a01eeee-4d8d-4ede-bfc0-6d9f348d4e03",
+    "name": "JWT Authentication",
+    "category": "Backend"
+  },
+  {
+    "id": "40032e6f-8a60-4059-91bc-500cb3279fe4",
+    "name": "React.js",
+    "category": "Frontend"
+  },
+  {
+    "id": "f4919f20-cbaf-4ca5-a0a0-2227b3d92670",
+    "name": "Tailwind CSS",
+    "category": "Frontend"
+  },
+  {
+    "id": "30e25b40-6a48-498f-b3b8-a776b45b1976",
+    "name": "HTML5",
+    "category": "Frontend"
+  },
+  {
+    "id": "ed82168b-2323-48d3-86a6-080cf56f8ace",
+    "name": "CSS3",
+    "category": "Frontend"
+  },
+  {
+    "id": "52f507e2-de41-4284-92c0-ae36cb319acc",
+    "name": "Docker",
+    "category": "DevOps"
+  },
+  {
+    "id": "9595ca62-1517-46cb-938e-b22e7048a345",
+    "name": "AWS EC2",
+    "category": "DevOps"
+  },
+  {
+    "id": "c655d5e8-831f-4070-a4da-3b84e55ce520",
+    "name": "AWS Lambda",
+    "category": "DevOps"
+  },
+  {
+    "id": "71fc5708-a454-4be6-bf73-9a98e040331f",
+    "name": "AWS DynamoDB",
+    "category": "DevOps"
+  },
+  {
+    "id": "8c531267-8f89-45ab-8dac-571f28972167",
+    "name": "AWS S3",
+    "category": "DevOps"
+  },
+  {
+    "id": "0d2e336c-3989-438b-a2c5-fd12dc916ceb",
+    "name": "AWS SES",
+    "category": "DevOps"
+  },
+  {
+    "id": "fbe87e24-69ed-4d09-bb9b-fd501ecad0a6",
+    "name": "CI/CD (GitHub Actions)",
+    "category": "DevOps"
+  },
+  {
+    "id": "d4dd344a-c223-4014-835c-8b0f496076f6",
+    "name": "Vercel",
+    "category": "DevOps"
+  },
+  {
+    "id": "40f60f51-90ce-4c6a-b111-5057595e0201",
+    "name": "Google Gemini AI",
+    "category": "AI"
+  },
+  {
+    "id": "1c1d7862-f276-4887-a51e-309622f57668",
+    "name": "Gemini Vision API",
+    "category": "AI"
+  },
+  {
+    "id": "bc906f5a-bfba-43fd-9f23-d3ebeee93c19",
+    "name": "PyPDF2",
+    "category": "AI"
+  },
+  {
+    "id": "667248f3-c5a5-412b-a5fb-c1b668e55723",
+    "name": "GitHub REST API",
+    "category": "AI"
+  },
+  {
+    "id": "1f0a8be3-dcac-4d2d-97f6-3c63a0e43140",
+    "name": "Firebase Auth & Firestore",
+    "category": "AI"
+  },
+  {
+    "id": "59599cae-0715-47eb-a73a-c217ee826d94",
+    "name": "Git",
+    "category": "Tools"
+  },
+  {
+    "id": "7d025702-c47f-4802-a3db-3edc9bfc6ec4",
+    "name": "GitHub",
+    "category": "Tools"
+  },
+  {
+    "id": "767ace36-bcc3-49d7-8ace-5b7da7636e42",
+    "name": "Postman",
+    "category": "Tools"
+  },
+  {
+    "id": "7b26fa7f-4cea-4e7a-9632-b48759024141",
+    "name": "Linux",
+    "category": "Tools"
+  }
+]
