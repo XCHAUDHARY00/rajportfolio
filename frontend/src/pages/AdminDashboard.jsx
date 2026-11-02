@@ -25,11 +25,11 @@ const TABS = [
   { key: 'achievements', label: 'Achievements', icon: Trophy },
 ];
 
-const inputCls = 'w-full bg-[#0D0E14] border border-white/10 text-white font-sans text-sm px-3.5 py-2.5 outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-colors placeholder-white/20 rounded-xl';
-const labelCls = 'block text-cream/70 font-sans text-xs uppercase tracking-wider font-semibold mb-1.5';
-const btnPrimary = 'bg-gradient-to-r from-gold to-gold-dark text-black px-4 py-2 font-sans text-xs font-bold tracking-wide hover:shadow-glow-gold transition-all flex items-center gap-2 rounded-xl disabled:opacity-50 active:scale-95';
-const btnOutline = 'border border-white/10 text-cream/80 px-3 py-1.5 font-sans text-xs hover:border-white/30 hover:text-white transition-colors flex items-center gap-1.5 rounded-xl bg-white/[0.03]';
-const btnDanger = 'border border-red-500/30 text-red-400 px-3 py-1.5 font-sans text-xs hover:bg-red-500/10 transition-colors flex items-center gap-1.5 rounded-xl';
+const inputCls = 'w-full bg-[#FAF7F2] border border-[#EDE7DD] text-[#1C1A18] font-sans text-sm px-4 py-2.5 outline-none focus:border-[#1C1A18] transition-colors placeholder-[#8C877D] rounded-xl';
+const labelCls = 'block text-[#1C1A18] font-sans text-xs uppercase tracking-wider font-semibold mb-1.5';
+const btnPrimary = 'bg-[#1C1A18] hover:bg-black text-[#FAF7F2] px-4 py-2 font-sans text-xs font-semibold tracking-wide transition-all flex items-center gap-2 rounded-xl disabled:opacity-50 active:scale-95 shadow-sm';
+const btnOutline = 'bg-[#EFEAE2] hover:bg-[#E5DFD3] text-[#2C2926] border border-[#E2DBD0] px-3.5 py-1.5 font-sans text-xs font-medium hover:border-[#DFD7CA] transition-colors flex items-center gap-1.5 rounded-xl';
+const btnDanger = 'bg-red-50 border border-red-200 text-red-600 px-3 py-1.5 font-sans text-xs hover:bg-red-100 transition-colors flex items-center gap-1.5 rounded-xl';
 
 // ─────────────────────────────────────────────
 // Profile Tab
@@ -52,10 +52,17 @@ function ProfileTab() {
   const resumeRef = useRef();
 
   useEffect(() => {
-    getProfile().then((r) => {
-      setData((prev) => ({ ...prev, ...r.data, photo_url: r.data.photo_url || r.data.profile_photo_url }));
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    getProfile()
+      .then((r) => {
+        if (r && r.data) {
+          setData((prev) => ({ ...prev, ...r.data, photo_url: r.data.photo_url || r.data.profile_photo_url }));
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
   const handleSave = async () => {
@@ -99,10 +106,10 @@ function ProfileTab() {
 
   return (
     <div className="space-y-10 max-w-4xl pb-12">
-      <div className="flex items-center justify-between border-b border-white/10 pb-5">
+      <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-cream">Portfolio Content & Profile CMS</h2>
-          <p className="text-xs text-cream/50 mt-1 font-sans">
+          <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Portfolio Content &amp; Profile CMS</h2>
+          <p className="text-xs text-[#5E5A53] mt-1 font-sans">
             Every text, stat card, headline, tag, and quote is fully editable here.
           </p>
         </div>
@@ -112,15 +119,15 @@ function ProfileTab() {
       </div>
 
       {/* ── Photo & Resume Uploads ── */}
-      <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
-        <h3 className="text-sm font-semibold text-gold uppercase tracking-wider">Photo &amp; Resume</h3>
+      <div className="p-6 rounded-2xl bg-white border border-[#EDE7DD] shadow-sm space-y-6">
+        <h3 className="text-xs font-semibold text-[#1C1A18] uppercase tracking-wider">Photo &amp; Resume</h3>
         <div className="flex flex-wrap items-center gap-8">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-navy/50 overflow-hidden border border-white/10 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-[#FAF7F2] overflow-hidden border border-[#EDE7DD] flex items-center justify-center">
               {data.photo_url ? (
                 <img src={data.photo_url} alt="Profile" className="w-full h-full object-cover" />
               ) : (
-                <span className="font-serif text-xl font-bold text-gold">{data.name?.[0] || 'R'}</span>
+                <span className="font-bold text-xl text-[#1C1A18]">{data.name?.[0] || 'R'}</span>
               )}
             </div>
             <div>
@@ -128,17 +135,17 @@ function ProfileTab() {
               <button onClick={() => photoRef.current?.click()} className={btnOutline}>
                 <Upload size={12} /> Change Profile Photo
               </button>
-              <p className="text-[11px] text-cream/40 mt-1">Appears in Hero portrait frame</p>
+              <p className="text-[11px] text-[#8C877D] mt-1">Appears in Hero portrait frame</p>
             </div>
           </div>
 
-          <div className="border-l border-white/10 pl-8">
+          <div className="border-l border-[#EDE7DD] pl-8">
             <input type="file" accept="application/pdf" ref={resumeRef} className="hidden" onChange={handleResumeUpload} />
             <button onClick={() => resumeRef.current?.click()} className={btnOutline}>
               <Upload size={12} /> Upload Resume PDF
             </button>
             {data.resume_url && (
-              <a href={data.resume_url} target="_blank" rel="noreferrer" className="text-gold text-xs font-sans underline block mt-1.5">
+              <a href={data.resume_url} target="_blank" rel="noreferrer" className="text-[#1C1A18] text-xs font-sans underline block mt-1.5 font-medium">
                 View current uploaded PDF &rarr;
               </a>
             )}
@@ -147,8 +154,8 @@ function ProfileTab() {
       </div>
 
       {/* ── 1. Hero Section Content ── */}
-      <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
-        <h3 className="text-sm font-semibold text-gold uppercase tracking-wider">
+      <div className="p-6 rounded-2xl bg-white border border-[#EDE7DD] shadow-sm space-y-5">
+        <h3 className="text-xs font-semibold text-[#1C1A18] uppercase tracking-wider">
           1. Hero Section Content
         </h3>
 
@@ -185,7 +192,7 @@ function ProfileTab() {
             value={data.hero_headline || ''}
             onChange={(e) => setData({ ...data, hero_headline: e.target.value })}
           />
-          <p className="text-[11px] text-cream/40 mt-1">
+          <p className="text-[11px] text-[#8C877D] mt-1">
             Tip: Each new line in this box renders as an editorial line break on the site!
           </p>
         </div>
@@ -203,15 +210,15 @@ function ProfileTab() {
       </div>
 
       {/* ── 2. About Section — 4 Stat Cards ── */}
-      <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
-        <h3 className="text-sm font-semibold text-gold uppercase tracking-wider">
+      <div className="p-6 rounded-2xl bg-white border border-[#EDE7DD] shadow-sm space-y-5">
+        <h3 className="text-xs font-semibold text-[#1C1A18] uppercase tracking-wider">
           2. About Section &mdash; 4 Stat Cards
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Card 1 */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3">
-            <p className="text-xs font-semibold text-cream/80">Stat Card 1 (e.g. CGPA)</p>
+          <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] space-y-3">
+            <p className="text-xs font-semibold text-[#1C1A18]">Stat Card 1 (e.g. CGPA)</p>
             <div>
               <label className={labelCls}>Value</label>
               <input
@@ -242,8 +249,8 @@ function ProfileTab() {
           </div>
 
           {/* Card 2 */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3">
-            <p className="text-xs font-semibold text-cream/80">Stat Card 2 (e.g. Projects)</p>
+          <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] space-y-3">
+            <p className="text-xs font-semibold text-[#1C1A18]">Stat Card 2 (e.g. Projects)</p>
             <div>
               <label className={labelCls}>Value</label>
               <input
@@ -274,8 +281,8 @@ function ProfileTab() {
           </div>
 
           {/* Card 3 */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3">
-            <p className="text-xs font-semibold text-cream/80">Stat Card 3 (e.g. DSA Practice)</p>
+          <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] space-y-3">
+            <p className="text-xs font-semibold text-[#1C1A18]">Stat Card 3 (e.g. DSA Practice)</p>
             <div>
               <label className={labelCls}>Value</label>
               <input
@@ -306,8 +313,8 @@ function ProfileTab() {
           </div>
 
           {/* Card 4 */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3">
-            <p className="text-xs font-semibold text-cream/80">Stat Card 4 (e.g. Certs &amp; Wins)</p>
+          <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] space-y-3">
+            <p className="text-xs font-semibold text-[#1C1A18]">Stat Card 4 (e.g. Certs &amp; Wins)</p>
             <div>
               <label className={labelCls}>Value</label>
               <input
@@ -340,8 +347,8 @@ function ProfileTab() {
       </div>
 
       {/* ── 3. Education Card ── */}
-      <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
-        <h3 className="text-sm font-semibold text-gold uppercase tracking-wider">
+      <div className="p-6 rounded-2xl bg-white border border-[#EDE7DD] shadow-sm space-y-5">
+        <h3 className="text-xs font-semibold text-[#1C1A18] uppercase tracking-wider">
           3. Education Details
         </h3>
 
@@ -389,8 +396,8 @@ function ProfileTab() {
       </div>
 
       {/* ── 4. About Narrative & Quote ── */}
-      <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
-        <h3 className="text-sm font-semibold text-gold uppercase tracking-wider">
+      <div className="p-6 rounded-2xl bg-white border border-[#EDE7DD] shadow-sm space-y-5">
+        <h3 className="text-xs font-semibold text-[#1C1A18] uppercase tracking-wider">
           4. About Narrative &amp; Quote
         </h3>
 
@@ -439,8 +446,8 @@ function ProfileTab() {
       </div>
 
       {/* ── 5. Social Profiles & Direct Contact ── */}
-      <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
-        <h3 className="text-sm font-semibold text-gold uppercase tracking-wider">
+      <div className="p-6 rounded-2xl bg-white border border-[#EDE7DD] shadow-sm space-y-5">
+        <h3 className="text-xs font-semibold text-[#1C1A18] uppercase tracking-wider">
           5. Contact &amp; Social Profiles
         </h3>
 
@@ -595,10 +602,10 @@ function ProjectsTab() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-cream">Projects & Systems</h2>
-          <p className="text-xs font-sans text-cream/40 mt-1">Upload multiple screenshots per project for carousel view.</p>
+          <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Projects &amp; Systems</h2>
+          <p className="text-xs font-sans text-[#5E5A53] mt-1">Upload multiple screenshots per project for carousel view.</p>
         </div>
         <button onClick={() => { setForm(emptyProject); setEditId(null); setShowForm(!showForm); }} className={btnPrimary}>
           <Plus size={14} /> Add Project
@@ -606,8 +613,8 @@ function ProjectsTab() {
       </div>
 
       {showForm && (
-        <div className="bg-[#111218] border border-white/10 p-6 space-y-4 rounded-2xl">
-          <h3 className="font-serif text-lg text-cream">{editId ? 'Edit Project' : 'New Project'}</h3>
+        <div className="bg-white border border-[#EDE7DD] p-6 space-y-4 rounded-2xl shadow-sm">
+          <h3 className="text-base font-semibold text-[#1C1A18]">{editId ? 'Edit Project' : 'New Project'}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[['title', 'Title'], ['github_url', 'GitHub URL'], ['live_url', 'Live URL'], ['start_date', 'Start Date (e.g. 2026-01)'], ['end_date', 'End Date (e.g. 2026-04)']].map(([k, l]) => (
               <div key={k}>
@@ -628,11 +635,11 @@ function ProjectsTab() {
             <label className={labelCls}>Bullet Points (one per line)</label>
             <textarea className={`${inputCls} resize-none`} rows={3} value={form.bullets || ''} onChange={(e) => setForm({ ...form, bullets: e.target.value })} />
           </div>
-          <label className="flex items-center gap-2 text-cream/70 text-sm font-sans cursor-pointer">
+          <label className="flex items-center gap-2 text-[#5E5A53] text-sm font-sans cursor-pointer">
             <input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} />
             Mark as Featured Platform
           </label>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-2">
             <button onClick={handleSubmit} className={btnPrimary}><Save size={12} /> Save Project</button>
             <button onClick={() => { setShowForm(false); setForm(emptyProject); setEditId(null); }} className={btnOutline}><X size={12} /> Cancel</button>
           </div>
@@ -643,24 +650,24 @@ function ProjectsTab() {
         {projects.map((p) => {
           const imgs = (p.images && p.images.length > 0) ? p.images : (p.image_url ? [p.image_url] : []);
           return (
-            <div key={p.id} className="bg-[#111218] border border-white/10 p-5 rounded-2xl flex flex-col gap-4">
+            <div key={p.id} className="bg-white border border-[#EDE7DD] p-5 rounded-2xl flex flex-col gap-4 shadow-sm">
               <div className="flex items-start gap-4">
-                <div className="w-16 h-16 rounded-xl bg-[#090A0E] border border-white/10 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <div className="w-16 h-16 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] flex-shrink-0 overflow-hidden flex items-center justify-center">
                   {imgs[0]
                     ? <img src={imgs[0]} alt={p.title} className="w-full h-full object-cover" />
-                    : <span className="text-gold font-serif font-bold text-xl">{p.title?.[0]}</span>}
+                    : <span className="text-[#1C1A18] font-bold text-xl">{p.title?.[0]}</span>}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-sans font-semibold text-cream text-base">{p.title}</p>
-                    {p.featured && <span className="text-[10px] bg-gold/20 text-gold px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Featured</span>}
+                    <p className="font-sans font-semibold text-[#1C1A18] text-base">{p.title}</p>
+                    {p.featured && <span className="text-[10px] bg-[#EDE7DD] text-[#1C1A18] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Featured</span>}
                   </div>
-                  <p className="text-cream/50 text-xs font-sans mt-1 line-clamp-2">{p.description}</p>
+                  <p className="text-[#5E5A53] text-xs font-sans mt-1 line-clamp-2">{p.description}</p>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
-                  <label className={btnOutline + ' cursor-pointer text-gold'} title="Upload Multiple Screenshots">
+                  <label className={btnOutline + ' cursor-pointer'} title="Upload Multiple Screenshots">
                     <Upload size={13} />
-                    <span>Upload Photos</span>
+                    <span>Photos</span>
                     <input type="file" multiple accept="image/*" className="hidden" onChange={(e) => handleMultipleImagesUpload(e, p.id)} />
                   </label>
                   <button onClick={() => handleEdit(p)} className={btnOutline}><Edit2 size={13} /></button>
@@ -670,16 +677,16 @@ function ProjectsTab() {
 
               {/* Multi-image thumbnails strip */}
               {imgs.length > 0 && (
-                <div className="pt-3 border-t border-white/[0.06]">
+                <div className="pt-3 border-t border-[#EDE7DD]">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-[11px] font-sans font-semibold text-cream/40 uppercase tracking-widest">
+                    <p className="text-[11px] font-sans font-semibold text-[#8C877D] uppercase tracking-widest">
                       Screenshots Carousel ({imgs.length} uploaded)
                     </p>
-                    <span className="text-[10px] font-sans text-cream/30">Hover image to remove</span>
+                    <span className="text-[10px] font-sans text-[#8C877D]">Hover image to remove</span>
                   </div>
                   <div className="flex flex-wrap gap-2.5">
                     {imgs.map((imgUrl, i) => (
-                      <div key={i} className="relative w-20 h-14 rounded-lg overflow-hidden border border-white/10 group bg-black/40">
+                      <div key={i} className="relative w-20 h-14 rounded-lg overflow-hidden border border-[#EDE7DD] group bg-[#FAF7F2]">
                         <img src={imgUrl} alt={`Screenshot ${i + 1}`} className="w-full h-full object-cover" />
                         <button
                           onClick={() => handleDeleteImage(p.id, imgUrl)}
@@ -696,7 +703,7 @@ function ProjectsTab() {
             </div>
           );
         })}
-        {projects.length === 0 && <p className="text-cream/40 text-sm font-sans">No projects yet.</p>}
+        {projects.length === 0 && <p className="text-[#8C877D] text-sm font-sans">No projects yet.</p>}
       </div>
     </div>
   );
@@ -739,7 +746,10 @@ function SkillsTab() {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <h2 className="font-serif text-2xl font-bold text-cream">Skills</h2>
+      <div className="border-b border-[#EDE7DD] pb-5">
+        <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Technical Skills</h2>
+        <p className="text-xs font-sans text-[#5E5A53] mt-1">Manage categorized skills displayed across the portfolio.</p>
+      </div>
 
       <div className="flex gap-3">
         <input className={`${inputCls} flex-1`} placeholder="Skill name" value={name} onChange={(e) => setName(e.target.value)}
@@ -753,12 +763,12 @@ function SkillsTab() {
       <div className="space-y-6">
         {Object.entries(grouped).map(([cat, items]) => (
           <div key={cat}>
-            <p className="text-cream/50 font-sans text-xs letter-wide uppercase tracking-widest mb-3">{cat}</p>
+            <p className="text-[#8C877D] font-sans text-xs uppercase tracking-wider font-semibold mb-3">{cat}</p>
             <div className="flex flex-wrap gap-2">
               {items.map((s) => (
-                <span key={s.id} className="flex items-center gap-2 border border-white/20 text-cream text-sm font-sans px-3 py-1.5">
+                <span key={s.id} className="flex items-center gap-2 bg-white border border-[#EDE7DD] text-[#1C1A18] text-xs font-sans px-3 py-1.5 rounded-xl shadow-xs">
                   {s.name}
-                  <button onClick={() => handleDelete(s.id)} className="text-red-400 hover:text-red-300 transition-colors">
+                  <button onClick={() => handleDelete(s.id)} className="text-red-500 hover:text-red-700 transition-colors">
                     <X size={12} />
                   </button>
                 </span>
@@ -766,7 +776,7 @@ function SkillsTab() {
             </div>
           </div>
         ))}
-        {skills.length === 0 && <p className="text-cream/40 text-sm font-sans">No skills yet.</p>}
+        {skills.length === 0 && <p className="text-[#8C877D] text-sm font-sans">No skills yet.</p>}
       </div>
     </div>
   );
@@ -823,15 +833,19 @@ function ExperienceTab() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center justify-between">
-        <h2 className="font-serif text-2xl font-bold text-cream">Experience</h2>
+      <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
+        <div>
+          <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Experience &amp; Roles</h2>
+          <p className="text-xs font-sans text-[#5E5A53] mt-1">Manage work history, company logos, and experience letters.</p>
+        </div>
         <button onClick={() => { setForm(emptyExp); setEditId(null); setShowForm(!showForm); }} className={btnPrimary}>
-          <Plus size={14} /> Add
+          <Plus size={14} /> Add Role
         </button>
       </div>
 
       {showForm && (
-        <div className="bg-white/5 border border-white/10 p-6 space-y-4 rounded">
+        <div className="bg-white border border-[#EDE7DD] p-6 space-y-4 rounded-2xl shadow-sm">
+          <h3 className="text-base font-semibold text-[#1C1A18]">{editId ? 'Edit Experience' : 'New Experience'}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[['company', 'Company'], ['role', 'Role'], ['location', 'Location'], ['start_date', 'Start Date'], ['end_date', 'End Date']].map(([k, l]) => (
               <div key={k}>
@@ -846,7 +860,7 @@ function ExperienceTab() {
               </select>
             </div>
           </div>
-          <label className="flex items-center gap-2 text-cream/70 text-sm font-sans cursor-pointer">
+          <label className="flex items-center gap-2 text-[#5E5A53] text-sm font-sans cursor-pointer">
             <input type="checkbox" checked={form.currently_working} onChange={(e) => setForm({ ...form, currently_working: e.target.checked })} />
             Currently Working Here
           </label>
@@ -858,7 +872,7 @@ function ExperienceTab() {
             <label className={labelCls}>Responsibilities (one per line)</label>
             <textarea className={`${inputCls} resize-none`} rows={3} value={form.responsibilities || ''} onChange={(e) => setForm({ ...form, responsibilities: e.target.value })} />
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-2">
             <button onClick={handleSubmit} className={btnPrimary}><Save size={12} /> Save</button>
             <button onClick={() => { setShowForm(false); setForm(emptyExp); setEditId(null); }} className={btnOutline}><X size={12} /> Cancel</button>
           </div>
@@ -867,22 +881,24 @@ function ExperienceTab() {
 
       <div className="space-y-3">
         {items.map((item) => (
-          <div key={item.id} className="bg-white/5 border border-white/10 p-4 rounded">
+          <div key={item.id} className="bg-white border border-[#EDE7DD] p-5 rounded-2xl shadow-sm">
             <div className="flex items-start justify-between gap-4">
               <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-full bg-navy flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] flex items-center justify-center overflow-hidden flex-shrink-0">
                   {item.logo_url
                     ? <img src={item.logo_url} alt={item.company} className="w-full h-full object-cover" />
-                    : <span className="text-cream font-serif font-bold">{item.company?.[0]}</span>}
+                    : <span className="text-[#1C1A18] font-bold text-lg">{item.company?.[0]}</span>}
                 </div>
                 <div>
-                  <p className="font-sans font-semibold text-cream text-sm">{item.role}</p>
-                  <p className="text-cream/50 text-xs font-sans">{item.company} · {item.type}</p>
+                  <p className="font-sans font-semibold text-[#1C1A18] text-sm">{item.role}</p>
+                  <p className="text-[#5E5A53] text-xs font-sans">{item.company} · {item.type}</p>
+                  {item.location && <p className="text-[#8C877D] text-xs font-sans mt-0.5">{item.location}</p>}
                 </div>
               </div>
               <div className="flex gap-2 flex-shrink-0">
                 <label className={btnOutline + ' cursor-pointer'} title="Upload Logo">
                   <Upload size={12} />
+                  <span>Logo</span>
                   <input type="file" accept="image/*" className="hidden" onChange={(e) => handleLogoUpload(e, item.id)} />
                 </label>
                 <label className={btnOutline + ' cursor-pointer'} title="Upload Letter">
@@ -895,7 +911,7 @@ function ExperienceTab() {
             </div>
           </div>
         ))}
-        {items.length === 0 && <p className="text-cream/40 text-sm font-sans">No experience yet.</p>}
+        {items.length === 0 && <p className="text-[#8C877D] text-sm font-sans">No experience yet.</p>}
       </div>
     </div>
   );
@@ -937,15 +953,19 @@ function CertificationsTab() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center justify-between">
-        <h2 className="font-serif text-2xl font-bold text-cream">Certifications</h2>
+      <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
+        <div>
+          <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Certifications &amp; Credentials</h2>
+          <p className="text-xs font-sans text-[#5E5A53] mt-1">Manage badges, verification URLs, and certificates.</p>
+        </div>
         <button onClick={() => { setForm(emptyCert); setEditId(null); setShowForm(!showForm); }} className={btnPrimary}>
           <Plus size={14} /> Add
         </button>
       </div>
 
       {showForm && (
-        <div className="bg-white/5 border border-white/10 p-6 space-y-4 rounded">
+        <div className="bg-white border border-[#EDE7DD] p-6 space-y-4 rounded-2xl shadow-sm">
+          <h3 className="text-base font-semibold text-[#1C1A18]">{editId ? 'Edit Certification' : 'New Certification'}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[['name', 'Certificate Name'], ['issuer', 'Issuer'], ['issue_date', 'Issue Date'], ['verify_url', 'Verify URL']].map(([k, l]) => (
               <div key={k}>
@@ -958,7 +978,7 @@ function CertificationsTab() {
             <label className={labelCls}>Description</label>
             <textarea className={`${inputCls} resize-none`} rows={2} value={form.description || ''} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-2">
             <button onClick={handleSubmit} className={btnPrimary}><Save size={12} /> Save</button>
             <button onClick={() => { setShowForm(false); setForm(emptyCert); setEditId(null); }} className={btnOutline}><X size={12} /> Cancel</button>
           </div>
@@ -967,15 +987,16 @@ function CertificationsTab() {
 
       <div className="space-y-3">
         {items.map((item) => (
-          <div key={item.id} className="bg-white/5 border border-white/10 p-4 flex items-center gap-4 rounded">
-            <div className="w-12 h-12 rounded bg-navy/50 flex items-center justify-center overflow-hidden flex-shrink-0">
+          <div key={item.id} className="bg-white border border-[#EDE7DD] p-4 flex items-center gap-4 rounded-2xl shadow-sm">
+            <div className="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] flex items-center justify-center overflow-hidden flex-shrink-0">
               {item.badge_url
                 ? <img src={item.badge_url} alt={item.name} className="w-full h-full object-cover" />
-                : <span className="text-gold font-serif font-bold">{item.issuer?.[0]}</span>}
+                : <span className="text-[#1C1A18] font-bold text-lg">{item.issuer?.[0]}</span>}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-sans font-semibold text-cream text-sm">{item.name}</p>
-              <p className="text-cream/50 text-xs font-sans">{item.issuer}</p>
+              <p className="font-sans font-semibold text-[#1C1A18] text-sm">{item.name}</p>
+              <p className="text-[#5E5A53] text-xs font-sans">{item.issuer}</p>
+              {item.issue_date && <p className="text-[#8C877D] text-[11px] font-sans mt-0.5">{item.issue_date}</p>}
             </div>
             <div className="flex gap-2 flex-shrink-0">
               <label className={btnOutline + ' cursor-pointer'}>
@@ -987,7 +1008,7 @@ function CertificationsTab() {
             </div>
           </div>
         ))}
-        {items.length === 0 && <p className="text-cream/40 text-sm font-sans">No certifications yet.</p>}
+        {items.length === 0 && <p className="text-[#8C877D] text-sm font-sans">No certifications yet.</p>}
       </div>
     </div>
   );
@@ -1024,15 +1045,19 @@ function AchievementsTab() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center justify-between">
-        <h2 className="font-serif text-2xl font-bold text-cream">Achievements</h2>
+      <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
+        <div>
+          <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Achievements &amp; Honors</h2>
+          <p className="text-xs font-sans text-[#5E5A53] mt-1">Hackathons, competitive programming, and awards.</p>
+        </div>
         <button onClick={() => { setForm(emptyAch); setEditId(null); setShowForm(!showForm); }} className={btnPrimary}>
           <Plus size={14} /> Add
         </button>
       </div>
 
       {showForm && (
-        <div className="bg-white/5 border border-white/10 p-6 space-y-4 rounded">
+        <div className="bg-white border border-[#EDE7DD] p-6 space-y-4 rounded-2xl shadow-sm">
+          <h3 className="text-base font-semibold text-[#1C1A18]">{editId ? 'Edit Achievement' : 'New Achievement'}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[['title', 'Title'], ['category', 'Category'], ['date', 'Date (YYYY-MM-DD)']].map(([k, l]) => (
               <div key={k}>
@@ -1045,7 +1070,7 @@ function AchievementsTab() {
             <label className={labelCls}>Description</label>
             <textarea className={`${inputCls} resize-none`} rows={3} value={form.description || ''} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-2">
             <button onClick={handleSubmit} className={btnPrimary}><Save size={12} /> Save</button>
             <button onClick={() => { setShowForm(false); setForm(emptyAch); setEditId(null); }} className={btnOutline}><X size={12} /> Cancel</button>
           </div>
@@ -1054,11 +1079,11 @@ function AchievementsTab() {
 
       <div className="space-y-3">
         {items.map((item) => (
-          <div key={item.id} className="bg-white/5 border border-white/10 p-4 flex items-start justify-between gap-4 rounded">
+          <div key={item.id} className="bg-white border border-[#EDE7DD] p-4 flex items-start justify-between gap-4 rounded-2xl shadow-sm">
             <div>
-              <p className="font-sans font-semibold text-cream text-sm">{item.title}</p>
-              <p className="text-cream/50 text-xs font-sans">{item.category} · {item.date}</p>
-              {item.description && <p className="text-cream/40 text-xs font-sans mt-1">{item.description}</p>}
+              <p className="font-sans font-semibold text-[#1C1A18] text-sm">{item.title}</p>
+              <p className="text-[#5E5A53] text-xs font-sans">{item.category} · {item.date}</p>
+              {item.description && <p className="text-[#8C877D] text-xs font-sans mt-1">{item.description}</p>}
             </div>
             <div className="flex gap-2 flex-shrink-0">
               <button onClick={() => handleEdit(item)} className={btnOutline}><Edit2 size={12} /></button>
@@ -1066,7 +1091,7 @@ function AchievementsTab() {
             </div>
           </div>
         ))}
-        {items.length === 0 && <p className="text-cream/40 text-sm font-sans">No achievements yet.</p>}
+        {items.length === 0 && <p className="text-[#8C877D] text-sm font-sans">No achievements yet.</p>}
       </div>
     </div>
   );
@@ -1077,9 +1102,9 @@ function AchievementsTab() {
 // ─────────────────────────────────────────────
 function Loader() {
   return (
-    <div className="flex items-center gap-3 py-10">
-      <div className="w-5 h-5 border-2 border-cream border-t-transparent rounded-full animate-spin" />
-      <span className="text-cream/50 text-sm font-sans">Loading…</span>
+    <div className="flex flex-col items-center justify-center gap-3 py-24">
+      <div className="w-7 h-7 border-2 border-[#1C1A18] border-t-transparent rounded-full animate-spin" />
+      <span className="text-xs uppercase tracking-wider font-semibold text-[#8C877D]">Loading CMS data…</span>
     </div>
   );
 }
@@ -1111,67 +1136,75 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08080A] text-cream flex">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1A18] flex">
       {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 bg-[#0B0C10] border-r border-white/[0.08] flex flex-col hidden md:flex">
-        <div className="px-6 py-6 border-b border-white/[0.08]">
-          <span className="font-serif text-2xl font-bold tracking-widest gold-gradient-text">RC</span>
-          <p className="text-cream/40 text-xs font-sans mt-1">Portfolio CMS Panel</p>
+      <aside className="w-64 flex-shrink-0 bg-white border-r border-[#EDE7DD] flex flex-col hidden md:flex">
+        <div className="px-6 py-6 border-b border-[#EDE7DD]">
+          <div className="flex items-center gap-2.5">
+            <span className="bg-[#EFEAE2] text-[#2C2926] text-xs font-bold px-2 py-1 rounded-md border border-[#E3DBD0]">
+              RC
+            </span>
+            <span className="font-medium text-[15px] text-[#2C2926] tracking-tight">Portfolio CMS</span>
+          </div>
+          <p className="text-[#8C877D] text-[11px] font-medium mt-1">Admin Management Portal</p>
         </div>
         <nav className="flex-1 py-4 px-3 space-y-1">
           {TABS.map(({ key, label, icon: Icon }) => (
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 text-xs font-sans rounded-xl transition-all text-left uppercase tracking-wider
-                ${activeTab === key ? 'bg-gold/15 text-gold font-bold border border-gold/30 shadow-sm' : 'text-cream/50 hover:text-cream hover:bg-white/[0.03]'}`}
+              className={`w-full flex items-center gap-3 px-4 py-2.5 text-xs font-sans rounded-xl transition-all text-left uppercase tracking-wider font-medium
+                ${activeTab === key ? 'bg-[#1C1A18] text-[#FAF7F2] shadow-sm' : 'text-[#5E5A53] hover:text-[#1C1A18] hover:bg-[#FAF7F2]'}`}
             >
               <Icon size={16} /> {label}
             </button>
           ))}
         </nav>
-        <div className="border-t border-white/[0.08] p-4">
+        <div className="border-t border-[#EDE7DD] p-4">
           <a
             href="/"
-            className="w-full flex items-center gap-3 text-cream/40 hover:text-cream transition-colors px-3 py-2 text-xs font-sans mb-1"
+            className="w-full flex items-center gap-2.5 text-[#5E5A53] hover:text-[#1C1A18] transition-colors px-3 py-2 text-xs font-medium mb-1 rounded-lg hover:bg-[#FAF7F2]"
           >
-            ← View Portfolio
+            ← View Live Portfolio
           </a>
-          <button onClick={handleLogout} className="w-full flex items-center gap-3 text-red-400 hover:text-red-300 transition-colors px-3 py-2 text-xs font-sans rounded-lg hover:bg-red-500/10">
+          <button onClick={handleLogout} className="w-full flex items-center gap-2.5 text-red-600 hover:text-red-700 transition-colors px-3 py-2 text-xs font-medium rounded-lg hover:bg-red-50">
             <LogOut size={16} /> Logout
           </button>
         </div>
       </aside>
 
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#0B0C10] border-b border-white/10 flex items-center justify-between px-4 py-3">
-        <span className="font-serif text-xl font-bold gold-gradient-text">RC Admin</span>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-cream">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#EDE7DD] flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="bg-[#EFEAE2] text-[#2C2926] text-xs font-bold px-2 py-0.5 rounded border border-[#E3DBD0]">RC</span>
+          <span className="font-medium text-sm text-[#1C1A18]">CMS Admin</span>
+        </div>
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-[#1C1A18]">
           {sidebarOpen ? <X size={20} /> : <ChevronDown size={20} />}
         </button>
       </div>
 
       {/* Mobile Nav */}
       {sidebarOpen && (
-        <div className="md:hidden fixed top-12 left-0 right-0 z-40 bg-[#0D0E14] border-b border-white/10 py-3 px-4 space-y-1">
+        <div className="md:hidden fixed top-12 left-0 right-0 z-40 bg-white border-b border-[#EDE7DD] py-3 px-4 space-y-1 shadow-lg">
           {TABS.map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => { setActiveTab(key); setSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 text-xs font-sans uppercase tracking-wider rounded-lg text-left
-                ${activeTab === key ? 'bg-gold/20 text-gold font-bold' : 'text-cream/50'}`}>
+              className={`w-full flex items-center gap-3 px-4 py-2.5 text-xs uppercase tracking-wider rounded-lg text-left font-medium
+                ${activeTab === key ? 'bg-[#1C1A18] text-white' : 'text-[#5E5A53]'}`}>
               <Icon size={16} /> {label}
             </button>
           ))}
-          <a href="/" className="w-full flex items-center gap-3 text-cream/50 px-4 py-2.5 text-xs font-sans">
-            ← View Portfolio
+          <a href="/" className="w-full flex items-center gap-3 text-[#5E5A53] px-4 py-2.5 text-xs">
+            ← View Live Portfolio
           </a>
-          <button onClick={handleLogout} className="w-full flex items-center gap-3 text-red-400 px-4 py-2.5 text-xs font-sans">
+          <button onClick={handleLogout} className="w-full flex items-center gap-3 text-red-600 px-4 py-2.5 text-xs">
             <LogOut size={16} /> Logout
           </button>
         </div>
       )}
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto bg-[#08080A]">
+      <main className="flex-1 overflow-auto bg-[#FAF7F2]">
         <div className="p-6 md:p-12 max-w-5xl mx-auto mt-12 md:mt-0">
           {renderTab()}
         </div>
