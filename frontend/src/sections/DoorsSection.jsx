@@ -18,10 +18,24 @@ export const DOOR_CATEGORIES = [
     ],
   },
   {
+    id: 'app',
+    title: 'App Development',
+    subtitle: 'FROM THE FIRST IDEA TO THE APP STORE',
+    doorColor: '#3D2636', // Plum / Wine
+    nameplate: 'APP DEVELOPER',
+    bullets: [
+      'Product scoping & user flows',
+      'Interface design & design systems',
+      'Cross-platform & native performance',
+      'Device testing & store launch',
+      'Analytics, monitoring & updates',
+    ],
+  },
+  {
     id: 'systems',
     title: 'Distributed Systems',
     subtitle: 'FAULT-TOLERANT ARCHITECTURES & EVENT-DRIVEN SCALE',
-    doorColor: '#3D2636', // Plum
+    doorColor: '#283645', // Slate Navy
     nameplate: 'SYSTEM ARCHITECT',
     bullets: [
       'Microservices & Decoupled Backends',
@@ -69,10 +83,30 @@ const getStackArray = (stack) => {
   return [];
 };
 
-export default function DoorsSection({ projects = [], onEnterCategory, selectedCategoryId = null }) {
+export default function DoorsSection({
+  profile = {},
+  projects = [],
+  onEnterCategory,
+  selectedCategoryId = null,
+}) {
   const [activeDoorId, setActiveDoorId] = useState(selectedCategoryId || null);
 
-  const activeCategory = DOOR_CATEGORIES.find((d) => d.id === activeDoorId) || null;
+  // Parse custom door configuration from backend profile (e.g. "backend,app" => exactly 2 doors!)
+  const configuredIds = (profile?.doors_config || '')
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+
+  const activeCategories =
+    configuredIds.length > 0
+      ? DOOR_CATEGORIES.filter((d) => configuredIds.includes(d.id))
+      : [DOOR_CATEGORIES[0], DOOR_CATEGORIES[1], DOOR_CATEGORIES[3], DOOR_CATEGORIES[4]];
+
+  const finalCategories =
+    activeCategories.length > 0 ? activeCategories : DOOR_CATEGORIES.slice(0, 4);
+
+  const activeCategory =
+    DOOR_CATEGORIES.find((d) => d.id === activeDoorId) || null;
 
   // Find projects matching active category
   const matchingProjects = (projects || []).filter((p) => {
@@ -83,25 +117,59 @@ export default function DoorsSection({ projects = [], onEnterCategory, selectedC
     const combined = `${stackStr} ${titleStr} ${descStr}`;
 
     if (activeCategory.id === 'backend') {
-      return combined.includes('django') || combined.includes('api') || combined.includes('backend') || combined.includes('drf') || true;
+      return (
+        combined.includes('django') ||
+        combined.includes('api') ||
+        combined.includes('backend') ||
+        combined.includes('drf') ||
+        true
+      );
+    }
+    if (activeCategory.id === 'app') {
+      return (
+        combined.includes('app') ||
+        combined.includes('react') ||
+        combined.includes('mobile') ||
+        combined.includes('ios') ||
+        true
+      );
     }
     if (activeCategory.id === 'systems') {
-      return combined.includes('system') || combined.includes('distributed') || combined.includes('commerce') || true;
+      return (
+        combined.includes('system') ||
+        combined.includes('distributed') ||
+        combined.includes('commerce') ||
+        true
+      );
     }
     if (activeCategory.id === 'cloud') {
-      return combined.includes('cloud') || combined.includes('aws') || combined.includes('operating') || true;
+      return (
+        combined.includes('cloud') ||
+        combined.includes('aws') ||
+        combined.includes('operating') ||
+        true
+      );
     }
     if (activeCategory.id === 'fullstack') {
-      return combined.includes('full-stack') || combined.includes('ai') || combined.includes('gemini') || combined.includes('react') || true;
+      return (
+        combined.includes('full-stack') ||
+        combined.includes('ai') ||
+        combined.includes('gemini') ||
+        combined.includes('react') ||
+        true
+      );
     }
     return true;
   });
 
-  const featuredProject = matchingProjects[0] || (projects && projects[0]) || {
-    title: 'SkillForge AI — Career Operating System',
-    description: 'AI-powered ATS resume analysis, mock interview simulation with Gemini AI, and dynamic skill roadmaps.',
-    stack: ['Python', 'Django 5', 'DRF', 'PostgreSQL', 'Gemini AI'],
-  };
+  const featuredProject =
+    matchingProjects[0] ||
+    (projects && projects[0]) || {
+      title: 'SkillForge AI — Career Operating System',
+      description:
+        'AI-powered ATS resume analysis, mock interview simulation with Gemini AI, and dynamic skill roadmaps.',
+      stack: ['Python', 'Django 5', 'DRF', 'PostgreSQL', 'Gemini AI'],
+    };
 
   const handleDoorClick = (id) => {
     if (activeDoorId === id) {
@@ -109,6 +177,14 @@ export default function DoorsSection({ projects = [], onEnterCategory, selectedC
     } else {
       setActiveDoorId(id);
     }
+  };
+
+  // Adaptive Grid styling based on door count (e.g. 2 doors -> centered 2 columns)
+  const getGridClass = (count) => {
+    if (count === 1) return 'max-w-xs mx-auto grid grid-cols-1 gap-6 justify-center';
+    if (count === 2) return 'max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 justify-center';
+    if (count === 3) return 'max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 justify-center';
+    return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 justify-center';
   };
 
   return (
@@ -229,7 +305,9 @@ export default function DoorsSection({ projects = [], onEnterCategory, selectedC
                 className="lg:col-span-7 flex flex-col items-start pl-0 lg:pl-6"
               >
                 <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-2">
-                  <span>DISCIPLINE 0{DOOR_CATEGORIES.findIndex((d) => d.id === activeCategory.id) + 1}</span>
+                  <span>
+                    DISCIPLINE 0{finalCategories.findIndex((d) => d.id === activeCategory.id) + 1}
+                  </span>
                 </div>
 
                 <h3 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] font-sans">
@@ -312,9 +390,9 @@ export default function DoorsSection({ projects = [], onEnterCategory, selectedC
               </motion.div>
             </div>
           ) : (
-            /* 4 Arch Doors Gallery Grid (Matching Screenshot 5) */
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 justify-center">
-              {DOOR_CATEGORIES.map((cat, idx) => (
+            /* Dynamic Arch Doors Gallery Grid (Centered 2 doors, 3 doors, or 4 doors based on config) */
+            <div className={getGridClass(finalCategories.length)}>
+              {finalCategories.map((cat) => (
                 <motion.div
                   key={cat.id}
                   whileHover={{ y: -8 }}

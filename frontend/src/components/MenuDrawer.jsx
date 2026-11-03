@@ -4,12 +4,11 @@ import LiveClock from './LiveClock';
 
 const ROUTES = [
   { num: '01', label: 'Home', href: '#hero' },
-  { num: '02', label: 'Backend & APIs', href: '#doors', category: 'backend' },
-  { num: '03', label: 'Distributed Systems', href: '#doors', category: 'systems' },
-  { num: '04', label: 'Cloud & DevOps', href: '#doors', category: 'cloud' },
-  { num: '05', label: 'Full-Stack & AI', href: '#doors', category: 'fullstack' },
-  { num: '06', label: 'My Story (Timeline)', href: '#story' },
-  { num: '07', label: 'Contact & Hire', href: '#contact' },
+  { num: '02', label: 'Certificates & Achievements', action: 'certificates' },
+  { num: '03', label: 'Skills & Ability Card', action: 'skills' },
+  { num: '04', label: 'Magic Behind the Doors', href: '#doors' },
+  { num: '05', label: 'My Story (Timeline)', href: '#story' },
+  { num: '06', label: 'Contact & Hire', href: '#contact' },
 ];
 
 export default function MenuDrawer({ isOpen, onClose, onSelectRoute, profile }) {

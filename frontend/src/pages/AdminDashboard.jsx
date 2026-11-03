@@ -207,6 +207,54 @@ function ProfileTab() {
             onChange={(e) => setData({ ...data, hero_subtext: e.target.value })}
           />
         </div>
+
+        {/* ── 3D Calendar Notebook Roles ── */}
+        <div>
+          <label className={labelCls}>3D Calendar Notebook Roles (Comma-separated)</label>
+          <textarea
+            className={`${inputCls} resize-none font-mono text-xs`}
+            rows={2}
+            placeholder="Backend Developer, App Developer, System Architect, Cloud Practitioner"
+            value={data.hero_roles_list || ''}
+            onChange={(e) => setData({ ...data, hero_roles_list: e.target.value })}
+          />
+          <p className="text-[11px] text-[#8C877D] mt-1">
+            Controls the 3D folding notebook pages under &quot;I am a...&quot;. Enter comma-separated roles. (e.g. &quot;Backend Developer, App Developer&quot;).
+          </p>
+        </div>
+
+        {/* ── 3D Doors & Disciplines Configuration ── */}
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className={labelCls}>3D Doors Configuration (Door IDs)</label>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setData({ ...data, doors_config: 'backend,app' })}
+                className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 hover:bg-amber-500/20"
+              >
+                2 Doors (Backend &amp; App)
+              </button>
+              <button
+                type="button"
+                onClick={() => setData({ ...data, doors_config: 'backend,systems,cloud,fullstack' })}
+                className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-black/5 text-[#5E5A53] hover:bg-black/10"
+              >
+                All 4 Doors
+              </button>
+            </div>
+          </div>
+          <input
+            className={inputCls}
+            placeholder="backend,app,systems,cloud,fullstack"
+            value={data.doors_config || ''}
+            onChange={(e) => setData({ ...data, doors_config: e.target.value })}
+          />
+          <p className="text-[11px] text-[#8C877D] mt-1">
+            Available Door IDs: <code className="font-mono text-amber-700">backend</code>, <code className="font-mono text-amber-700">app</code>, <code className="font-mono text-amber-700">systems</code>, <code className="font-mono text-amber-700">cloud</code>, <code className="font-mono text-amber-700">fullstack</code>.
+            Enter <code className="font-mono font-bold">backend,app</code> to show exactly two doors!
+          </p>
+        </div>
       </div>
 
       {/* ── 2. About Section — 4 Stat Cards ── */}

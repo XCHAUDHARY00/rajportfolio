@@ -1,10 +1,15 @@
 import { useState } from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, Award, Sparkles } from 'lucide-react';
 import LiveClock from './LiveClock';
 import PullCord from './PullCord';
 import MenuDrawer from './MenuDrawer';
 
-export default function Header({ profile, onSelectDoorCategory }) {
+export default function Header({
+  profile,
+  onSelectDoorCategory,
+  onOpenCertificates,
+  onOpenSkills,
+}) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const scrollTo = (id) => {
@@ -13,7 +18,11 @@ export default function Header({ profile, onSelectDoorCategory }) {
   };
 
   const handleRouteSelect = (route) => {
-    if (route.category && onSelectDoorCategory) {
+    if (route.action === 'certificates' && onOpenCertificates) {
+      onOpenCertificates();
+    } else if (route.action === 'skills' && onOpenSkills) {
+      onOpenSkills();
+    } else if (route.category && onSelectDoorCategory) {
       onSelectDoorCategory(route.category);
     } else if (route.href) {
       scrollTo(route.href);
@@ -47,7 +56,7 @@ export default function Header({ profile, onSelectDoorCategory }) {
           </a>
         </div>
 
-        {/* Center: Desktop Nav Links matching Rishi's top bar */}
+        {/* Center: Desktop Nav Links (Home, Certificates & Achievements, Skills, Disciplines, My story, Contact) */}
         <nav className="hidden lg:flex items-center gap-6 text-xs font-medium text-[#5E5A53] dark:text-[#A8A196]">
           <button
             onClick={() => scrollTo('#hero')}
@@ -55,30 +64,37 @@ export default function Header({ profile, onSelectDoorCategory }) {
           >
             Home
           </button>
+
           <button
-            onClick={() => handleRouteSelect({ category: 'backend' })}
+            onClick={onOpenCertificates}
+            className="hover:text-[#1C1A18] dark:hover:text-white transition-colors flex items-center gap-1.5 font-semibold text-[#1C1A18] dark:text-amber-400/90"
+          >
+            <Award size={13} className="text-amber-500" />
+            <span>Certificates &amp; Achievements</span>
+          </button>
+
+          <button
+            onClick={onOpenSkills}
+            className="hover:text-[#1C1A18] dark:hover:text-white transition-colors flex items-center gap-1.5"
+          >
+            <Sparkles size={13} className="text-amber-500" />
+            <span>Skills</span>
+          </button>
+
+          <button
+            onClick={() => scrollTo('#doors')}
             className="hover:text-[#1C1A18] dark:hover:text-white transition-colors"
           >
-            Backend &amp; APIs
+            Disciplines
           </button>
-          <button
-            onClick={() => handleRouteSelect({ category: 'systems' })}
-            className="hover:text-[#1C1A18] dark:hover:text-white transition-colors"
-          >
-            Distributed Systems
-          </button>
-          <button
-            onClick={() => handleRouteSelect({ category: 'cloud' })}
-            className="hover:text-[#1C1A18] dark:hover:text-white transition-colors"
-          >
-            Cloud &amp; DevOps
-          </button>
+
           <button
             onClick={() => scrollTo('#story')}
             className="hover:text-[#1C1A18] dark:hover:text-white transition-colors"
           >
             My story
           </button>
+
           <button
             onClick={() => scrollTo('#contact')}
             className="hover:text-[#1C1A18] dark:hover:text-white transition-colors"
@@ -101,6 +117,8 @@ export default function Header({ profile, onSelectDoorCategory }) {
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         onSelectRoute={handleRouteSelect}
+        onOpenCertificates={onOpenCertificates}
+        onOpenSkills={onOpenSkills}
         profile={profile}
       />
     </>

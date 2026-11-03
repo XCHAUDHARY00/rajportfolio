@@ -21,6 +21,8 @@ class ProfileUpdate(BaseModel):
     hero_status: Optional[str] = None
     hero_headline: Optional[str] = None
     hero_subtext: Optional[str] = None
+    hero_roles_list: Optional[str] = None
+    doors_config: Optional[str] = None
 
     # About 4 Stats Cards
     stat1_value: Optional[str] = None
@@ -73,6 +75,8 @@ class ProfileResponse(BaseModel):
     hero_status: Optional[str] = "Open to SDE & Backend roles"
     hero_headline: Optional[str] = "I build\nthoughtful backend\nsystems, from\nREST APIs to\ncloud scale."
     hero_subtext: Optional[str] = "Passionate about high-throughput Python backends, distributed systems, and production cloud infrastructure. Third-year CSIT at AKGEC (CGPA 7.86)."
+    hero_roles_list: Optional[str] = "Backend Developer, Python & Django Specialist, REST API Architect, Distributed Systems Engineer, Cloud & DevOps Practitioner, PostgreSQL & DynamoDB Specialist"
+    doors_config: Optional[str] = "backend,systems,cloud,fullstack"
 
     # About 4 Stats Cards
     stat1_value: Optional[str] = "7.86"

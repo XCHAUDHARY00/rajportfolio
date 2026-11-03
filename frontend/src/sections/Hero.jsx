@@ -63,7 +63,7 @@ export default function Hero({ profile, onOpenAbilityCard }) {
 
           {/* ── 3D Spiral-Ring Notebook Widget with Previous Roles ── */}
           <div className="my-4 w-full">
-            <SpiralNotebook roles={HERO_ROLES} />
+            <SpiralNotebook profile={profile} roles={HERO_ROLES} />
           </div>
 
           {/* Subtext One-Liner from Previous Version */}

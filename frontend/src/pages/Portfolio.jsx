@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Hero from '../sections/Hero';
 import AbilityCardModal from '../components/AbilityCardModal';
+import CertificatesModal from '../sections/CertificatesModal';
 import DoorsSection from '../sections/DoorsSection';
 import ProjectCategoryView from '../sections/ProjectCategoryView';
 import StoryTimeline from '../sections/StoryTimeline';
@@ -26,6 +27,9 @@ export default function Portfolio() {
 
   // 3D Ability Card Modal State
   const [isAbilityCardOpen, setIsAbilityCardOpen] = useState(false);
+
+  // Certificates & Achievements Modal State
+  const [isCertificatesOpen, setIsCertificatesOpen] = useState(false);
 
   // Door view mode: null = 4 Doors overview, 'backend' | 'systems' | 'cloud' | 'fullstack' = Inside Door Project View
   const [insideDoorCategory, setInsideDoorCategory] = useState(null);
@@ -80,6 +84,8 @@ export default function Portfolio() {
       <Header
         profile={profile}
         onSelectDoorCategory={handleEnterCategory}
+        onOpenCertificates={() => setIsCertificatesOpen(true)}
+        onOpenSkills={() => setIsAbilityCardOpen(true)}
       />
 
       {loading ? (
@@ -112,6 +118,7 @@ export default function Portfolio() {
             />
           ) : (
             <DoorsSection
+              profile={profile}
               projects={projects}
               onEnterCategory={handleEnterCategory}
             />
@@ -133,6 +140,15 @@ export default function Portfolio() {
             isOpen={isAbilityCardOpen}
             onClose={() => setIsAbilityCardOpen(false)}
             profile={profile}
+          />
+
+          {/* ── Dedicated 3D Certificates & Achievements Modal ── */}
+          <CertificatesModal
+            isOpen={isCertificatesOpen}
+            onClose={() => setIsCertificatesOpen(false)}
+            certifications={certifications}
+            achievements={achievements}
+            profile={profile || {}}
           />
         </main>
       )}
