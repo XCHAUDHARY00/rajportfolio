@@ -88,21 +88,24 @@ export default function Hero({ profile, onOpenAbilityCard }) {
           </div>
         </motion.div>
 
-        {/* Right Column (5 cols): Blended Greyscale Portrait with Floating Ability Card Pill */}
+        {/* Right Column (5 cols): Colorful Oval Portrait with Floating Ability Card Pill */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-5 flex justify-center lg:justify-end relative mt-6 lg:mt-0"
+          className="lg:col-span-5 flex flex-col items-center lg:items-end justify-center relative mt-6 lg:mt-0"
         >
-          <div className="relative w-full max-w-[300px] sm:max-w-[370px] aspect-[1/1.25] flex items-end justify-center">
-            {/* Portrait Cutout with Bottom Blend */}
-            <div className="relative w-full h-full overflow-hidden rounded-3xl flex items-end justify-center">
+          <div className="relative w-full max-w-[290px] sm:max-w-[350px] aspect-[3/4] flex items-center justify-center">
+            {/* Outer Oval Ambient Shadow & Subtle Bevel Ring */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/80 via-white/30 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent p-[3px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] pointer-events-none z-10" />
+
+            {/* Inner Colorful Oval Portrait */}
+            <div className="relative w-full h-full overflow-hidden rounded-full border-[5px] sm:border-[6px] border-[#FCFAF6] dark:border-[#222226] bg-[#E8E2D5] dark:bg-[#1E1E22] shadow-inner flex items-center justify-center">
               {photoUrl ? (
                 <img
                   src={photoUrl}
                   alt={profile?.name || 'Raj Chaudhary'}
-                  className="w-full h-full object-cover object-top filter grayscale contrast-110 brightness-95"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-t from-[#D6CFBF] to-[#E8E2D5] dark:from-[#1E1E22] dark:to-[#2B2B30] flex flex-col items-center justify-center p-8 text-center">
@@ -117,9 +120,6 @@ export default function Hero({ profile, onOpenAbilityCard }) {
                   </p>
                 </div>
               )}
-
-              {/* Gradient Bottom Mask for seamless blend into canvas background */}
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#EFECE6] dark:from-[#121212] via-[#EFECE6]/70 dark:via-[#121212]/70 to-transparent pointer-events-none" />
             </div>
 
             {/* Floating Pill: "My ability card" */}
@@ -127,7 +127,7 @@ export default function Hero({ profile, onOpenAbilityCard }) {
               onClick={onOpenAbilityCard}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="absolute bottom-5 z-20 px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-[#1C1A18]/90 hover:bg-[#1C1A18] dark:bg-white/90 dark:hover:bg-white text-white dark:text-[#121212] border border-white/20 dark:border-black/20 shadow-xl backdrop-blur-md flex items-center gap-2 group"
+              className="absolute -bottom-3 sm:-bottom-4 z-20 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-[#1C1A18] hover:bg-black dark:bg-white dark:hover:bg-[#FAF7F2] text-white dark:text-[#121212] border border-white/20 dark:border-black/20 shadow-2xl backdrop-blur-md flex items-center gap-2 group cursor-pointer"
             >
               <span>My ability card</span>
             </motion.button>
