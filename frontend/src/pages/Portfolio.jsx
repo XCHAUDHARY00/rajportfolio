@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Header from '../components/Header';
 import Hero from '../sections/Hero';
-import About from '../sections/About';
-import Skills from '../sections/Skills';
-import Projects from '../sections/Projects';
-import Experience from '../sections/Experience';
-import Achievements from '../sections/Achievements';
-import Certifications from '../sections/Certifications';
-import Contact from '../sections/Contact';
+import AbilityCardModal from '../components/AbilityCardModal';
+import DoorsSection from '../sections/DoorsSection';
+import ProjectCategoryView from '../sections/ProjectCategoryView';
+import StoryTimeline from '../sections/StoryTimeline';
+import ContactSection from '../sections/ContactSection';
 import {
   getProfile,
   getProjects,
@@ -26,6 +23,12 @@ export default function Portfolio() {
   const [certifications, setCertifications] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // 3D Ability Card Modal State
+  const [isAbilityCardOpen, setIsAbilityCardOpen] = useState(false);
+
+  // Door view mode: null = 4 Doors overview, 'backend' | 'systems' | 'cloud' | 'fullstack' = Inside Door Project View
+  const [insideDoorCategory, setInsideDoorCategory] = useState(null);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -51,28 +54,81 @@ export default function Portfolio() {
     fetchAll();
   }, []);
 
+  const handleEnterCategory = (categoryId) => {
+    setInsideDoorCategory(categoryId);
+    const doorsEl = document.querySelector('#doors');
+    if (doorsEl) {
+      doorsEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleBackToDoors = () => {
+    setInsideDoorCategory(null);
+    const doorsEl = document.querySelector('#doors');
+    if (doorsEl) {
+      doorsEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1A18] selection:bg-[#E6DFC5] selection:text-[#1C1A18]">
-      <Navbar profile={profile} />
+    <div className="min-h-screen bg-[#EFECE6] dark:bg-[#121212] text-[#1C1A18] dark:text-[#FAF7F2] transition-colors selection:bg-[#DDA74F] selection:text-[#121212]">
+      {/* ── Fixed Header with Live Clock & Pull-Cord Light Switch ── */}
+      <Header
+        profile={profile}
+        onSelectDoorCategory={handleEnterCategory}
+      />
+
       {loading ? (
-        <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2]">
+        <div className="min-h-screen flex items-center justify-center bg-[#EFECE6] dark:bg-[#121212]">
           <div className="text-center">
-            <div className="w-9 h-9 border-2 border-[#1C1A18] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <span className="font-semibold text-lg tracking-wider text-[#1C1A18] block mb-1">RC</span>
-            <p className="text-[#8C877D] text-xs tracking-wider uppercase">Loading systems…</p>
+            <div className="w-10 h-10 border-2 border-[#1C1A18] dark:border-white border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <span className="font-semibold text-lg tracking-wider block mb-1 font-serif">
+              RC
+            </span>
+            <p className="text-[#8C877D] text-xs font-mono tracking-widest uppercase">
+              Loading 3D world…
+            </p>
           </div>
         </div>
       ) : (
         <main>
-          <Hero profile={profile} />
-          <About profile={profile} />
-          <Projects projects={projects} />
-          <Experience experience={experience} />
-          <Skills skills={skills} />
-          <Certifications certifications={certifications} />
-          <Achievements achievements={achievements} />
-          <Contact profile={profile} />
-          <Footer />
+          {/* ── 1. Hero Section with 3D Spiral Notebook & Portrait ── */}
+          <Hero
+            profile={profile}
+            onOpenAbilityCard={() => setIsAbilityCardOpen(true)}
+          />
+
+          {/* ── 2. "Magic happens behind the doors" ── */}
+          {insideDoorCategory ? (
+            <ProjectCategoryView
+              projects={projects}
+              activeCategoryId={insideDoorCategory}
+              onSelectCategory={(id) => setInsideDoorCategory(id)}
+              onBackToDoors={handleBackToDoors}
+            />
+          ) : (
+            <DoorsSection
+              onEnterCategory={handleEnterCategory}
+            />
+          )}
+
+          {/* ── 3. "My story / Let's go back in time" (Timeline Dial) ── */}
+          <StoryTimeline
+            experience={experience}
+            certifications={certifications}
+            achievements={achievements}
+            profile={profile || {}}
+          />
+
+          {/* ── 4. Bottom Call to Action, Contact Form & Footer ── */}
+          <ContactSection profile={profile} />
+
+          {/* ── 3D Holographic Ability Card Modal ── */}
+          <AbilityCardModal
+            isOpen={isAbilityCardOpen}
+            onClose={() => setIsAbilityCardOpen(false)}
+            profile={profile}
+          />
         </main>
       )}
     </div>
