@@ -147,3 +147,4 @@ export default function MenuDrawer({ isOpen, onClose, onSelectRoute, profile }) 
     </AnimatePresence>
   );
 }
+

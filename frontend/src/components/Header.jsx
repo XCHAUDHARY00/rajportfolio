@@ -22,16 +22,29 @@ export default function Header({ profile, onSelectDoorCategory }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors backdrop-blur-md bg-[#EFECE6]/80 dark:bg-[#121212]/80 border-b border-black/[0.06] dark:border-white/[0.08]">
-        {/* Left: Menu pill */}
+      <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between transition-colors backdrop-blur-md bg-[#EFECE6]/85 dark:bg-[#121212]/85 border-b border-black/[0.06] dark:border-white/[0.08]">
+        {/* Left: Menu pill + Monogram [RC] & Name */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setDrawerOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border border-black/10 dark:border-white/15 bg-white/70 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-[#1C1A18] dark:text-[#FAF7F2] shadow-sm active:scale-95"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border border-black/10 dark:border-white/15 bg-white/80 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-[#1C1A18] dark:text-[#FAF7F2] shadow-xs active:scale-95"
           >
             <Menu size={14} />
             <span>Menu</span>
           </button>
+
+          {/* Restored Monogram Title from Previous Version */}
+          <a
+            href="/"
+            className="flex items-center gap-2 group transition-opacity hover:opacity-80"
+          >
+            <span className="bg-[#EFEAE2] dark:bg-white/10 group-hover:bg-[#E5DFD3] dark:group-hover:bg-white/15 text-[#2C2926] dark:text-[#FAF7F2] text-xs font-bold px-2 py-0.5 rounded-md border border-[#DDD4C7] dark:border-white/15 transition-colors font-serif shadow-xs">
+              RC
+            </span>
+            <span className="font-semibold text-sm text-[#1C1A18] dark:text-white tracking-tight hidden sm:inline">
+              {profile?.name || 'Raj Chaudhary'}
+            </span>
+          </a>
         </div>
 
         {/* Center: Desktop Nav Links matching Rishi's top bar */}
@@ -74,16 +87,14 @@ export default function Header({ profile, onSelectDoorCategory }) {
           </button>
         </nav>
 
-        {/* Right: Live Clock & Pull-Cord Light Switch */}
-        <div className="flex items-center gap-3.5 relative">
+        {/* Right: Live Clock (with right margin for hanging pull cord) */}
+        <div className="flex items-center gap-4 pr-16 sm:pr-20">
           <LiveClock />
-
-          {/* Hanging Pull-Cord Switch Bead */}
-          <div className="relative -mr-2">
-            <PullCord />
-          </div>
         </div>
       </header>
+
+      {/* Hanging Pull-Cord Bell Switch mounted at top right */}
+      <PullCord />
 
       {/* Fullscreen Drawer */}
       <MenuDrawer
