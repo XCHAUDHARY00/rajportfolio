@@ -47,12 +47,12 @@ export default function Hero({ profile, onOpenAbilityCard }) {
 
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF3EB] dark:bg-emerald-950/40 text-[#2A5E3A] dark:text-emerald-400 border border-[#D1E6D6] dark:border-emerald-800/40 text-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
-              <span>{profile?.hero_status || 'Open to SDE & Backend roles'}</span>
+              <span>Available for work</span>
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-6xl lg:text-[68px] font-normal tracking-[-0.035em] leading-[1.08] text-[#1C1A18] dark:text-[#FAF7F2] font-sans mb-3">
+          <h1 className="text-3xl sm:text-5xl lg:text-[66px] font-normal tracking-[-0.03em] leading-[1.12] text-[#1C1A18] dark:text-[#FAF7F2] font-sans mb-3">
             Hi, I&apos;m{' '}
             <span className="font-semibold text-[#1C1A18] dark:text-white">
               {profile?.name || 'Raj Chaudhary'}.

@@ -6,7 +6,6 @@ export default function PullCord() {
   const { isDark, toggleTheme } = useTheme();
   const [pulling, setPulling] = useState(false);
   const [swayAngle, setSwayAngle] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const controls = useAnimation();
   const audioContextRef = useRef(null);
   const containerRef = useRef(null);
@@ -47,9 +46,9 @@ export default function PullCord() {
 
     // Pull down
     await controls.start({
-      y: 52,
+      y: 54,
       rotate: 0,
-      transition: { type: 'spring', stiffness: 500, damping: 20 },
+      transition: { type: 'spring', stiffness: 520, damping: 22 },
     });
 
     toggleTheme();
@@ -57,76 +56,91 @@ export default function PullCord() {
     // Recoil bounce back up with decaying pendulum sway
     await controls.start({
       y: 0,
-      rotate: [0, -16, 14, -9, 6, -3, 0],
+      rotate: [0, -18, 15, -10, 6, -3, 0],
       transition: {
-        y: { type: 'spring', stiffness: 420, damping: 15 },
-        rotate: { duration: 1.3, ease: 'easeOut' },
+        y: { type: 'spring', stiffness: 440, damping: 16 },
+        rotate: { duration: 1.4, ease: 'easeOut' },
       },
     });
 
     setPulling(false);
   };
 
-  // Smooth rotation / pendulum sway tracking pointer position
-  const handleMouseMove = (e) => {
-    if (pulling || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const anchorX = rect.left + rect.width / 2;
-    const diffX = e.clientX - anchorX;
-    // Map horizontal distance into rotation angle (smoothly clamped -24deg to +24deg)
-    const angle = Math.max(-24, Math.min(24, diffX * 0.55));
-    setSwayAngle(angle);
-  };
+  // Ultra-flexible mouse sway physics across a wider tracking zone
+  useEffect(() => {
+    const handleGlobalMouseMove = (e) => {
+      if (pulling || !containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const anchorX = rect.left + rect.width / 2;
+      const diffX = e.clientX - anchorX;
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setSwayAngle(0);
-  };
+      // React smoothly when mouse is within 250px of the cord
+      if (Math.abs(diffX) < 250 && e.clientY < rect.bottom + 120) {
+        const factor = Math.max(-1, Math.min(1, diffX / 140));
+        setSwayAngle(factor * 26);
+      } else {
+        setSwayAngle(0);
+      }
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
+  }, [pulling]);
 
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
       onClick={handlePull}
-      title={isDark ? 'Pull or click to switch to Light Mode' : 'Pull or click to switch to Dark Mode'}
       className="fixed top-0 right-6 sm:right-10 z-50 flex flex-col items-center cursor-pointer select-none group"
-      style={{ width: '56px', height: '175px' }}
+      style={{ width: '64px', height: '185px' }}
     >
       <motion.div
         animate={controls}
         className="flex flex-col items-center origin-top relative"
         style={{ transformOrigin: 'top center' }}
       >
-        {/* Animated pendulum sway wrapper with smooth spring inertia */}
+        {/* Soft cast shadow on the wall behind the entire hanging chain and bell */}
+        <motion.div
+          animate={{
+            x: swayAngle * 0.45,
+            rotate: swayAngle * 0.9,
+          }}
+          transition={{ type: 'spring', stiffness: 140, damping: 15 }}
+          className="absolute top-2 left-1/2 -translate-x-1/2 w-4 h-[160px] bg-black/15 dark:bg-black/45 blur-[6px] rounded-full pointer-events-none origin-top -z-10"
+        />
+
+        {/* Animated flexible pendulum sway wrapper with smooth spring inertia */}
         <motion.div
           animate={{
             rotate: swayAngle,
-            rotateY: swayAngle * 1.2,
+            rotateY: swayAngle * 1.4,
           }}
           transition={{
             type: 'spring',
-            stiffness: 160,
-            damping: 14,
+            stiffness: 140,
+            damping: 12,
+            mass: 0.8,
           }}
           className="flex flex-col items-center origin-top"
           style={{ transformOrigin: 'top center' }}
         >
           {/* Ceiling Mount Bracket */}
           <div
-            className={`w-[10px] h-[5px] rounded-b-md border shadow-xs transition-colors ${
+            className={`w-[11px] h-[5px] rounded-b-md border shadow-xs transition-colors ${
               isDark
                 ? 'bg-amber-400 border-amber-200'
                 : 'bg-[#BFA054] border-[#7D5F1E]'
             }`}
           />
 
-          {/* Long Hanging Beaded Ball Chain (~22 beads down past header) */}
+          {/* Long Hanging Beaded Ball Chain (~22 beads down past header) with flexible micro-sway */}
           <div className="flex flex-col items-center gap-[3px] py-[1px]">
             {[...Array(22)].map((_, i) => (
               <span
                 key={i}
+                style={{
+                  transform: `translateX(${Math.sin((i / 22) * Math.PI) * (swayAngle * 0.08)}px)`,
+                }}
                 className={`w-[3.5px] h-[3.5px] rounded-full transition-colors shadow-xs ${
                   isDark
                     ? 'bg-amber-300/90 shadow-[0_0_2px_rgba(251,191,36,0.6)]'
@@ -151,10 +165,10 @@ export default function PullCord() {
             whileTap={{ scale: 0.94 }}
             className="relative mt-[2px] flex items-center justify-center transition-transform"
           >
-            {/* Deep drop shadow on the wall behind the pendant */}
+            {/* Deep drop shadow under the bell */}
             <div
-              className={`absolute -bottom-3 left-1/2 -translate-x-1/2 w-8 h-4 rounded-full blur-[5px] pointer-events-none transition-opacity ${
-                isDark ? 'bg-black/80 opacity-80' : 'bg-black/35 opacity-70'
+              className={`absolute -bottom-3 left-1/2 -translate-x-1/2 w-9 h-4 rounded-full blur-[6px] pointer-events-none transition-opacity ${
+                isDark ? 'bg-black/90 opacity-85' : 'bg-black/40 opacity-75'
               }`}
             />
 
@@ -163,7 +177,7 @@ export default function PullCord() {
               className={`w-[26px] h-[48px] rounded-t-[50%] rounded-b-[42%] relative overflow-hidden transition-all border ${
                 isDark
                   ? 'border-amber-300/40 shadow-[0_6px_20px_rgba(251,191,36,0.35)]'
-                  : 'border-[#3D1D08]/50 shadow-[0_8px_18px_rgba(0,0,0,0.38)]'
+                  : 'border-[#3D1D08]/50 shadow-[0_8px_20px_rgba(0,0,0,0.38)]'
               }`}
               style={{
                 background: isDark
@@ -219,13 +233,6 @@ export default function PullCord() {
           </motion.div>
         </motion.div>
       </motion.div>
-
-      {/* Floating Mode Tooltip on Hover */}
-      {isHovered && (
-        <div className="absolute top-[180px] -right-2 px-2.5 py-1 rounded-md text-[10px] font-mono whitespace-nowrap bg-black/85 text-white backdrop-blur-sm border border-white/10 shadow-lg pointer-events-none animate-fadeIn">
-          {isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        </div>
-      )}
     </div>
   );
 }

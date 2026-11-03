@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
 import Hero from '../sections/Hero';
 import AbilityCardModal from '../components/AbilityCardModal';
@@ -7,6 +8,7 @@ import DoorsSection from '../sections/DoorsSection';
 import ProjectCategoryView from '../sections/ProjectCategoryView';
 import StoryTimeline from '../sections/StoryTimeline';
 import ContactSection from '../sections/ContactSection';
+import LoadingScreen from '../components/LoadingScreen';
 import {
   getProfile,
   getProjects,
@@ -88,20 +90,12 @@ export default function Portfolio() {
         onOpenSkills={() => setIsAbilityCardOpen(true)}
       />
 
-      {loading ? (
-        <div className="min-h-screen flex items-center justify-center bg-[#EFECE6] dark:bg-[#121212]">
-          <div className="text-center">
-            <div className="w-10 h-10 border-2 border-[#1C1A18] dark:border-white border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <span className="font-semibold text-lg tracking-wider block mb-1 font-serif">
-              RC
-            </span>
-            <p className="text-[#8C877D] text-xs font-mono tracking-widest uppercase">
-              Loading 3D world…
-            </p>
-          </div>
-        </div>
-      ) : (
-        <main>
+      {/* ── 3D Colorful Ambient Loading Screen ── */}
+      <AnimatePresence>
+        {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
+      </AnimatePresence>
+
+      <main>
           {/* ── 1. Hero Section with 3D Spiral Notebook & Portrait ── */}
           <Hero
             profile={profile}
@@ -151,7 +145,6 @@ export default function Portfolio() {
             profile={profile || {}}
           />
         </main>
-      )}
     </div>
   );
 }

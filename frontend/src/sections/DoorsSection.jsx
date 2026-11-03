@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ArrowRight, ArrowLeft, Sparkles, FolderGit2 } from 'lucide-react';
+import { Check, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 
 export const DOOR_CATEGORIES = [
   {
@@ -90,8 +90,9 @@ export default function DoorsSection({
   selectedCategoryId = null,
 }) {
   const [activeDoorId, setActiveDoorId] = useState(selectedCategoryId || null);
+  const [isEntering, setIsEntering] = useState(false);
 
-  // Parse custom door configuration from backend profile (e.g. "backend,app" => exactly 2 doors!)
+  // Parse custom door configuration from backend profile
   const configuredIds = (profile?.doors_config || '')
     .split(',')
     .map((s) => s.trim().toLowerCase())
@@ -171,15 +172,25 @@ export default function DoorsSection({
       stack: ['Python', 'Django 5', 'DRF', 'PostgreSQL', 'Gemini AI'],
     };
 
+  // Step inside door with realistic camera zoom-in transition
+  const handleEnterWithZoom = (id) => {
+    if (isEntering) return;
+    setIsEntering(true);
+    setTimeout(() => {
+      if (onEnterCategory) onEnterCategory(id);
+      setIsEntering(false);
+    }, 600);
+  };
+
   const handleDoorClick = (id) => {
     if (activeDoorId === id) {
-      if (onEnterCategory) onEnterCategory(id);
+      handleEnterWithZoom(id);
     } else {
       setActiveDoorId(id);
     }
   };
 
-  // Adaptive Grid styling based on door count (e.g. 2 doors -> centered 2 columns)
+  // Adaptive Grid styling based on door count
   const getGridClass = (count) => {
     if (count === 1) return 'max-w-xs mx-auto grid grid-cols-1 gap-6 justify-center';
     if (count === 2) return 'max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 justify-center';
@@ -192,6 +203,21 @@ export default function DoorsSection({
       id="doors"
       className="relative py-24 sm:py-32 px-4 sm:px-8 overflow-hidden transition-colors bg-[#EFECE6] dark:bg-[#121212]"
     >
+      {/* ── Doorway Step-Inside Zoom Radiant Flash ── */}
+      <AnimatePresence>
+        {isEntering && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.55 }}
+            className="fixed inset-0 z-50 bg-[#FAF7F2] dark:bg-[#121212] pointer-events-none flex items-center justify-center"
+          >
+            <div className="w-96 h-96 rounded-full bg-gradient-to-r from-amber-200/60 to-white blur-3xl animate-pulse" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="max-w-6xl mx-auto w-full">
         {/* Section Headline */}
         <div className="mb-14 sm:mb-20 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -222,7 +248,14 @@ export default function DoorsSection({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center justify-center max-w-5xl mx-auto">
               {/* Left: The Open Arch Door with Illuminated Project Preview Inside */}
               <div className="lg:col-span-5 flex justify-center">
-                <div className="relative w-[260px] sm:w-[300px] h-[420px] sm:h-[480px] perspective-1200">
+                <motion.div
+                  animate={{
+                    scale: isEntering ? 2.6 : 1,
+                    opacity: isEntering ? 0.2 : 1,
+                  }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative w-[260px] sm:w-[300px] h-[420px] sm:h-[480px] perspective-1200 origin-center"
+                >
                   {/* Recessed Wall Arch Frame */}
                   <div className="absolute inset-0 rounded-t-full border-[12px] border-white dark:border-[#202024] bg-[#121214] arch-frame overflow-hidden shadow-2xl">
                     {/* Glowing Light Beam & Illuminated Project Room Inside */}
@@ -257,7 +290,7 @@ export default function DoorsSection({
                       backgroundColor: activeCategory.doorColor,
                     }}
                     className="absolute inset-0 rounded-t-full border-r-2 border-t-2 border-white/20 shadow-2xl overflow-hidden door-fluted cursor-pointer"
-                    onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
+                    onClick={() => handleEnterWithZoom(activeCategory.id)}
                   >
                     {/* Fluted Vertical Grooves Overlay */}
                     <div className="absolute inset-0 door-fluted pointer-events-none opacity-80" />
@@ -288,13 +321,13 @@ export default function DoorsSection({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
+                    onClick={() => handleEnterWithZoom(activeCategory.id)}
                     className="absolute top-[38%] left-1/2 -translate-x-1/2 z-30 px-5 py-2.5 rounded-full bg-[#1C1A18] hover:bg-black dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#121212] text-xs font-semibold uppercase tracking-wider shadow-2xl transition-transform active:scale-95 flex items-center gap-2 group whitespace-nowrap"
                   >
                     <span>Click to enter</span>
                     <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                   </motion.button>
-                </div>
+                </motion.div>
               </div>
 
               {/* Right: Checklist & Featured Projects in this Discipline */}
@@ -320,7 +353,7 @@ export default function DoorsSection({
                 {/* ── Featured Project Card in this Discipline ── */}
                 {featuredProject && (
                   <div
-                    onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
+                    onClick={() => handleEnterWithZoom(activeCategory.id)}
                     className="w-full bg-white dark:bg-[#1A1A1E] border border-[#DDD6C9] dark:border-white/10 rounded-2xl p-5 mb-6 shadow-sm hover:border-amber-500/50 cursor-pointer transition-all group"
                   >
                     <div className="flex items-center justify-between gap-2 mb-2">
@@ -373,7 +406,7 @@ export default function DoorsSection({
 
                 <div className="flex flex-wrap items-center gap-4">
                   <button
-                    onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
+                    onClick={() => handleEnterWithZoom(activeCategory.id)}
                     className="bg-[#1C1A18] hover:bg-black dark:bg-[#FAF7F2] dark:hover:bg-white text-white dark:text-[#121212] px-7 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-md active:scale-95 inline-flex items-center gap-2 group"
                   >
                     <span>Open {activeCategory.title} Projects</span>
@@ -390,7 +423,7 @@ export default function DoorsSection({
               </motion.div>
             </div>
           ) : (
-            /* Dynamic Arch Doors Gallery Grid (Centered 2 doors, 3 doors, or 4 doors based on config) */
+            /* Dynamic Arch Doors Gallery Grid */
             <div className={getGridClass(finalCategories.length)}>
               {finalCategories.map((cat) => (
                 <motion.div
