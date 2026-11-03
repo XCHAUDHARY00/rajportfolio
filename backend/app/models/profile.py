@@ -46,6 +46,7 @@ class ProfileUpdate(BaseModel):
     edu_college: Optional[str] = None
     edu_location: Optional[str] = None
     edu_class12: Optional[str] = None
+    edu_class10: Optional[str] = None
 
     # About Editorial Details
     about_tag: Optional[str] = None
@@ -96,10 +97,11 @@ class ProfileResponse(BaseModel):
     stat4_sub: Optional[str] = "JPMorgan & Honors"
 
     # Education Card
-    edu_degree: Optional[str] = "B.Tech — Computer Science & IT"
+    edu_degree: Optional[str] = "B.Tech — Computer Science & IT (CS & IT)"
     edu_college: Optional[str] = "Ajay Kumar Garg Engineering College (2024 – 2028)"
     edu_location: Optional[str] = "Ghaziabad, UP"
-    edu_class12: Optional[str] = "Class 12: 89.66%"
+    edu_class12: Optional[str] = "Class 12 (PCM): 89.66% — LFAIC Inter College, Sambhal (2024)"
+    edu_class10: Optional[str] = "Class 10: 86.00% — LFAIC Inter College, Sambhal (2022)"
 
     # About Editorial Details
     about_tag: Optional[str] = "ABOUT MY BACKGROUND"

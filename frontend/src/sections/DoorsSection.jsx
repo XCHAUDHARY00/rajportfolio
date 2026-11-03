@@ -18,17 +18,31 @@ export const DOOR_CATEGORIES = [
     ],
   },
   {
-    id: 'app',
-    title: 'App Development',
-    subtitle: 'FROM THE FIRST IDEA TO THE APP STORE',
+    id: 'ios',
+    title: 'iOS Development',
+    subtitle: 'FROM THE FIRST IDEA TO THE APPLE APP STORE',
     doorColor: '#3D2636', // Plum / Wine
-    nameplate: 'APP DEVELOPER',
+    nameplate: 'IOS DEVELOPER',
     bullets: [
-      'Product scoping & user flows',
-      'Interface design & design systems',
-      'Cross-platform & native performance',
-      'Device testing & store launch',
-      'Analytics, monitoring & updates',
+      'Native iOS & Swift Development',
+      'Apple Human Interface Guidelines (HIG)',
+      'Offline-first architectures & local storage',
+      'Device testing, TestFlight & App Store launch',
+      'Analytics, crash diagnostics & telemetry',
+    ],
+  },
+  {
+    id: 'web',
+    title: 'Web Development',
+    subtitle: 'RESPONSIVE, MODERN & HIGH-PERFORMANCE WEB APPS',
+    doorColor: '#4D5D4E', // Sage Green
+    nameplate: 'WEB DEVELOPER',
+    bullets: [
+      'React 18, Vite & Next.js architectures',
+      'Responsive, component-driven design systems',
+      'Physics-based 3D animations & micro-interactions',
+      'Clean API consumption & client caching',
+      'High-speed production web deployments',
     ],
   },
   {
@@ -46,17 +60,17 @@ export const DOOR_CATEGORIES = [
     ],
   },
   {
-    id: 'cloud',
-    title: 'Cloud & DevOps',
-    subtitle: 'INFRASTRUCTURE AS CODE & CONTAINERIZED DEPLOYMENTS',
-    doorColor: '#4D5D4E', // Sage Green
-    nameplate: 'CLOUD & DEVOPS',
+    id: 'app',
+    title: 'iOS Development',
+    subtitle: 'FROM THE FIRST IDEA TO THE APPLE APP STORE',
+    doorColor: '#3D2636',
+    nameplate: 'IOS DEVELOPER',
     bullets: [
-      'AWS Cloud (DynamoDB, S3, SES, Lambda)',
-      'Docker Containerization & Environments',
-      'CI/CD Pipelines & Zero-Downtime Deploys',
-      'IAM Roles, Secrets & Cloud Security',
-      'Real-Time Health Monitoring & Observability',
+      'Native iOS & Swift Development',
+      'Apple Human Interface Guidelines (HIG)',
+      'Device testing, TestFlight & App Store launch',
+      'High-performance client state & API integration',
+      'Analytics, crash monitoring & updates',
     ],
   },
   {

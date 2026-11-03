@@ -12,20 +12,74 @@ export default function StoryTimeline({
   const itemRefs = useRef([]);
   const sectionRef = useRef(null);
 
-  // Compile timeline events from real backend data & profile
+  // Compile timeline events matching Raj Chaudhary's exact journey
   const timelineEvents = [
     {
       year: '2026',
-      period: 'JAN 2026 – PRESENT',
-      role: 'Senior Backend Developer & Cloud Architect',
-      org: 'Production Portfolio & Microservices',
-      location: 'Ghaziabad, UP',
-      type: 'Engineering',
+      period: 'SEP 2026 – PRESENT',
+      role: 'Full Stack Developer Intern',
+      org: 'Colleen',
+      location: 'Remote',
+      type: 'Internship',
       icon: Briefcase,
       bullets: [
-        'Architected modular FastAPI backends with AWS DynamoDB, S3, and SES integration.',
-        'Engineered 3D skeuomorphic interfaces with sub-second response times and CI/CD pipelines.',
-        'Maintained 100% test coverage and robust HMAC token authentication.',
+        'Engineering full-stack features, resilient microservices, and high-performance RESTful APIs.',
+        'Building clean, decoupled client architectures with real-time state synchronization.',
+        'Working remotely in an agile production engineering team delivering high-impact features.',
+      ],
+    },
+    {
+      year: '2025',
+      period: 'JUN 2025 – JUL 2025',
+      role: 'Frontend Developer Intern',
+      org: 'Cognifyz Technologies',
+      location: 'Remote',
+      type: 'Internship',
+      icon: Briefcase,
+      bullets: [
+        '2-month remote frontend internship mastering React.js, modern JavaScript (ES6+), and Tailwind CSS.',
+        'Designed and developed responsive, modular component systems and intuitive UI layouts.',
+        'Optimized frontend performance, state management, and cross-browser responsiveness.',
+      ],
+    },
+    {
+      year: '2024',
+      period: '2024 – 2028 (PRESENT)',
+      role: profile.edu_degree || 'B.Tech — Computer Science & IT (CS & IT)',
+      org: profile.edu_college || 'Ajay Kumar Garg Engineering College (AKGEC)',
+      location: profile.edu_location || 'Ghaziabad, UP',
+      type: 'Undergraduate Degree',
+      icon: GraduationCap,
+      bullets: [
+        'Four-year engineering degree in CS & IT branch, mastering Data Structures & Algorithms, Operating Systems, and DBMS.',
+        'Specialized in backend architectures (Python, Django, FastAPI), native iOS development, and distributed systems.',
+        `Current CGPA: ${profile.cgpa ? profile.cgpa.toFixed(2) : '7.86'}. Active problem solver with 150+ DSA solutions on LeetCode.`,
+      ],
+    },
+    {
+      year: '2024',
+      period: '2022 – 2024',
+      role: 'Class 12th — Senior Secondary (PCM — 89.66%)',
+      org: 'LFAIC Inter College',
+      location: 'Sambhal, UP',
+      type: 'Senior Secondary',
+      icon: GraduationCap,
+      bullets: [
+        'Graduated Class 12th with distinction, scoring 89.66% in Physics, Chemistry, and Mathematics (PCM).',
+        'Demonstrated top academic excellence and deep quantitative analytical foundations.',
+      ],
+    },
+    {
+      year: '2022',
+      period: '2020 – 2022',
+      role: 'Class 10th — High School (86.00%)',
+      org: 'LFAIC Inter College',
+      location: 'Sambhal, UP',
+      type: 'High School',
+      icon: GraduationCap,
+      bullets: [
+        'Completed Class 10th board examination with distinction, securing 86.00%.',
+        'Built strong foundational mathematics, science, and analytical problem-solving skills.',
       ],
     },
     ...(experience || []).map((exp) => ({
@@ -40,34 +94,6 @@ export default function StoryTimeline({
       logo_url: exp.logo_url,
       letter_url: exp.letter_url,
     })),
-    {
-      year: '2025',
-      period: 'JAN 2025 – MAY 2025',
-      role: 'Software Engineering Virtual Experience',
-      org: 'JPMorgan Chase & Co.',
-      location: 'Virtual / Remote',
-      type: 'Virtual Experience',
-      icon: Award,
-      bullets: [
-        'Interfaced with financial data feeds, implemented live stock price visualizers, and resolved framework bugs.',
-        'Engineered high-throughput financial data streaming scripts in Python.',
-        'Awarded Certificate of Completion in Software Engineering.',
-      ],
-    },
-    {
-      year: '2024',
-      period: 'JUL 2024 – PRESENT (2024 – 2028)',
-      role: profile.edu_degree || 'B.Tech, Computer Science & IT',
-      org: profile.edu_college || 'Ajay Kumar Garg Engineering College (AKGEC)',
-      location: profile.edu_location || 'Ghaziabad, UP',
-      type: 'Education',
-      icon: GraduationCap,
-      bullets: [
-        'Four years of computer science: distributed systems, algorithms, DBMS, and OS fundamentals.',
-        `Current CGPA: ${profile.cgpa ? profile.cgpa.toFixed(2) : '7.86'}.`,
-        `${profile.edu_class12 || 'Senior Secondary (Class 12): 89.66%'}.`,
-      ],
-    },
   ];
 
   // Filter unique milestones

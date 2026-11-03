@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Hero from '../sections/Hero';
 import AbilityCardModal from '../components/AbilityCardModal';
 import CertificatesModal from '../sections/CertificatesModal';
+import SkillsModal from '../sections/SkillsModal';
 import DoorsSection from '../sections/DoorsSection';
 import ProjectCategoryView from '../sections/ProjectCategoryView';
 import StoryTimeline from '../sections/StoryTimeline';
@@ -30,8 +31,11 @@ export default function Portfolio() {
   // 3D Ability Card Modal State
   const [isAbilityCardOpen, setIsAbilityCardOpen] = useState(false);
 
-  // Certificates & Achievements Modal State
+  // Dedicated 3D Certificates & Achievements Modal State
   const [isCertificatesOpen, setIsCertificatesOpen] = useState(false);
+
+  // Dedicated Skills & Technologies Modal State
+  const [isSkillsOpen, setIsSkillsOpen] = useState(false);
 
   // Door view mode: null = 4 Doors overview, 'backend' | 'systems' | 'cloud' | 'fullstack' = Inside Door Project View
   const [insideDoorCategory, setInsideDoorCategory] = useState(null);
@@ -87,7 +91,7 @@ export default function Portfolio() {
         profile={profile}
         onSelectDoorCategory={handleEnterCategory}
         onOpenCertificates={() => setIsCertificatesOpen(true)}
-        onOpenSkills={() => setIsAbilityCardOpen(true)}
+        onOpenSkills={() => setIsSkillsOpen(true)}
         isInsideDoorCategory={Boolean(insideDoorCategory)}
         onBackToDoors={handleBackToDoors}
       />
@@ -145,6 +149,13 @@ export default function Portfolio() {
             certifications={certifications}
             achievements={achievements}
             profile={profile || {}}
+          />
+
+          {/* ── Dedicated Skills & Technologies Modal ── */}
+          <SkillsModal
+            isOpen={isSkillsOpen}
+            onClose={() => setIsSkillsOpen(false)}
+            skills={skills}
           />
         </main>
     </div>

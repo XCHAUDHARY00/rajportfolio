@@ -4,10 +4,10 @@ import SpiralNotebook from '../components/SpiralNotebook';
 
 const HERO_ROLES = [
   'Backend Developer',
+  'iOS Developer',
   'Python & Django Specialist',
   'REST API Architect',
   'Distributed Systems Engineer',
-  'Cloud & DevOps Practitioner',
   'PostgreSQL & DynamoDB Specialist',
 ];
 

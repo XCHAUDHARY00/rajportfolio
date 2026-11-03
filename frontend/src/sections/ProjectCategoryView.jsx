@@ -156,52 +156,67 @@ export default function ProjectCategoryView({
     const descStr = (p.description || '').toLowerCase();
     const combined = `${catStr} ${stackStr} ${titleStr} ${descStr}`;
 
+    // Direct category match
+    if (catStr === activeCategoryId) return true;
+    if ((activeCategoryId === 'ios' || activeCategoryId === 'app') && (catStr === 'ios' || catStr === 'app')) return true;
+    if (activeCategoryId === 'web' && (catStr === 'web' || catStr === 'frontend')) return true;
+
+    if (activeCategoryId === 'ios' || activeCategoryId === 'app') {
+      return (
+        catStr.includes('ios') ||
+        combined.includes('ios') ||
+        combined.includes('swift') ||
+        combined.includes('mobile') ||
+        combined.includes('app')
+      );
+    }
+    if (activeCategoryId === 'web') {
+      return (
+        catStr.includes('web') ||
+        combined.includes('web') ||
+        combined.includes('react') ||
+        combined.includes('frontend') ||
+        combined.includes('tailwind')
+      );
+    }
     if (activeCategoryId === 'backend') {
       return (
+        catStr.includes('backend') ||
         combined.includes('backend') ||
         combined.includes('api') ||
         combined.includes('django') ||
         combined.includes('python') ||
-        combined.includes('drf') ||
-        true
-      );
-    }
-    if (activeCategoryId === 'app') {
-      return (
-        combined.includes('app') ||
-        combined.includes('react') ||
-        combined.includes('mobile') ||
-        combined.includes('ios') ||
-        true
+        combined.includes('drf')
       );
     }
     if (activeCategoryId === 'systems') {
       return (
+        catStr.includes('system') ||
         combined.includes('system') ||
         combined.includes('distributed') ||
         combined.includes('redis') ||
-        combined.includes('commerce') ||
-        true
+        combined.includes('database')
       );
     }
     if (activeCategoryId === 'cloud') {
       return (
+        catStr.includes('cloud') ||
         combined.includes('cloud') ||
         combined.includes('aws') ||
         combined.includes('docker') ||
-        combined.includes('devops') ||
-        true
+        combined.includes('devops')
       );
     }
     if (activeCategoryId === 'fullstack') {
       return (
+        catStr.includes('full-stack') ||
         combined.includes('full-stack') ||
         combined.includes('react') ||
         combined.includes('ai') ||
-        combined.includes('gemini') ||
-        true
+        combined.includes('gemini')
       );
     }
+
     return true;
   });
 

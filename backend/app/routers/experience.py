@@ -14,11 +14,55 @@ router = APIRouter(prefix="/api/experience", tags=["experience"])
 TABLE = "experience"
 
 
+_SEED_EXPERIENCE = [
+    {
+        "id": "exp-colleen-001",
+        "company": "Colleen",
+        "role": "Full Stack Developer Intern",
+        "type": "Internship",
+        "location": "Remote",
+        "start_date": "2026-09",
+        "end_date": None,
+        "currently_working": True,
+        "description": "Engineering full-stack web applications, microservices, and performant REST APIs in an agile remote team.",
+        "responsibilities": [
+            "Engineering full-stack web features, resilient microservices, and robust backend API endpoints.",
+            "Building performant, responsive client interfaces and integrating state synchronization pipelines.",
+            "Collaborating remotely on architecture, code quality, and production feature delivery.",
+        ],
+        "technologies": ["Python", "FastAPI", "React", "PostgreSQL", "Tailwind CSS", "REST APIs"],
+        "logo_url": None,
+        "letter_url": None,
+        "created_at": datetime.utcnow().isoformat(),
+    },
+    {
+        "id": "exp-cognifyz-002",
+        "company": "Cognifyz Technologies",
+        "role": "Frontend Developer Intern",
+        "type": "Internship",
+        "location": "Remote",
+        "start_date": "2025-06",
+        "end_date": "2025-07",
+        "currently_working": False,
+        "description": "2-month remote frontend internship mastering React.js, modern JavaScript (ES6+), and Tailwind CSS.",
+        "responsibilities": [
+            "Developed responsive and modern component-driven user interfaces using React.js and Tailwind CSS.",
+            "Engineered reusable JavaScript (ES6+) components, ensuring fast render cycles and cross-browser accessibility.",
+            "Collaborated remotely with developers on UI/UX reviews and client-side state management.",
+        ],
+        "technologies": ["React.js", "JavaScript (ES6+)", "Tailwind CSS", "HTML5", "CSS3", "Git"],
+        "logo_url": None,
+        "letter_url": None,
+        "created_at": datetime.utcnow().isoformat(),
+    },
+]
+
+
 def _seed_if_empty():
     items = db.scan_table(TABLE)
     if not items:
-        # Placeholder — no specific internship data was in the provided resume
-        pass
+        for exp in _SEED_EXPERIENCE:
+            db.put_item(TABLE, exp)
 
 
 # ── Public ────────────────────────────────────────────────────────────────────

@@ -440,6 +440,16 @@ function ProfileTab() {
               onChange={(e) => setData({ ...data, edu_class12: e.target.value })}
             />
           </div>
+
+          <div>
+            <label className={labelCls}>High School / Class 10</label>
+            <input
+              className={inputCls}
+              placeholder="Class 10: 86.00%"
+              value={data.edu_class10 || ''}
+              onChange={(e) => setData({ ...data, edu_class10: e.target.value })}
+            />
+          </div>
         </div>
       </div>
 
@@ -578,7 +588,7 @@ function ProfileTab() {
 // Projects Tab
 // ─────────────────────────────────────────────
 const emptyProject = {
-  title: '', description: '', stack: '', github_url: '', live_url: '',
+  title: '', description: '', category: 'web', stack: '', github_url: '', live_url: '',
   start_date: '', end_date: '', featured: false, bullets: '',
 };
 
@@ -595,6 +605,7 @@ function ProjectsTab() {
   const handleSubmit = async () => {
     const payload = {
       ...form,
+      category: form.category || 'web',
       bullets: form.bullets ? form.bullets.split('\n').filter(Boolean) : [],
     };
     try {
@@ -615,7 +626,11 @@ function ProjectsTab() {
   };
 
   const handleEdit = (p) => {
-    setForm({ ...p, bullets: Array.isArray(p.bullets) ? p.bullets.join('\n') : (p.bullets || '') });
+    setForm({
+      ...p,
+      category: p.category || 'web',
+      bullets: Array.isArray(p.bullets) ? p.bullets.join('\n') : (p.bullets || ''),
+    });
     setEditId(p.id);
     setShowForm(true);
   };
@@ -653,7 +668,7 @@ function ProjectsTab() {
       <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
         <div>
           <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Projects &amp; Systems</h2>
-          <p className="text-xs font-sans text-[#5E5A53] mt-1">Upload multiple screenshots per project for carousel view.</p>
+          <p className="text-xs font-sans text-[#5E5A53] mt-1">Select category (iOS Developer, Web Developer, Backend) and upload screenshots.</p>
         </div>
         <button onClick={() => { setForm(emptyProject); setEditId(null); setShowForm(!showForm); }} className={btnPrimary}>
           <Plus size={14} /> Add Project
@@ -671,10 +686,29 @@ function ProjectsTab() {
               </div>
             ))}
           </div>
-          <div>
-            <label className={labelCls}>Stack (comma-separated)</label>
-            <input className={inputCls} value={form.stack || ''} onChange={(e) => setForm({ ...form, stack: e.target.value })} />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={labelCls}>Category</label>
+              <select
+                className={inputCls}
+                value={form.category || 'web'}
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+              >
+                <option value="ios">iOS Developer</option>
+                <option value="web">Web Developer</option>
+                <option value="backend">Backend Developer</option>
+                <option value="systems">Distributed Systems</option>
+                <option value="cloud">Cloud &amp; DevOps</option>
+                <option value="other">Other / Full-Stack</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelCls}>Stack (comma-separated)</label>
+              <input className={inputCls} placeholder="Swift, Python, React, etc." value={form.stack || ''} onChange={(e) => setForm({ ...form, stack: e.target.value })} />
+            </div>
           </div>
+
           <div>
             <label className={labelCls}>Description</label>
             <textarea className={`${inputCls} resize-none`} rows={3} value={form.description || ''} onChange={(e) => setForm({ ...form, description: e.target.value })} />
@@ -706,8 +740,13 @@ function ProjectsTab() {
                     : <span className="text-[#1C1A18] font-bold text-xl">{p.title?.[0]}</span>}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-sans font-semibold text-[#1C1A18] text-base">{p.title}</p>
+                    {p.category && (
+                      <span className="text-[10px] bg-amber-500/10 text-amber-800 px-2.5 py-0.5 rounded-full font-mono font-semibold uppercase tracking-wider border border-amber-500/20">
+                        {p.category === 'ios' ? 'iOS Developer' : p.category === 'web' ? 'Web Developer' : p.category}
+                      </span>
+                    )}
                     {p.featured && <span className="text-[10px] bg-[#EDE7DD] text-[#1C1A18] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Featured</span>}
                   </div>
                   <p className="text-[#5E5A53] text-xs font-sans mt-1 line-clamp-2">{p.description}</p>

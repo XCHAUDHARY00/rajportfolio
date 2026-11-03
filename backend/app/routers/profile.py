@@ -39,8 +39,8 @@ _DEFAULT_PROFILE = {
     "hero_status": "Open to SDE & Backend roles",
     "hero_headline": "I build\nthoughtful backend\nsystems, from\nREST APIs to\ncloud scale.",
     "hero_subtext": "Passionate about high-throughput Python backends, distributed systems, and production cloud infrastructure. Third-year CSIT at AKGEC (CGPA 7.86).",
-    "hero_roles_list": "Backend Developer, Python & Django Specialist, REST API Architect, Distributed Systems Engineer, Cloud & DevOps Practitioner, PostgreSQL & DynamoDB Specialist",
-    "doors_config": "backend,systems,cloud,fullstack",
+    "hero_roles_list": "Backend Developer, iOS Developer, Python & Django Specialist, REST API Architect, Distributed Systems Engineer, PostgreSQL & DynamoDB Specialist",
+    "doors_config": "backend,ios,web,systems",
     # About 4 Stats Cards
     "stat1_value": "7.86",
     "stat1_label": "CGPA",
@@ -55,10 +55,11 @@ _DEFAULT_PROFILE = {
     "stat4_label": "CERTS & WINS",
     "stat4_sub": "JPMorgan & Honors",
     # Education Card
-    "edu_degree": "B.Tech — Computer Science & IT",
+    "edu_degree": "B.Tech — Computer Science & IT (CS & IT)",
     "edu_college": "Ajay Kumar Garg Engineering College (2024 – 2028)",
     "edu_location": "Ghaziabad, UP",
-    "edu_class12": "Class 12: 89.66%",
+    "edu_class12": "Class 12 (PCM): 89.66% — LFAIC Inter College, Sambhal (2024)",
+    "edu_class10": "Class 10: 86.00% — LFAIC Inter College, Sambhal (2022)",
     # About Editorial Details
     "about_tag": "ABOUT MY BACKGROUND",
     "about_headline": "Engineering scalable systems with intent & speed.",

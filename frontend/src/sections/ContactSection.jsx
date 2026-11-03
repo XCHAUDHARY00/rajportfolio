@@ -47,54 +47,54 @@ export default function ContactSection({ profile }) {
   return (
     <footer id="contact" className="relative pt-20 pb-16 px-4 sm:px-8 bg-[#EFECE6] dark:bg-[#121212] transition-colors">
       <div className="max-w-5xl mx-auto w-full">
-        {/* ── Large Dark Pill Card (Matching Reference Prompt) ── */}
+        {/* ── Large Pill Card (Adaptive Light / Deep Charcoal Dark) ── */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[2.5rem] bg-[#18181B] text-white p-8 sm:p-14 border border-white/10 shadow-2xl relative overflow-hidden mb-16"
+          className="rounded-[2.5rem] bg-[#FAF7F2] dark:bg-[#18181B] text-[#1C1A18] dark:text-white p-8 sm:p-14 border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden mb-16 transition-colors"
         >
           {/* Subtle glow circle */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-80 h-80 bg-amber-400/15 dark:bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left 6 cols: Pitch & Direct Contact */}
             <div className="lg:col-span-6 flex flex-col items-start">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-semibold uppercase tracking-wider mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/25 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-semibold uppercase tracking-wider mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Available for new work</span>
               </div>
 
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-sans leading-tight">
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1C1A18] dark:text-white font-sans leading-tight">
                 Need something built?
                 <br />
-                <span className="text-amber-400 font-light">Let&apos;s make it happen.</span>
+                <span className="text-amber-600 dark:text-amber-400 font-light">Let&apos;s make it happen.</span>
               </h2>
 
-              <p className="text-sm font-sans text-white/70 mt-4 max-w-md leading-relaxed">
+              <p className="text-sm font-sans text-[#5E5A53] dark:text-white/70 mt-4 max-w-md leading-relaxed">
                 Whether you need a high-throughput backend, API integration, cloud migration, or full-stack application &mdash; my inbox is open.
               </p>
 
               {/* Direct Details */}
-              <div className="space-y-3 mt-8 text-xs font-mono text-white/80">
+              <div className="space-y-3 mt-8 text-xs font-mono text-[#403B35] dark:text-white/80">
                 <a
                   href={`mailto:${profile?.email || 'dhariwalraj37@gmail.com'}`}
-                  className="flex items-center gap-2.5 hover:text-amber-400 transition-colors"
+                  className="flex items-center gap-2.5 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
                 >
-                  <Mail size={14} className="text-amber-400" />
+                  <Mail size={14} className="text-amber-600 dark:text-amber-400" />
                   <span>{profile?.email || 'dhariwalraj37@gmail.com'}</span>
                 </a>
 
                 <a
                   href={`tel:${profile?.phone || '7300706640'}`}
-                  className="flex items-center gap-2.5 hover:text-amber-400 transition-colors"
+                  className="flex items-center gap-2.5 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
                 >
-                  <Phone size={14} className="text-amber-400" />
+                  <Phone size={14} className="text-amber-600 dark:text-amber-400" />
                   <span>+91 {profile?.phone || '7300706640'}</span>
                 </a>
 
-                <div className="flex items-center gap-2.5 text-white/60">
-                  <MapPin size={14} className="text-amber-400" />
+                <div className="flex items-center gap-2.5 text-[#736D64] dark:text-white/60">
+                  <MapPin size={14} className="text-amber-600 dark:text-amber-400" />
                   <span>{profile?.location || 'Ghaziabad, UP, India'}</span>
                 </div>
               </div>
@@ -102,7 +102,7 @@ export default function ContactSection({ profile }) {
 
             {/* Right 6 cols: Message Form */}
             <div className="lg:col-span-6">
-              <form onSubmit={handleSubmit} className="space-y-3.5 bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
+              <form onSubmit={handleSubmit} className="space-y-3.5 bg-white/70 dark:bg-white/5 p-6 rounded-2xl border border-black/10 dark:border-white/10 backdrop-blur-sm shadow-sm">
                 <div>
                   <input
                     type="text"
@@ -110,7 +110,7 @@ export default function ContactSection({ profile }) {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     required
-                    className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors font-sans"
+                    className="w-full bg-[#FAF7F2] dark:bg-black/40 border border-black/15 dark:border-white/15 rounded-xl px-4 py-3 text-xs text-[#1C1A18] dark:text-white placeholder-[#8C877D] dark:placeholder-white/40 outline-none focus:border-amber-500 transition-colors font-sans"
                   />
                 </div>
 
@@ -121,7 +121,7 @@ export default function ContactSection({ profile }) {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     required
-                    className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors font-sans"
+                    className="w-full bg-[#FAF7F2] dark:bg-black/40 border border-black/15 dark:border-white/15 rounded-xl px-4 py-3 text-xs text-[#1C1A18] dark:text-white placeholder-[#8C877D] dark:placeholder-white/40 outline-none focus:border-amber-500 transition-colors font-sans"
                   />
                 </div>
 
@@ -132,14 +132,14 @@ export default function ContactSection({ profile }) {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     required
-                    className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-xs text-white placeholder-white/40 outline-none focus:border-amber-400 transition-colors resize-none font-sans"
+                    className="w-full bg-[#FAF7F2] dark:bg-black/40 border border-black/15 dark:border-white/15 rounded-xl px-4 py-3 text-xs text-[#1C1A18] dark:text-white placeholder-[#8C877D] dark:placeholder-white/40 outline-none focus:border-amber-500 transition-colors resize-none font-sans"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-amber-400 hover:bg-amber-300 text-[#18181B] py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full bg-[#1C1A18] hover:bg-black text-white dark:bg-amber-400 dark:hover:bg-amber-300 dark:text-[#18181B] py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   <span>{loading ? 'Sending...' : 'Send Message'}</span>
                   <Send size={13} />
