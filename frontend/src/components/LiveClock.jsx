@@ -17,7 +17,7 @@ export default function LiveClock() {
 
       // Format: 3 November, 2026
       const day = now.getDate();
-      const month = now.toLocaleString('en-US', { month: 'long' });
+      const month = now.toLocaleString('en-US', { month: 'short' });
       const year = now.getFullYear();
       setDateStr(`${day} ${month}, ${year}`);
     };
@@ -28,14 +28,13 @@ export default function LiveClock() {
   }, []);
 
   return (
-    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-sans font-medium transition-colors border bg-white/40 dark:bg-white/5 border-black/10 dark:border-white/10 text-[#403B35] dark:text-[#C5BFB5] backdrop-blur-sm select-none">
-      <span className="opacity-75">Local time</span>
-      <span className="font-semibold text-[#1C1A18] dark:text-[#FAF7F2] font-mono tracking-tight">
+    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-sans font-medium transition-colors border bg-white/40 dark:bg-white/5 border-black/10 dark:border-white/10 text-[#403B35] dark:text-[#C5BFB5] backdrop-blur-sm select-none">
+      <span className="hidden sm:inline opacity-75">Local time</span>
+      <span className="font-semibold text-[#1C1A18] dark:text-[#FAF7F2] font-mono tracking-tight text-[11px] sm:text-xs">
         {timeStr}
       </span>
-      <span className="opacity-40">•</span>
-      <span className="opacity-85">{dateStr}</span>
+      <span className="hidden md:inline opacity-40">•</span>
+      <span className="hidden md:inline opacity-85">{dateStr}</span>
     </div>
   );
 }
-

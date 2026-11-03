@@ -88,6 +88,8 @@ export default function Portfolio() {
         onSelectDoorCategory={handleEnterCategory}
         onOpenCertificates={() => setIsCertificatesOpen(true)}
         onOpenSkills={() => setIsAbilityCardOpen(true)}
+        isInsideDoorCategory={Boolean(insideDoorCategory)}
+        onBackToDoors={handleBackToDoors}
       />
 
       {/* ── 3D Colorful Ambient Loading Screen ── */}

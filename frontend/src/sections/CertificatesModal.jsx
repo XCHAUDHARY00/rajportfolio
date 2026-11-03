@@ -15,6 +15,8 @@ import {
   Star,
   Copy,
   Check,
+  Maximize2,
+  X,
 } from 'lucide-react';
 
 const FALLBACK_CERTS = [
@@ -87,6 +89,7 @@ export default function CertificatesModal({
   const [activeTab, setActiveTab] = useState('certs'); // 'certs' | 'achievements'
   const [certIndex, setCertIndex] = useState(0);
   const [copiedId, setCopiedId] = useState(false);
+  const [zoomedImage, setZoomedImage] = useState(null);
   const [cardTilt, setCardTilt] = useState({ rotateX: 0, rotateY: 0 });
   const cardRef = useRef(null);
 
@@ -215,56 +218,114 @@ export default function CertificatesModal({
                     style={{
                       transformStyle: 'preserve-3d',
                     }}
-                    className="relative z-10 w-full h-full rounded-3xl bg-[#FCFAF5] dark:bg-[#1D1D21] border-[10px] border-[#EDE6D6] dark:border-[#2C2C32] p-6 sm:p-8 flex flex-col justify-between shadow-[0_24px_50px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
+                    className="relative z-10 w-full h-full rounded-3xl bg-[#FCFAF5] dark:bg-[#1D1D21] border-[10px] border-[#EDE6D6] dark:border-[#2C2C32] p-5 sm:p-7 flex flex-col justify-between shadow-[0_24px_50px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
                   >
-                    {/* Metallic Gold Foil Double Border */}
-                    <div className="absolute inset-2.5 rounded-2xl border-2 border-[#D4AF37]/50 pointer-events-none" />
-                    <div className="absolute inset-3.5 rounded-xl border border-dashed border-[#D4AF37]/35 pointer-events-none" />
+                    {currentCert.badge_url ? (
+                      /* Actual Uploaded Certificate Image Mode */
+                      <div className="relative z-10 w-full h-full flex flex-col justify-between">
+                        {/* Top bar header */}
+                        <div className="flex items-center justify-between pb-2 border-b border-black/10 dark:border-white/10">
+                          <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-serif">
+                            <Award size={18} className="text-amber-500 flex-shrink-0" />
+                            <span className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold truncate max-w-[200px] sm:max-w-xs">
+                              {currentCert.issuer || 'CERTIFICATE OF COMPLETION'}
+                            </span>
+                          </div>
+                          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-amber-400/80 bg-gradient-to-tr from-amber-500 via-yellow-400 to-amber-600 text-black flex flex-col items-center justify-center shadow-md transform rotate-3 flex-shrink-0">
+                            <Star size={11} className="fill-black" />
+                            <span className="text-[6px] font-black tracking-tighter">VERIFIED</span>
+                          </div>
+                        </div>
 
-                    {/* Certificate Top Header */}
-                    <div className="relative z-10 flex items-start justify-between">
-                      <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-serif">
-                        <Award size={22} className="text-amber-500" />
-                        <span className="text-[11px] font-mono tracking-widest uppercase font-bold">
-                          CERTIFICATE OF COMPLETION
-                        </span>
+                        {/* Center: Actual Uploaded Image Display */}
+                        <div className="my-auto py-2 w-full flex items-center justify-center relative group">
+                          <div className="relative max-w-full max-h-[220px] sm:max-h-[260px] rounded-xl overflow-hidden bg-white/60 dark:bg-black/40 p-2 border border-black/10 dark:border-white/10 shadow-inner flex items-center justify-center">
+                            <img
+                              src={currentCert.badge_url}
+                              alt={currentCert.name}
+                              className="w-full h-full object-contain max-h-[200px] sm:max-h-[235px] rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
+                            />
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setZoomedImage(currentCert.badge_url);
+                              }}
+                              className="absolute bottom-2 right-2 p-1.5 rounded-lg bg-black/75 hover:bg-black text-white text-[10px] font-mono opacity-80 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-md"
+                              title="Zoom Certificate"
+                            >
+                              <Maximize2 size={12} />
+                              <span className="hidden sm:inline">Zoom</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Bottom bar */}
+                        <div className="pt-2 border-t border-black/10 dark:border-white/10 flex items-end justify-between text-[10px] font-mono text-[#5E5A53] dark:text-[#A8A196]">
+                          <div className="min-w-0 pr-2">
+                            <span className="block text-[8px] uppercase tracking-wider text-[#8C877D]">CREDENTIAL</span>
+                            <span className="font-bold text-[#1C1A18] dark:text-white text-xs truncate block">
+                              {currentCert.name || currentCert.title}
+                            </span>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <span className="block text-[8px] uppercase tracking-wider text-[#8C877D]">DATE EARNED</span>
+                            <span className="font-semibold">{currentCert.issue_date || '2024'}</span>
+                          </div>
+                        </div>
                       </div>
+                    ) : (
+                      /* Classic Gold Embossed Typography Mode */
+                      <>
+                        {/* Metallic Gold Foil Double Border */}
+                        <div className="absolute inset-2.5 rounded-2xl border-2 border-[#D4AF37]/50 pointer-events-none" />
+                        <div className="absolute inset-3.5 rounded-xl border border-dashed border-[#D4AF37]/35 pointer-events-none" />
 
-                      {/* Official Gold Embossed Wax Seal Badge */}
-                      <div className="w-12 h-12 rounded-full border-2 border-amber-400/80 bg-gradient-to-tr from-amber-500 via-yellow-400 to-amber-600 text-black flex flex-col items-center justify-center shadow-lg transform rotate-6">
-                        <Star size={14} className="fill-black" />
-                        <span className="text-[7px] font-black tracking-tighter">VERIFIED</span>
-                      </div>
-                    </div>
+                        {/* Certificate Top Header */}
+                        <div className="relative z-10 flex items-start justify-between">
+                          <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-serif">
+                            <Award size={22} className="text-amber-500" />
+                            <span className="text-[11px] font-mono tracking-widest uppercase font-bold">
+                              CERTIFICATE OF COMPLETION
+                            </span>
+                          </div>
 
-                    {/* Certificate Center: Recipient & Name */}
-                    <div className="relative z-10 text-center my-auto py-2">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#736D64] dark:text-[#88837A] block">
-                        THIS IS PROUDLY PRESENTED TO
-                      </span>
-                      <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1C1A18] dark:text-white mt-1 tracking-tight">
-                        {profile?.name || 'Raj Chaudhary'}
-                      </h3>
-                      <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto my-2" />
-                      <p className="text-xs sm:text-sm font-sans font-semibold text-amber-800 dark:text-amber-300">
-                        For successfully mastering {currentCert.name || currentCert.title}
-                      </p>
-                    </div>
+                          {/* Official Gold Embossed Wax Seal Badge */}
+                          <div className="w-12 h-12 rounded-full border-2 border-amber-400/80 bg-gradient-to-tr from-amber-500 via-yellow-400 to-amber-600 text-black flex flex-col items-center justify-center shadow-lg transform rotate-6">
+                            <Star size={14} className="fill-black" />
+                            <span className="text-[7px] font-black tracking-tighter">VERIFIED</span>
+                          </div>
+                        </div>
 
-                    {/* Certificate Footer: Issuer & Verification Badge */}
-                    <div className="relative z-10 pt-3 border-t border-black/10 dark:border-white/10 flex items-end justify-between text-[10px] font-mono text-[#5E5A53] dark:text-[#A8A196]">
-                      <div>
-                        <span className="block text-[8px] uppercase tracking-wider text-[#8C877D]">ISSUED BY</span>
-                        <span className="font-bold text-[#1C1A18] dark:text-white text-xs">
-                          {currentCert.issuer}
-                        </span>
-                      </div>
+                        {/* Certificate Center: Recipient & Name */}
+                        <div className="relative z-10 text-center my-auto py-2">
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-[#736D64] dark:text-[#88837A] block">
+                            THIS IS PROUDLY PRESENTED TO
+                          </span>
+                          <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1C1A18] dark:text-white mt-1 tracking-tight">
+                            {profile?.name || 'Raj Chaudhary'}
+                          </h3>
+                          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto my-2" />
+                          <p className="text-xs sm:text-sm font-sans font-semibold text-amber-800 dark:text-amber-300">
+                            For successfully mastering {currentCert.name || currentCert.title}
+                          </p>
+                        </div>
 
-                      <div className="text-right">
-                        <span className="block text-[8px] uppercase tracking-wider text-[#8C877D]">DATE EARNED</span>
-                        <span className="font-semibold">{currentCert.issue_date || '2024'}</span>
-                      </div>
-                    </div>
+                        {/* Certificate Footer: Issuer & Verification Badge */}
+                        <div className="relative z-10 pt-3 border-t border-black/10 dark:border-white/10 flex items-end justify-between text-[10px] font-mono text-[#5E5A53] dark:text-[#A8A196]">
+                          <div>
+                            <span className="block text-[8px] uppercase tracking-wider text-[#8C877D]">ISSUED BY</span>
+                            <span className="font-bold text-[#1C1A18] dark:text-white text-xs">
+                              {currentCert.issuer}
+                            </span>
+                          </div>
+
+                          <div className="text-right">
+                            <span className="block text-[8px] uppercase tracking-wider text-[#8C877D]">DATE EARNED</span>
+                            <span className="font-semibold">{currentCert.issue_date || '2024'}</span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -439,6 +500,35 @@ export default function CertificatesModal({
           </motion.button>
         </div>
       </div>
+
+      {/* ── Lightbox Zoom for Certificate Images ── */}
+      <AnimatePresence>
+        {zoomedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setZoomedImage(null)}
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+          >
+            <button
+              onClick={() => setZoomedImage(null)}
+              className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              src={zoomedImage}
+              alt="Certificate full view"
+              className="max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

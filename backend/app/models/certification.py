@@ -8,6 +8,7 @@ class CertificationCreate(BaseModel):
     issue_date: str
     verify_url: Optional[str] = None
     description: Optional[str] = None
+    badge_url: Optional[str] = None
 
 
 class CertificationResponse(CertificationCreate):

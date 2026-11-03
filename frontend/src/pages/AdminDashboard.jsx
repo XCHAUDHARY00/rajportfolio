@@ -968,13 +968,14 @@ function ExperienceTab() {
 // ─────────────────────────────────────────────
 // Certifications Tab
 // ─────────────────────────────────────────────
-const emptyCert = { name: '', issuer: '', issue_date: '', verify_url: '', description: '' };
+const emptyCert = { name: '', issuer: '', issue_date: '', verify_url: '', description: '', badge_url: '' };
 
 function CertificationsTab() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(emptyCert);
   const [editId, setEditId] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => { getCertifications().then((r) => setItems(r.data)).catch(() => {}); }, []);
   const refresh = () => getCertifications().then((r) => setItems(r.data));
@@ -996,7 +997,19 @@ function CertificationsTab() {
 
   const handleBadgeUpload = async (e, id) => {
     const file = e.target.files?.[0]; if (!file) return;
-    try { await uploadCertBadge(id, file); refresh(); toast.success('Badge uploaded!'); } catch { toast.error('Upload failed.'); }
+    try {
+      setUploading(true);
+      const res = await uploadCertBadge(id, file);
+      refresh();
+      if (editId === id && res?.data?.badge_url) {
+        setForm((prev) => ({ ...prev, badge_url: res.data.badge_url }));
+      }
+      toast.success('Certificate image uploaded!');
+    } catch {
+      toast.error('Upload failed.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -1004,7 +1017,7 @@ function CertificationsTab() {
       <div className="flex items-center justify-between border-b border-[#EDE7DD] pb-5">
         <div>
           <h2 className="text-2xl font-medium tracking-tight text-[#1C1A18]">Certifications &amp; Credentials</h2>
-          <p className="text-xs font-sans text-[#5E5A53] mt-1">Manage badges, verification URLs, and certificates.</p>
+          <p className="text-xs font-sans text-[#5E5A53] mt-1">Manage badges, verification URLs, and uploaded certificate images.</p>
         </div>
         <button onClick={() => { setForm(emptyCert); setEditId(null); setShowForm(!showForm); }} className={btnPrimary}>
           <Plus size={14} /> Add
@@ -1022,6 +1035,27 @@ function CertificationsTab() {
               </div>
             ))}
           </div>
+
+          <div>
+            <label className={labelCls}>Certificate / Badge Image URL</label>
+            <input
+              className={inputCls}
+              placeholder="https://... or upload image below"
+              value={form.badge_url || ''}
+              onChange={(e) => setForm({ ...form, badge_url: e.target.value })}
+            />
+          </div>
+
+          {form.badge_url && (
+            <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#EDE7DD] flex items-center gap-3">
+              <img src={form.badge_url} alt="Preview" className="w-16 h-12 object-contain rounded border border-[#EDE7DD] bg-white" />
+              <div className="text-xs text-[#5E5A53]">
+                <p className="font-semibold text-[#1C1A18]">Image Preview</p>
+                <p className="truncate max-w-xs">{form.badge_url}</p>
+              </div>
+            </div>
+          )}
+
           <div>
             <label className={labelCls}>Description</label>
             <textarea className={`${inputCls} resize-none`} rows={2} value={form.description || ''} onChange={(e) => setForm({ ...form, description: e.target.value })} />
@@ -1036,18 +1070,19 @@ function CertificationsTab() {
       <div className="space-y-3">
         {items.map((item) => (
           <div key={item.id} className="bg-white border border-[#EDE7DD] p-4 flex items-center gap-4 rounded-2xl shadow-sm">
-            <div className="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] flex items-center justify-center overflow-hidden flex-shrink-0">
+            <div className="w-16 h-14 rounded-xl bg-[#FAF7F2] border border-[#EDE7DD] flex items-center justify-center overflow-hidden flex-shrink-0">
               {item.badge_url
-                ? <img src={item.badge_url} alt={item.name} className="w-full h-full object-cover" />
+                ? <img src={item.badge_url} alt={item.name} className="w-full h-full object-contain" />
                 : <span className="text-[#1C1A18] font-bold text-lg">{item.issuer?.[0]}</span>}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-sans font-semibold text-[#1C1A18] text-sm">{item.name}</p>
               <p className="text-[#5E5A53] text-xs font-sans">{item.issuer}</p>
               {item.issue_date && <p className="text-[#8C877D] text-[11px] font-sans mt-0.5">{item.issue_date}</p>}
+              {item.badge_url && <span className="inline-block mt-1 text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded font-mono">Image attached</span>}
             </div>
             <div className="flex gap-2 flex-shrink-0">
-              <label className={btnOutline + ' cursor-pointer'}>
+              <label className={btnOutline + ' cursor-pointer'} title="Upload Certificate / Badge Image">
                 <Upload size={12} />
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleBadgeUpload(e, item.id)} />
               </label>
