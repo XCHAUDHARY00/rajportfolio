@@ -56,18 +56,22 @@ export default function Portfolio() {
 
   const handleEnterCategory = (categoryId) => {
     setInsideDoorCategory(categoryId);
-    const doorsEl = document.querySelector('#doors');
-    if (doorsEl) {
-      doorsEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      const doorsEl = document.querySelector('#doors') || document.querySelector('#category-projects');
+      if (doorsEl) {
+        doorsEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 60);
   };
 
   const handleBackToDoors = () => {
     setInsideDoorCategory(null);
-    const doorsEl = document.querySelector('#doors');
-    if (doorsEl) {
-      doorsEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      const doorsEl = document.querySelector('#doors');
+      if (doorsEl) {
+        doorsEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 60);
   };
 
   return (
@@ -108,6 +112,7 @@ export default function Portfolio() {
             />
           ) : (
             <DoorsSection
+              projects={projects}
               onEnterCategory={handleEnterCategory}
             />
           )}

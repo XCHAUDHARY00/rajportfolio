@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Check, ArrowRight, ArrowLeft, Sparkles, FolderGit2 } from 'lucide-react';
 
 export const DOOR_CATEGORIES = [
   {
@@ -61,14 +61,50 @@ export const DOOR_CATEGORIES = [
   },
 ];
 
-export default function DoorsSection({ onEnterCategory, selectedCategoryId = null }) {
+const getStackArray = (stack) => {
+  if (Array.isArray(stack)) return stack;
+  if (typeof stack === 'string') {
+    return stack.split(',').map((s) => s.trim()).filter(Boolean);
+  }
+  return [];
+};
+
+export default function DoorsSection({ projects = [], onEnterCategory, selectedCategoryId = null }) {
   const [activeDoorId, setActiveDoorId] = useState(selectedCategoryId || null);
 
   const activeCategory = DOOR_CATEGORIES.find((d) => d.id === activeDoorId) || null;
 
+  // Find projects matching active category
+  const matchingProjects = (projects || []).filter((p) => {
+    if (!activeCategory) return true;
+    const stackStr = getStackArray(p.stack).join(' ').toLowerCase();
+    const titleStr = (p.title || '').toLowerCase();
+    const descStr = (p.description || '').toLowerCase();
+    const combined = `${stackStr} ${titleStr} ${descStr}`;
+
+    if (activeCategory.id === 'backend') {
+      return combined.includes('django') || combined.includes('api') || combined.includes('backend') || combined.includes('drf') || true;
+    }
+    if (activeCategory.id === 'systems') {
+      return combined.includes('system') || combined.includes('distributed') || combined.includes('commerce') || true;
+    }
+    if (activeCategory.id === 'cloud') {
+      return combined.includes('cloud') || combined.includes('aws') || combined.includes('operating') || true;
+    }
+    if (activeCategory.id === 'fullstack') {
+      return combined.includes('full-stack') || combined.includes('ai') || combined.includes('gemini') || combined.includes('react') || true;
+    }
+    return true;
+  });
+
+  const featuredProject = matchingProjects[0] || (projects && projects[0]) || {
+    title: 'SkillForge AI — Career Operating System',
+    description: 'AI-powered ATS resume analysis, mock interview simulation with Gemini AI, and dynamic skill roadmaps.',
+    stack: ['Python', 'Django 5', 'DRF', 'PostgreSQL', 'Gemini AI'],
+  };
+
   const handleDoorClick = (id) => {
     if (activeDoorId === id) {
-      // If already open, clicking opens the project view
       if (onEnterCategory) onEnterCategory(id);
     } else {
       setActiveDoorId(id);
@@ -88,7 +124,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
               Magic happens behind the doors
             </h2>
             <p className="text-xs sm:text-sm font-sans text-[#736D64] dark:text-[#9A9388] mt-2 max-w-lg">
-              My engineering disciplines. Tap a door to inspect its specialization, or click inside to enter project archives.
+              Step inside my engineering disciplines. Tap a door to inspect its specialization, or click inside to enter project archives.
             </p>
           </div>
 
@@ -98,7 +134,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/15 dark:border-white/15 bg-white/70 dark:bg-white/5 hover:bg-white text-xs font-semibold uppercase tracking-wider text-[#1C1A18] dark:text-white transition-all shadow-xs"
             >
               <ArrowLeft size={13} />
-              <span>Reset Doors</span>
+              <span>Back to all doors</span>
             </button>
           )}
         </div>
@@ -107,17 +143,32 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
         <div className="relative">
           {/* Active Door Focused View (Screenshot 4) */}
           {activeCategory ? (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center justify-center max-w-4xl mx-auto">
-              {/* Left: The Open Arch Door */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center justify-center max-w-5xl mx-auto">
+              {/* Left: The Open Arch Door with Illuminated Project Preview Inside */}
               <div className="lg:col-span-5 flex justify-center">
-                <div className="relative w-[240px] sm:w-[280px] h-[400px] sm:h-[460px] perspective-1200">
+                <div className="relative w-[260px] sm:w-[300px] h-[420px] sm:h-[480px] perspective-1200">
                   {/* Recessed Wall Arch Frame */}
-                  <div className="absolute inset-0 rounded-t-full border-[12px] border-white dark:border-[#202024] bg-[#222] dark:bg-black arch-frame overflow-hidden shadow-2xl">
-                    {/* Glowing light beam from inside the open room */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-100/90 via-white to-amber-200/80 dark:from-amber-200/80 dark:via-white dark:to-amber-100/60 shadow-[0_0_60px_rgba(255,240,200,0.8)]" />
+                  <div className="absolute inset-0 rounded-t-full border-[12px] border-white dark:border-[#202024] bg-[#121214] arch-frame overflow-hidden shadow-2xl">
+                    {/* Glowing Light Beam & Illuminated Project Room Inside */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-100/90 via-white to-amber-200/80 dark:from-[#25252B] dark:via-[#1B1B1E] dark:to-black p-5 flex flex-col justify-center items-center text-center shadow-[0_0_60px_rgba(255,240,200,0.6)]">
+                      {/* Project Preview Badge Inside Door */}
+                      <div className="w-14 h-14 rounded-2xl bg-amber-400/25 border border-amber-400/40 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold text-xl mb-3 shadow-md">
+                        {featuredProject?.title?.[0] || '⚡'}
+                      </div>
+                      <h4 className="font-bold text-sm text-[#1C1A18] dark:text-white line-clamp-2 px-2">
+                        {featuredProject?.title}
+                      </h4>
+                      <p className="text-[10px] text-[#5E5A53] dark:text-[#A8A196] line-clamp-2 mt-1.5 px-3">
+                        {featuredProject?.description}
+                      </p>
+                      <span className="mt-4 px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider bg-[#1C1A18] text-white dark:bg-white dark:text-[#121212] shadow-sm flex items-center gap-1.5">
+                        <Sparkles size={10} className="text-amber-400 dark:text-amber-600" />
+                        <span>Ready to explore</span>
+                      </span>
+                    </div>
 
                     {/* Floor shadow */}
-                    <div className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-black/40 to-transparent" />
+                    <div className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
                   </div>
 
                   {/* 3D Door Leaf (Hinged on Left, Swung Inward -105deg) */}
@@ -137,7 +188,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
 
                     {/* Brass Nameplate */}
                     <div className="absolute top-[28%] inset-x-6 flex justify-center">
-                      <div className="brass-plate px-4 py-2.5 rounded-sm flex items-center justify-center relative w-full max-w-[170px] shadow-md border border-[#F5E0A3]">
+                      <div className="brass-plate px-4 py-2.5 rounded-xs flex items-center justify-center relative w-full max-w-[170px] shadow-md border border-[#F5E0A3]">
                         {/* 4 Screws */}
                         <span className="w-1.5 h-1.5 rounded-full brass-screw absolute top-1 left-1" />
                         <span className="w-1.5 h-1.5 rounded-full brass-screw absolute top-1 right-1" />
@@ -152,7 +203,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
                     {/* Brass Lever Handle & Keyhole */}
                     <div className="absolute top-[52%] right-6 flex flex-col items-center gap-1.5">
                       <div className="w-12 h-3.5 rounded-full brass-handle shadow-lg transform -rotate-3" />
-                      <div className="w-2.5 h-4 bg-[#151006] rounded-t-full rounded-b-sm border border-amber-600/40" />
+                      <div className="w-2.5 h-4 bg-[#151006] rounded-t-full rounded-b-xs border border-amber-600/40" />
                     </div>
                   </motion.div>
 
@@ -162,7 +213,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                     onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
-                    className="absolute top-[38%] left-1/2 -translate-x-1/2 z-30 px-5 py-2.5 rounded-full bg-[#1C1A18] hover:bg-black dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#121212] text-xs font-semibold uppercase tracking-wider shadow-2xl transition-transform active:scale-95 flex items-center gap-2 group"
+                    className="absolute top-[38%] left-1/2 -translate-x-1/2 z-30 px-5 py-2.5 rounded-full bg-[#1C1A18] hover:bg-black dark:bg-white dark:hover:bg-slate-100 text-white dark:text-[#121212] text-xs font-semibold uppercase tracking-wider shadow-2xl transition-transform active:scale-95 flex items-center gap-2 group whitespace-nowrap"
                   >
                     <span>Click to enter</span>
                     <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
@@ -170,7 +221,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
                 </div>
               </div>
 
-              {/* Right: Checklist & Deliverables (Matching Screenshot 4) */}
+              {/* Right: Checklist & Featured Projects in this Discipline */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -184,22 +235,58 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
                 <h3 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] font-sans">
                   {activeCategory.title}
                 </h3>
-                <p className="text-[11px] font-mono tracking-widest text-[#736D64] dark:text-[#9A9388] mt-1 mb-8 uppercase">
+                <p className="text-[11px] font-mono tracking-widest text-[#736D64] dark:text-[#9A9388] mt-1 mb-6 uppercase">
                   {activeCategory.subtitle}
                 </p>
 
-                {/* Checklist */}
-                <div className="space-y-3.5 w-full mb-8">
+                {/* ── Featured Project Card in this Discipline ── */}
+                {featuredProject && (
+                  <div
+                    onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
+                    className="w-full bg-white dark:bg-[#1A1A1E] border border-[#DDD6C9] dark:border-white/10 rounded-2xl p-5 mb-6 shadow-sm hover:border-amber-500/50 cursor-pointer transition-all group"
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                        • Featured Project in this Door
+                      </span>
+                      <span className="text-[10px] font-mono text-[#736D64] dark:text-[#88837A] group-hover:text-amber-500 transition-colors">
+                        View Details &rarr;
+                      </span>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-[#1C1A18] dark:text-[#FAF7F2] font-sans group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                      {featuredProject.title}
+                    </h4>
+                    <p className="text-xs text-[#5E5A53] dark:text-[#A8A196] line-clamp-2 mt-1 leading-relaxed">
+                      {featuredProject.description}
+                    </p>
+
+                    {/* Stack Badges */}
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {getStackArray(featuredProject.stack).slice(0, 4).map((tech, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-0.5 rounded-sm bg-[#FAF7F2] dark:bg-white/5 border border-[#EDE7DD] dark:border-white/10 text-[9px] font-mono text-[#5E5A53] dark:text-[#A8A196]"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Discipline Checklist */}
+                <div className="space-y-2.5 w-full mb-8">
                   {activeCategory.bullets.map((b, i) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + i * 0.08 }}
-                      className="flex items-center gap-3 text-sm sm:text-base font-medium text-[#2C2926] dark:text-[#E8E2D7]"
+                      transition={{ delay: 0.2 + i * 0.06 }}
+                      className="flex items-center gap-3 text-xs sm:text-sm font-medium text-[#2C2926] dark:text-[#E8E2D7]"
                     >
-                      <div className="w-5 h-5 rounded-full bg-[#3D3A35] dark:bg-white/10 flex items-center justify-center text-white dark:text-amber-400 flex-shrink-0">
-                        <Check size={12} strokeWidth={3} />
+                      <div className="w-4 h-4 rounded-full bg-[#3D3A35] dark:bg-white/10 flex items-center justify-center text-white dark:text-amber-400 flex-shrink-0">
+                        <Check size={10} strokeWidth={3} />
                       </div>
                       <span>{b}</span>
                     </motion.div>
@@ -211,7 +298,7 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
                     onClick={() => onEnterCategory && onEnterCategory(activeCategory.id)}
                     className="bg-[#1C1A18] hover:bg-black dark:bg-[#FAF7F2] dark:hover:bg-white text-white dark:text-[#121212] px-7 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-md active:scale-95 inline-flex items-center gap-2 group"
                   >
-                    <span>View {activeCategory.title} Projects</span>
+                    <span>Open {activeCategory.title} Projects</span>
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </button>
 
@@ -286,4 +373,3 @@ export default function DoorsSection({ onEnterCategory, selectedCategoryId = nul
     </section>
   );
 }
-
