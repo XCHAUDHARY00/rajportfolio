@@ -1,20 +1,56 @@
 [
   {
-    "id": "ee3d8378-32b6-4ab0-a9a1-d77359ef2f1b",
-    "letter_url": null,
-    "logo_url": null,
-    "created_at": "2026-11-02T12:24:50.587316",
-    "company": "Tech Corp",
-    "role": "Backend Intern",
+    "id": "exp-colleen-001",
+    "company": "Colleen",
+    "role": "Full Stack Developer Intern",
     "type": "Internship",
-    "start_date": "2025-06-01",
-    "end_date": "2025-08-31",
-    "currently_working": false,
-    "location": "Noida, India",
-    "description": "Engineered high-performance microservices and API gateways.",
+    "location": "Remote",
+    "start_date": "2026-09",
+    "end_date": null,
+    "currently_working": true,
+    "description": "Engineering full-stack web features and microservices in an agile remote team.",
     "responsibilities": [
-      "Built REST endpoints",
-      "Optimized SQL queries"
-    ]
+      "Engineering full-stack web features, resilient microservices, and robust backend API endpoints.",
+      "Building performant, responsive client interfaces and integrating state synchronization pipelines.",
+      "Collaborating remotely on architecture, code quality, and production feature delivery."
+    ],
+    "technologies": [
+      "Python",
+      "FastAPI",
+      "React",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "REST APIs"
+    ],
+    "logo_url": null,
+    "letter_url": null,
+    "created_at": "2026-11-03T19:48:35.452316"
+  },
+  {
+    "id": "exp-cognifyz-002",
+    "company": "Cognifyz Technologies",
+    "role": "Frontend Developer Intern",
+    "type": "Internship",
+    "location": "Remote",
+    "start_date": "2025-06",
+    "end_date": "2025-07",
+    "currently_working": false,
+    "description": "2-month remote frontend internship mastering React.js, modern JavaScript (ES6+), and Tailwind CSS.",
+    "responsibilities": [
+      "Developed responsive and modern component-driven user interfaces using React.js and Tailwind CSS.",
+      "Engineered reusable JavaScript (ES6+) components, ensuring fast render cycles and cross-browser accessibility.",
+      "Collaborated remotely with developers on UI/UX reviews and client-side state management."
+    ],
+    "technologies": [
+      "React.js",
+      "JavaScript (ES6+)",
+      "Tailwind CSS",
+      "HTML5",
+      "CSS3",
+      "Git"
+    ],
+    "logo_url": null,
+    "letter_url": null,
+    "created_at": "2026-11-03T19:48:35.453232"
   }
 ]

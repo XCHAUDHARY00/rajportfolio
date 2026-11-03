@@ -82,18 +82,25 @@ export default function StoryTimeline({
         'Built strong foundational mathematics, science, and analytical problem-solving skills.',
       ],
     },
-    ...(experience || []).map((exp) => ({
-      year: exp.start_date ? exp.start_date.substring(0, 4) : '2025',
-      period: `${exp.start_date || '2025'} – ${exp.currently_working ? 'PRESENT' : exp.end_date || '2025'}`,
-      role: exp.role || 'Software Engineer',
-      org: exp.company || 'Tech Organization',
-      location: exp.location || 'Remote',
-      type: exp.type || 'Internship',
-      icon: Briefcase,
-      bullets: exp.responsibilities || (exp.description ? [exp.description] : []),
-      logo_url: exp.logo_url,
-      letter_url: exp.letter_url,
-    })),
+    ...(experience || [])
+      .filter((exp) => {
+        const c = (exp.company || '').toLowerCase();
+        const r = (exp.role || '').toLowerCase();
+        if (c.includes('tech corp') || r.includes('backend intern')) return false;
+        return true;
+      })
+      .map((exp) => ({
+        year: exp.start_date ? exp.start_date.substring(0, 4) : '2025',
+        period: `${exp.start_date || '2025'} – ${exp.currently_working ? 'PRESENT' : exp.end_date || '2025'}`,
+        role: exp.role || 'Software Engineer',
+        org: exp.company || 'Tech Organization',
+        location: exp.location || 'Remote',
+        type: exp.type || 'Internship',
+        icon: Briefcase,
+        bullets: exp.responsibilities || (exp.description ? [exp.description] : []),
+        logo_url: exp.logo_url,
+        letter_url: exp.letter_url,
+      })),
   ];
 
   // Filter unique milestones
@@ -167,7 +174,7 @@ export default function StoryTimeline({
     <section
       id="story"
       ref={sectionRef}
-      className="relative py-24 sm:py-36 px-4 sm:px-8 bg-[#EFECE6] dark:bg-[#161618] text-[#1C1A18] dark:text-[#EFECE6] overflow-hidden transition-colors"
+      className="relative py-24 sm:py-36 px-4 sm:px-8 bg-[#EFECE6] dark:bg-[#161618] text-[#1C1A18] dark:text-[#EFECE6] transition-colors"
     >
       {/* ── Soft Pastel Gradient Ambient Orbs (Matching Screenshot In Light Mode) ── */}
       <div className="absolute top-0 -left-20 w-[450px] h-[450px] bg-[#C6E6BF]/55 dark:bg-emerald-950/20 rounded-full blur-[100px] pointer-events-none" />
@@ -185,8 +192,8 @@ export default function StoryTimeline({
 
       <div className="max-w-6xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* ── LEFT COLUMN: Skeuomorphic Time-Travel Dial (Sticky Desktop) ── */}
-          <div className="lg:col-span-5 flex flex-col items-start lg:sticky lg:top-28">
+          {/* ── LEFT COLUMN: Skeuomorphic Time-Travel Dial (Sticky Desktop - Stays with you all the way) ── */}
+          <div className="lg:col-span-5 flex flex-col items-start lg:sticky lg:top-28 lg:self-start z-20">
             {/* Tag */}
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest uppercase text-[#736D64] dark:text-amber-400 mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#1C1A18] dark:bg-amber-400 animate-pulse" />
@@ -198,51 +205,52 @@ export default function StoryTimeline({
               Let&apos;s go back in time.
             </h2>
 
-            {/* Skeuomorphic Radar / Compass Dial with Rotating Graduation Ticks */}
-            <div className="relative my-8 w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center select-none">
-              {/* Outer Orbit Ring */}
-              <div className="absolute inset-0 rounded-full border border-black/10 dark:border-white/10" />
-
-              {/* Middle Rotating Dial with Graduation Tick Marks */}
-              <div
-                className="absolute inset-3 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center transition-transform duration-700 ease-out"
-                style={{
-                  transform: `rotate(${activeYearIndex * 45}deg)`,
-                }}
+            {/* Rotating Dotted Circles & Skeuomorphic Compass Dial (Matching Reference Screenshot 2) */}
+            <div className="relative my-8 sm:my-10 w-72 h-72 sm:w-84 sm:h-84 lg:w-96 lg:h-96 flex items-center justify-center select-none">
+              {/* Rotating Dotted & Dashed Concentric Orbit Rings & Radial Graduation Ticks */}
+              <motion.div
+                animate={{ rotate: activeYearIndex * 45 }}
+                transition={{ type: 'spring', stiffness: 90, damping: 18 }}
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
               >
+                {/* Outer Dashed Orbit Ring */}
+                <div className="absolute w-[280px] h-[280px] sm:w-[330px] sm:h-[330px] lg:w-[370px] lg:h-[370px] rounded-full border border-dashed border-black/20 dark:border-white/20" />
+
+                {/* Middle Dotted Orbit Ring */}
+                <div className="absolute w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] lg:w-[290px] lg:h-[290px] rounded-full border border-dotted border-black/20 dark:border-white/25" />
+
+                {/* Inner Dashed Ring */}
+                <div className="absolute w-[160px] h-[160px] sm:w-[190px] sm:h-[190px] lg:w-[210px] lg:h-[210px] rounded-full border border-dashed border-black/15 dark:border-white/15" />
+
+                {/* Radial Graduation Tick Marks (like in image 2) */}
                 {dialTicks.map((_, i) => (
                   <div
                     key={i}
                     className="absolute w-full h-[1px] pointer-events-none"
-                    style={{
-                      transform: `rotate(${i * 10}deg)`,
-                    }}
+                    style={{ transform: `rotate(${i * 10}deg)` }}
                   >
                     <div
                       className={`h-[1px] ${
                         i % 3 === 0
-                          ? 'w-[10px] bg-black/35 dark:bg-white/40'
-                          : 'w-[5px] bg-black/15 dark:bg-white/20'
+                          ? 'w-[14px] bg-black/40 dark:bg-white/45'
+                          : 'w-[6px] bg-black/20 dark:bg-white/20'
                       }`}
                     />
                   </div>
                 ))}
-              </div>
+              </motion.div>
 
-              {/* Inner Dashed Ring */}
-              <div className="absolute inset-10 rounded-full border border-dashed border-black/15 dark:border-white/20" />
-
-              {/* Central Year & Period Display (Changes automatically on scroll) */}
-              <div className="text-center z-10 px-4">
+              {/* Central Big Year & Period Display (Changes dynamically on scroll) */}
+              <div className="text-center z-10 px-4 flex flex-col items-center">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentEvent.year}
-                    initial={{ opacity: 0, y: -10, scale: 0.92 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.92 }}
+                    initial={{ opacity: 0, scale: 0.88, y: -12 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.88, y: 12 }}
                     transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <span className="text-5xl sm:text-6xl lg:text-[64px] font-black text-[#1C1A18] dark:text-white font-sans tracking-tight block leading-none">
+                    <span className="text-7xl sm:text-8xl lg:text-[100px] font-black text-[#1C1A18] dark:text-white font-sans tracking-tight block leading-none select-none drop-shadow-xs">
                       {currentEvent.year}
                     </span>
                   </motion.div>
@@ -255,27 +263,27 @@ export default function StoryTimeline({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.22 }}
-                    className="text-[11px] font-mono tracking-widest uppercase text-[#736D64] dark:text-amber-400 mt-2 block font-bold"
+                    className="text-xs sm:text-sm font-mono tracking-widest uppercase text-[#5E5A53] dark:text-[#A8A196] mt-3 block font-bold"
                   >
                     {currentEvent.period}
                   </motion.span>
                 </AnimatePresence>
-              </div>
-            </div>
 
-            {/* Progress indicator pill with Clock Icon (Matching Screenshot 1) */}
-            <div className="flex items-center gap-3 text-xs font-mono text-[#736D64] dark:text-white/60">
-              <Clock size={13} className="text-[#1C1A18] dark:text-amber-400" />
-              <span className="font-bold text-[#1C1A18] dark:text-amber-400">
-                {stepNumber} / {totalSteps}
-              </span>
-              <div className="w-24 h-1.5 rounded-full bg-black/10 dark:bg-white/15 overflow-hidden">
-                <div
-                  className="h-full bg-[#1C1A18] dark:bg-amber-400 rounded-full transition-all duration-400"
-                  style={{
-                    width: `${((activeYearIndex + 1) / uniqueEvents.length) * 100}%`,
-                  }}
-                />
+                {/* Counter & Progress Line (Matching Screenshot 2: ⏱ 03 / 05 ────) */}
+                <div className="flex items-center gap-3 text-xs font-mono text-[#736D64] dark:text-white/60 mt-4">
+                  <Clock size={13} className="text-[#1C1A18] dark:text-amber-400 flex-shrink-0" />
+                  <span className="font-bold text-[#1C1A18] dark:text-amber-400">
+                    {stepNumber} / {totalSteps}
+                  </span>
+                  <div className="w-20 sm:w-28 h-1 rounded-full bg-black/15 dark:bg-white/15 overflow-hidden">
+                    <div
+                      className="h-full bg-[#1C1A18] dark:bg-amber-400 rounded-full transition-all duration-400"
+                      style={{
+                        width: `${((activeYearIndex + 1) / uniqueEvents.length) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
