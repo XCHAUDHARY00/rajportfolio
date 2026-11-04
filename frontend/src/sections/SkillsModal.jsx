@@ -101,7 +101,7 @@ export default function SkillsModal({ isOpen, onClose, skills = [] }) {
       <div className="absolute top-0 -left-20 w-[450px] h-[450px] bg-[#C6E6BF]/40 dark:bg-emerald-950/20 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 -right-20 w-[500px] h-[500px] bg-[#D7CCEB]/40 dark:bg-purple-950/20 rounded-full blur-[110px] pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-20 sm:py-24 relative z-10 min-h-screen flex flex-col justify-between">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-24 sm:pt-28 pb-16 relative z-10 min-h-screen flex flex-col justify-between">
         {/* Header */}
         <div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-black/[0.08] dark:border-white/[0.08] mb-8">

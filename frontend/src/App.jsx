@@ -15,8 +15,15 @@ export default function App() {
         }} />
         <Routes>
           <Route path="/" element={<Portfolio />} />
+          <Route path="/skills" element={<Portfolio />} />
+          <Route path="/certificates" element={<Portfolio />} />
+          <Route path="/projects" element={<Portfolio />} />
+          <Route path="/projects/:categoryId" element={<Portfolio />} />
+          <Route path="/category/:categoryId" element={<Portfolio />} />
+          <Route path="/ability" element={<Portfolio />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path="*" element={<Portfolio />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

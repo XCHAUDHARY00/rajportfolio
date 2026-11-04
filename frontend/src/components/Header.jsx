@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, Award, Sparkles, ArrowLeft } from 'lucide-react';
 import LiveClock from './LiveClock';
 import PullCord from './PullCord';
@@ -13,10 +14,20 @@ export default function Header({
   onBackToDoors = null,
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const scrollTo = (id) => {
-    const el = document.querySelector(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const el = document.querySelector(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const el = document.querySelector(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleRouteSelect = (route) => {
@@ -33,7 +44,7 @@ export default function Header({
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-8 py-3 flex items-center justify-between transition-colors backdrop-blur-md bg-[#EFECE6]/85 dark:bg-[#121212]/85 border-b border-black/[0.06] dark:border-white/[0.08]">
+      <header className="fixed top-0 left-0 right-0 z-[60] px-3 sm:px-8 py-3 flex items-center justify-between transition-colors backdrop-blur-md bg-[#EFECE6]/85 dark:bg-[#121212]/85 border-b border-black/[0.06] dark:border-white/[0.08]">
         {/* Left: When inside door category, show clean "← Back to the doors" pill; otherwise Menu pill + Monogram [RC] */}
         {isInsideDoorCategory ? (
           <div className="flex items-center gap-3">

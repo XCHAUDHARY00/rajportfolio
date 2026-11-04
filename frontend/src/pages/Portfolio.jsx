@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
 import Hero from '../sections/Hero';
@@ -28,17 +29,21 @@ export default function Portfolio() {
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 3D Ability Card Modal State
-  const [isAbilityCardOpen, setIsAbilityCardOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Dedicated 3D Certificates & Achievements Modal State
-  const [isCertificatesOpen, setIsCertificatesOpen] = useState(false);
+  // ── URL-Synced Dynamic Route States ──
+  // Keeps browser history intact so browser back button closes modal without leaving the website
+  const isSkillsOpen = location.pathname === '/skills';
+  const isCertificatesOpen = location.pathname === '/certificates';
+  const isAbilityCardOpen = location.pathname === '/ability';
 
-  // Dedicated Skills & Technologies Modal State
-  const [isSkillsOpen, setIsSkillsOpen] = useState(false);
-
-  // Door view mode: null = 4 Doors overview, 'backend' | 'systems' | 'cloud' | 'fullstack' = Inside Door Project View
-  const [insideDoorCategory, setInsideDoorCategory] = useState(null);
+  // Extract category from URL: /projects/:categoryId or /category/:categoryId
+  const insideDoorCategory = location.pathname.startsWith('/projects/')
+    ? location.pathname.replace('/projects/', '').trim()
+    : location.pathname.startsWith('/category/')
+    ? location.pathname.replace('/category/', '').trim()
+    : null;
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -65,7 +70,7 @@ export default function Portfolio() {
   }, []);
 
   const handleEnterCategory = (categoryId) => {
-    setInsideDoorCategory(categoryId);
+    navigate(`/projects/${categoryId}`);
     setTimeout(() => {
       const doorsEl = document.querySelector('#doors') || document.querySelector('#category-projects');
       if (doorsEl) {
@@ -75,7 +80,7 @@ export default function Portfolio() {
   };
 
   const handleBackToDoors = () => {
-    setInsideDoorCategory(null);
+    navigate('/');
     setTimeout(() => {
       const doorsEl = document.querySelector('#doors');
       if (doorsEl) {
@@ -84,14 +89,23 @@ export default function Portfolio() {
     }, 60);
   };
 
+  const handleOpenSkills = () => navigate('/skills');
+  const handleCloseSkills = () => navigate('/');
+
+  const handleOpenCertificates = () => navigate('/certificates');
+  const handleCloseCertificates = () => navigate('/');
+
+  const handleOpenAbilityCard = () => navigate('/ability');
+  const handleCloseAbilityCard = () => navigate('/');
+
   return (
     <div className="min-h-screen bg-[#EFECE6] dark:bg-[#121212] text-[#1C1A18] dark:text-[#FAF7F2] transition-colors selection:bg-[#DDA74F] selection:text-[#121212]">
       {/* ── Fixed Header with Live Clock & Pull-Cord Light Switch ── */}
       <Header
         profile={profile}
         onSelectDoorCategory={handleEnterCategory}
-        onOpenCertificates={() => setIsCertificatesOpen(true)}
-        onOpenSkills={() => setIsSkillsOpen(true)}
+        onOpenCertificates={handleOpenCertificates}
+        onOpenSkills={handleOpenSkills}
         isInsideDoorCategory={Boolean(insideDoorCategory)}
         onBackToDoors={handleBackToDoors}
       />
@@ -105,7 +119,7 @@ export default function Portfolio() {
           {/* ── 1. Hero Section with 3D Spiral Notebook & Portrait ── */}
           <Hero
             profile={profile}
-            onOpenAbilityCard={() => setIsAbilityCardOpen(true)}
+            onOpenAbilityCard={handleOpenAbilityCard}
           />
 
           {/* ── 2. "Magic happens behind the doors" ── */}
@@ -113,7 +127,7 @@ export default function Portfolio() {
             <ProjectCategoryView
               projects={projects}
               activeCategoryId={insideDoorCategory}
-              onSelectCategory={(id) => setInsideDoorCategory(id)}
+              onSelectCategory={(id) => navigate(`/projects/${id}`)}
               onBackToDoors={handleBackToDoors}
             />
           ) : (
@@ -138,14 +152,14 @@ export default function Portfolio() {
           {/* ── 3D Holographic Ability Card Modal ── */}
           <AbilityCardModal
             isOpen={isAbilityCardOpen}
-            onClose={() => setIsAbilityCardOpen(false)}
+            onClose={handleCloseAbilityCard}
             profile={profile}
           />
 
           {/* ── Dedicated 3D Certificates & Achievements Modal ── */}
           <CertificatesModal
             isOpen={isCertificatesOpen}
-            onClose={() => setIsCertificatesOpen(false)}
+            onClose={handleCloseCertificates}
             certifications={certifications}
             achievements={achievements}
             profile={profile || {}}
@@ -154,7 +168,7 @@ export default function Portfolio() {
           {/* ── Dedicated Skills & Technologies Modal ── */}
           <SkillsModal
             isOpen={isSkillsOpen}
-            onClose={() => setIsSkillsOpen(false)}
+            onClose={handleCloseSkills}
             skills={skills}
           />
         </main>

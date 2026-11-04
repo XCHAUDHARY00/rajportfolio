@@ -30,7 +30,7 @@ export default function MenuDrawer({ isOpen, onClose, onSelectRoute, profile }) 
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: '-100%' }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-50 bg-[#121212] text-[#EFECE6] flex flex-col justify-between p-6 sm:p-12 overflow-y-auto"
+          className="fixed inset-0 z-[70] bg-[#121212] text-[#EFECE6] flex flex-col justify-between p-6 sm:p-12 overflow-y-auto"
         >
           {/* Top Bar */}
           <div className="flex items-center justify-between border-b border-white/10 pb-6">
