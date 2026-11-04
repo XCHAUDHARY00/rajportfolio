@@ -11,7 +11,6 @@ import {
   Smartphone,
   CheckCircle2,
   Search,
-  X,
   ArrowLeft,
 } from 'lucide-react';
 
@@ -36,7 +35,7 @@ const DEFAULT_SKILLS = [
   { name: 'JWT & HMAC Authentication', category: 'Backend', level: 'Advanced', desc: 'Secure stateless token authentication' },
   
   // iOS & Mobile
-  { name: 'iOS Development', category: 'Mobile', level: 'Proficient', desc: 'Native Apple platform engineering & HIG' },
+  { name: 'iOS Development', category: 'Mobile', level: 'Proficient', desc: 'Native Apple platform engineering & Human Interface Guidelines' },
   { name: 'Swift', category: 'Mobile', level: 'Proficient', desc: 'Modern type-safe iOS programming' },
   { name: 'Mobile API Integration', category: 'Mobile', level: 'Advanced', desc: 'Optimized network payloads & offline sync' },
 
@@ -104,10 +103,15 @@ export default function SkillsModal({ isOpen, onClose, skills = [] }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-24 sm:pt-28 pb-16 relative z-10 min-h-screen flex flex-col justify-between">
         {/* Header */}
         <div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-black/[0.08] dark:border-white/[0.08] mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-black/[0.08] dark:border-white/[0.08] mb-8"
+          >
             <div>
               <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-1.5">
-                <Sparkles size={13} />
+                <Sparkles size={13} className="animate-pulse" />
                 <span>TECHNICAL ARSENAL &amp; ARCHITECTURES</span>
               </div>
               <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1C1A18] dark:text-white font-sans">
@@ -126,12 +130,12 @@ export default function SkillsModal({ isOpen, onClose, skills = [] }) {
                 placeholder="Search skills..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/70 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-full pl-9 pr-4 py-2 text-xs font-sans text-[#1C1A18] dark:text-white placeholder-[#8C877D] outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-white/70 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-full pl-9 pr-4 py-2 text-xs font-sans text-[#1C1A18] dark:text-white placeholder-[#8C877D] outline-none focus:border-amber-500 transition-colors shadow-2xs"
               />
             </div>
-          </div>
+          </motion.div>
 
-          {/* Category Tabs */}
+          {/* Animated Category Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-none mb-8">
             {categories.map((cat) => {
               const Icon = CATEGORY_META[cat]?.icon || Wrench;
@@ -140,37 +144,59 @@ export default function SkillsModal({ isOpen, onClose, skills = [] }) {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`relative px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors flex items-center gap-1.5 whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#1C1A18] dark:bg-white text-white dark:text-[#121212] shadow-sm'
+                      ? 'text-white dark:text-[#121212]'
                       : 'bg-white/50 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[#736D64] dark:text-[#9A9388] hover:text-[#1C1A18] dark:hover:text-white'
                   }`}
                 >
-                  <Icon size={12} />
-                  <span>{cat}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeCategoryPill"
+                      className="absolute inset-0 rounded-full bg-[#1C1A18] dark:bg-white shadow-sm"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <Icon size={12} />
+                    <span>{cat}</span>
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Skills Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 pb-16">
-            <AnimatePresence>
+          {/* Skills Cards Grid with Staggered Motion */}
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 pb-16"
+          >
+            <AnimatePresence mode="popLayout">
               {filtered.map((skill, idx) => (
                 <motion.div
+                  layout
                   key={skill.name}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2, delay: idx * 0.02 }}
-                  className="rounded-2xl p-5 bg-[#FCFAF5] dark:bg-[#1A1A1E] border border-black/[0.08] dark:border-white/[0.08] hover:border-amber-500/40 transition-all shadow-xs group flex flex-col justify-between"
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{
+                    duration: 0.35,
+                    delay: Math.min(idx * 0.03, 0.3),
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  whileHover={{
+                    y: -6,
+                    scale: 1.02,
+                    boxShadow: '0 16px 32px -8px rgba(0,0,0,0.12)',
+                  }}
+                  className="rounded-2xl p-5 bg-[#FCFAF5] dark:bg-[#1A1A1E] border border-black/[0.08] dark:border-white/[0.08] hover:border-amber-500/50 dark:hover:border-amber-400/50 transition-colors shadow-xs group flex flex-col justify-between cursor-default"
                 >
                   <div>
                     <div className="flex items-start justify-between gap-3 mb-2.5">
                       <h3 className="font-sans font-bold text-base text-[#1C1A18] dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                         {skill.name}
                       </h3>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20 font-semibold whitespace-nowrap">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20 font-semibold whitespace-nowrap group-hover:bg-amber-500/20 transition-colors">
                         {skill.level}
                       </span>
                     </div>
@@ -188,7 +214,7 @@ export default function SkillsModal({ isOpen, onClose, skills = [] }) {
                 </motion.div>
               ))}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </div>
 
         {/* Floating Back Button */}
@@ -207,4 +233,3 @@ export default function SkillsModal({ isOpen, onClose, skills = [] }) {
     </div>
   );
 }
-

@@ -39,7 +39,7 @@ _DEFAULT_PROFILE = {
     "hero_status": "Open to SDE & Backend roles",
     "hero_headline": "I build\nthoughtful backend\nsystems, from\nREST APIs to\ncloud scale.",
     "hero_subtext": "Passionate about high-throughput Python backends, distributed systems, and production cloud infrastructure. Third-year CSIT at AKGEC (CGPA 7.86).",
-    "hero_roles_list": "Backend Developer, iOS Developer, Python & Django Specialist, REST API Architect, Distributed Systems Engineer, PostgreSQL & DynamoDB Specialist",
+    "hero_roles_list": "Backend Developer, Web Developer, Full Stack Developer, iOS Developer, UI/UX Designer",
     "doors_config": "backend,ios,web,systems",
     # About 4 Stats Cards
     "stat1_value": "7.86",

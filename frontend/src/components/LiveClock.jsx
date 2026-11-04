@@ -28,7 +28,7 @@ export default function LiveClock() {
   }, []);
 
   return (
-    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-sans font-medium transition-colors border bg-white/40 dark:bg-white/5 border-black/10 dark:border-white/10 text-[#403B35] dark:text-[#C5BFB5] backdrop-blur-sm select-none">
+    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-sans font-medium transition-colors border bg-white/50 dark:bg-white/5 border-black/10 dark:border-white/10 text-[#403B35] dark:text-[#C5BFB5] backdrop-blur-sm select-none shadow-2xs">
       <span className="hidden sm:inline opacity-75">Local time</span>
       <span className="font-semibold text-[#1C1A18] dark:text-[#FAF7F2] font-mono tracking-tight text-[11px] sm:text-xs">
         {timeStr}

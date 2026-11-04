@@ -4,15 +4,20 @@ import SpiralNotebook from '../components/SpiralNotebook';
 
 const HERO_ROLES = [
   'Backend Developer',
+  'Web Developer',
+  'Full Stack Developer',
   'iOS Developer',
-  'Python & Django Specialist',
-  'REST API Architect',
-  'Distributed Systems Engineer',
-  'PostgreSQL & DynamoDB Specialist',
+  'UI/UX Designer',
 ];
 
 export default function Hero({ profile, onOpenAbilityCard }) {
   const photoUrl = profile?.photo_url || profile?.profile_photo_url;
+
+  const rolesList = (profile?.hero_roles_list || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const activeRoles = rolesList.length > 0 ? rolesList : HERO_ROLES;
 
   const scrollTo = (id) => {
     const el = document.querySelector(id);
@@ -21,8 +26,7 @@ export default function Hero({ profile, onOpenAbilityCard }) {
 
   const defaultSubtext =
     profile?.hero_subtext ||
-    `Passionate about high-throughput Python backends, distributed systems, and production cloud infrastructure. Third-year CSIT at AKGEC (CGPA ${
-      profile?.cgpa ? profile.cgpa.toFixed(2) : '7.86'
+    `Passionate about high-throughput Python backends, distributed systems, and production cloud infrastructure. Third-year CSIT at AKGEC (CGPA ${profile?.cgpa ? profile.cgpa.toFixed(2) : '7.86'
     }).`;
 
   return (
@@ -58,7 +62,7 @@ export default function Hero({ profile, onOpenAbilityCard }) {
 
           {/* ── 3D Spiral-Ring Notebook Widget with Previous Roles ── */}
           <div className="my-3 sm:my-4 w-full">
-            <SpiralNotebook profile={profile} roles={HERO_ROLES} />
+            <SpiralNotebook profile={profile} roles={activeRoles} />
           </div>
 
           {/* Subtext One-Liner from Previous Version */}
@@ -92,7 +96,7 @@ export default function Hero({ profile, onOpenAbilityCard }) {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 flex flex-col items-center lg:items-end justify-center relative mt-6 lg:mt-0"
         >
           <div className="relative w-full max-w-[290px] sm:max-w-[350px] aspect-[3/4] flex items-center justify-center">

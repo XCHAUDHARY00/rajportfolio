@@ -6,6 +6,8 @@ import Hero from '../sections/Hero';
 import AbilityCardModal from '../components/AbilityCardModal';
 import CertificatesModal from '../sections/CertificatesModal';
 import SkillsModal from '../sections/SkillsModal';
+import Skills from '../sections/Skills';
+import Certifications from '../sections/Certifications';
 import DoorsSection from '../sections/DoorsSection';
 import ProjectCategoryView from '../sections/ProjectCategoryView';
 import StoryTimeline from '../sections/StoryTimeline';
@@ -89,10 +91,26 @@ export default function Portfolio() {
     }, 60);
   };
 
-  const handleOpenSkills = () => navigate('/skills');
+  const handleOpenSkills = () => {
+    const el = document.querySelector('#skills');
+    if (el && !insideDoorCategory) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/skills');
+    }
+  };
+  const handleOpenSkillsModal = () => navigate('/skills');
   const handleCloseSkills = () => navigate('/');
 
-  const handleOpenCertificates = () => navigate('/certificates');
+  const handleOpenCertificates = () => {
+    const el = document.querySelector('#certificates');
+    if (el && !insideDoorCategory) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/certificates');
+    }
+  };
+  const handleOpenCertificatesModal = () => navigate('/certificates');
   const handleCloseCertificates = () => navigate('/');
 
   const handleOpenAbilityCard = () => navigate('/ability');
@@ -131,14 +149,28 @@ export default function Portfolio() {
               onBackToDoors={handleBackToDoors}
             />
           ) : (
-            <DoorsSection
-              profile={profile}
-              projects={projects}
-              onEnterCategory={handleEnterCategory}
-            />
+            <>
+              <DoorsSection
+                profile={profile}
+                projects={projects}
+                onEnterCategory={handleEnterCategory}
+              />
+
+              {/* ── 3. Skills Section (Single Page Application Flow) ── */}
+              <Skills
+                skills={skills}
+                onOpenFullSkills={handleOpenSkillsModal}
+              />
+
+              {/* ── 4. Verified Certifications & Credentials Section ── */}
+              <Certifications
+                certifications={certifications}
+                onOpenFullCertificates={handleOpenCertificatesModal}
+              />
+            </>
           )}
 
-          {/* ── 3. "My story / Let's go back in time" (Timeline Dial) ── */}
+          {/* ── 5. "My story / Let's go back in time" (Timeline Dial) ── */}
           <StoryTimeline
             experience={experience}
             certifications={certifications}
@@ -146,7 +178,7 @@ export default function Portfolio() {
             profile={profile || {}}
           />
 
-          {/* ── 4. Bottom Call to Action, Contact Form & Footer ── */}
+          {/* ── 6. Bottom Call to Action, Contact Form & Footer ── */}
           <ContactSection profile={profile} />
 
           {/* ── 3D Holographic Ability Card Modal ── */}

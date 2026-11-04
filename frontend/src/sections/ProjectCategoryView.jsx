@@ -10,6 +10,7 @@ import {
   Cpu,
   Layers,
   Sparkles,
+  ArrowUpRight,
 } from 'lucide-react';
 import { DOOR_CATEGORIES } from './DoorsSection';
 
@@ -22,37 +23,42 @@ const getStackArray = (stack) => {
 };
 
 // ── Realistic Modern Apple Studio Display Mockup Screen ──
-function ModernAppleDisplay({ project, image, onOpenLightbox }) {
+function ModernAppleDisplay({ project, image, onOpenDetail }) {
   const isSkillForge =
     (project.title || '').toLowerCase().includes('skillforge') ||
     (project.title || '').toLowerCase().includes('career');
 
   return (
     <div className="flex flex-col items-center w-full select-none mb-6">
-      {/* Studio Display Bezel Frame */}
-      <div className="w-full aspect-[16/10] max-h-[460px] rounded-2xl bg-[#0D0D10] border-[4px] sm:border-[5px] border-[#222226] shadow-2xl p-1.5 sm:p-2.5 relative overflow-hidden flex flex-col justify-between">
+      {/* Studio Display Bezel Frame - Click anywhere on screen to open full project details */}
+      <div
+        onClick={onOpenDetail}
+        className="w-full aspect-[16/10] max-h-[460px] rounded-2xl bg-[#0D0D10] border-[4px] sm:border-[5px] border-[#222226] shadow-2xl p-1.5 sm:p-2.5 relative overflow-hidden flex flex-col justify-between cursor-pointer group transition-transform duration-300 hover:scale-[1.008]"
+        title="Click screen to view full project information"
+      >
         {/* Subtle Top Camera Dot */}
         <div className="absolute top-1.5 sm:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black border border-white/10 z-20" />
 
         {/* Inner Glass Display */}
         <div className="relative w-full h-full rounded-xl bg-black overflow-hidden flex flex-col justify-between">
           {image ? (
-            <div
-              onClick={onOpenLightbox}
-              className="relative w-full h-full cursor-pointer group"
-            >
+            <div className="relative w-full h-full">
               <img
                 src={image}
                 alt={project.title}
                 className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                <Maximize2 size={24} />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                <div className="px-4 py-2 rounded-full bg-black/85 border border-amber-400/50 text-xs font-semibold tracking-wide flex items-center gap-2 shadow-2xl transform scale-95 group-hover:scale-100 transition-transform text-amber-300">
+                  <Info size={14} className="text-amber-400" />
+                  <span>Click screen to view full details</span>
+                  <Maximize2 size={13} className="text-white/80" />
+                </div>
               </div>
             </div>
           ) : isSkillForge ? (
             /* Sleek Live Production Platform Display (SkillForge AI) */
-            <div className="w-full h-full bg-[#0E1015] text-white p-4 sm:p-6 font-sans flex flex-col justify-between text-left">
+            <div className="w-full h-full bg-[#0E1015] text-white p-4 sm:p-6 font-sans flex flex-col justify-between text-left relative">
               <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-black font-black text-xs">
@@ -85,10 +91,18 @@ function ModernAppleDisplay({ project, image, onOpenLightbox }) {
                 <span>Django 5 &bull; DRF &bull; Gemini API</span>
                 <span className="text-emerald-400">100% Tests Pass</span>
               </div>
+
+              {/* Hover Prompt */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                <div className="px-4 py-2 rounded-full bg-black/85 border border-amber-400/50 text-xs font-semibold tracking-wide flex items-center gap-2 shadow-2xl text-amber-300">
+                  <Info size={14} className="text-amber-400" />
+                  <span>Click to view full project details</span>
+                </div>
+              </div>
             </div>
           ) : (
             /* Sleek Live Production Storefront / Systems Display */
-            <div className="w-full h-full bg-[#0D0F14] text-white p-4 sm:p-6 font-mono text-xs flex flex-col justify-between text-left">
+            <div className="w-full h-full bg-[#0D0F14] text-white p-4 sm:p-6 font-mono text-xs flex flex-col justify-between text-left relative">
               <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -110,6 +124,14 @@ function ModernAppleDisplay({ project, image, onOpenLightbox }) {
               <div className="border-t border-white/10 pt-2 flex items-center justify-between text-[11px] text-white/50">
                 <span className="text-amber-400 font-bold">{getStackArray(project.stack)[0] || 'Python 3.12'}</span>
                 <span className="text-emerald-400">HEALTHY</span>
+              </div>
+
+              {/* Hover Prompt */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                <div className="px-4 py-2 rounded-full bg-black/85 border border-amber-400/50 text-xs font-semibold tracking-wide flex items-center gap-2 shadow-2xl text-amber-300">
+                  <Info size={14} className="text-amber-400" />
+                  <span>Click to view full project details</span>
+                </div>
               </div>
             </div>
           )}
@@ -263,7 +285,7 @@ export default function ProjectCategoryView({
                 <ModernAppleDisplay
                   project={project}
                   image={imgs[0]}
-                  onOpenLightbox={() => setSelectedImageModal(imgs)}
+                  onOpenDetail={() => setDetailProject(project)}
                 />
 
                 {/* 2. Project Meta & Details */}
@@ -320,10 +342,11 @@ export default function ProjectCategoryView({
                     {/* ── "View Full Information" Button as requested ── */}
                     <button
                       onClick={() => setDetailProject(project)}
-                      className="px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-[#FAF7F2] dark:bg-white/5 border border-[#CCC4B4] dark:border-white/15 text-[#1C1A18] dark:text-[#FAF7F2] hover:bg-white dark:hover:bg-white/10 inline-flex items-center gap-2 active:scale-95 shadow-xs"
+                      className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/50 text-[#1C1A18] dark:text-amber-300 inline-flex items-center gap-2 active:scale-95 shadow-sm"
                     >
-                      <Info size={13} className="text-amber-500" />
+                      <Info size={14} className="text-amber-500 dark:text-amber-400" />
                       <span>View Full Information</span>
+                      <ArrowUpRight size={13} className="text-amber-500 dark:text-amber-400" />
                     </button>
                   </div>
                 </div>
