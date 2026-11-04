@@ -6,7 +6,7 @@ const ROUTES = [
   { num: '01', label: 'Home', href: '#hero' },
   { num: '02', label: 'Certificates & Achievements', action: 'certificates' },
   { num: '03', label: 'Skills & Ability Card', action: 'skills' },
-  { num: '04', label: 'Magic Behind the Doors', href: '#doors' },
+  { num: '04', label: 'Projects', href: '#doors' },
   { num: '05', label: 'My Story (Timeline)', href: '#story' },
   { num: '06', label: 'Contact & Hire', href: '#contact' },
 ];

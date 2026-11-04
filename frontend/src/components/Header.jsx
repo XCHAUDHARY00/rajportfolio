@@ -100,7 +100,7 @@ export default function Header({
               onClick={() => scrollTo('#doors')}
               className="hover:text-[#1C1A18] dark:hover:text-white transition-colors"
             >
-              Disciplines
+              Projects
             </button>
 
             <button
