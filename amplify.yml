@@ -4,10 +4,13 @@ frontend:
     preBuild:
       commands:
         - nvm use 20 || nvm install 20 || true
-        - cd frontend && npm install
+        - if [ -d "frontend" ]; then cd frontend; fi
+        - npm install
     build:
       commands:
-        - cd frontend && npm run build
+        - if [ -d "frontend" ]; then cd frontend; fi
+        - npm run build
+        - if [ -d "dist" ] && [ ! -d "frontend/dist" ]; then mkdir -p frontend && cp -r dist frontend/; fi
   artifacts:
     baseDirectory: frontend/dist
     files:

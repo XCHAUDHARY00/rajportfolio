@@ -77,3 +77,4 @@ Capture and upload these 4 screenshots to the hackathon form:
 2. **Screenshot of the 3D Holographic Ability Card**: Showing the tilted holographic card with rainbow sheen.
 3. **Screenshot of AWS Amplify Console**: Showing the deployed app with green checkmark and URL `https://main.d1v8y5n6cymt03.amplifyapp.com/`.
 4. **Screenshot of Amazon DynamoDB / S3 Console**: Showing your active DynamoDB tables (`portfolio_*`) or S3 bucket assets.
+
