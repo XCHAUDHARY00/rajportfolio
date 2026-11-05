@@ -68,7 +68,7 @@ def upload_file(
         dest_path = dest_dir / unique_name
         dest_path.write_bytes(file_bytes)
         # Return local static URL
-        return f"http://localhost:8000/uploads/{folder.strip('/')}/{unique_name}"
+        return f"/uploads/{folder.strip('/')}/{unique_name}"
 
     try:
         _get_client().put_object(
@@ -76,6 +76,7 @@ def upload_file(
             Key=key,
             Body=file_bytes,
             ContentType=content_type,
+            CacheControl="public, max-age=31536000, immutable",
         )
         return _build_public_url(key)
     except (ClientError, BotoCoreError) as e:
@@ -84,7 +85,7 @@ def upload_file(
         dest_dir.mkdir(parents=True, exist_ok=True)
         dest_path = dest_dir / unique_name
         dest_path.write_bytes(file_bytes)
-        return f"http://localhost:8000/uploads/{folder.strip('/')}/{unique_name}"
+        return f"/uploads/{folder.strip('/')}/{unique_name}"
 
 
 def delete_file(key: str) -> None:
@@ -104,7 +105,7 @@ def delete_file(key: str) -> None:
 def generate_presigned_url(key: str, expiry_seconds: int = 3600) -> str:
     """Generate a presigned GET URL for a private S3 object."""
     if not is_aws_configured():
-        return f"http://localhost:8000/uploads/{key}"
+        return f"/uploads/{key}"
 
     try:
         url = _get_client().generate_presigned_url(
@@ -115,7 +116,7 @@ def generate_presigned_url(key: str, expiry_seconds: int = 3600) -> str:
         return url
     except (ClientError, BotoCoreError) as e:
         logger.warning("S3 presigned URL error: %s", e)
-        return f"http://localhost:8000/uploads/{key}"
+        return f"/uploads/{key}"
 
 
 def key_from_url(url: str) -> str | None:

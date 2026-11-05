@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ChevronRight, ArrowDown } from 'lucide-react';
+import { ChevronRight, ArrowDown, Sparkles } from 'lucide-react';
 import SpiralNotebook from '../components/SpiralNotebook';
 
 const HERO_ROLES = [
@@ -103,13 +103,19 @@ export default function Hero({ profile, onOpenAbilityCard }) {
             {/* Outer Oval Ambient Shadow & Subtle Bevel Ring */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/80 via-white/30 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent p-[3px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] pointer-events-none z-10" />
 
-            {/* Inner Colorful Oval Portrait */}
-            <div className="relative w-full h-full overflow-hidden rounded-full border-[5px] sm:border-[6px] border-[#FCFAF6] dark:border-[#222226] bg-[#E8E2D5] dark:bg-[#1E1E22] shadow-inner flex items-center justify-center">
+            {/* Inner Colorful Oval Portrait - Clickable to open Creative Feature */}
+            <div
+              onClick={onOpenAbilityCard}
+              className="relative w-full h-full overflow-hidden rounded-full border-[5px] sm:border-[6px] border-[#FCFAF6] dark:border-[#222226] bg-[#E8E2D5] dark:bg-[#1E1E22] shadow-inner flex items-center justify-center cursor-pointer group"
+              title="Click photo to unlock 3D Holographic Ability Card"
+            >
               {photoUrl ? (
                 <img
                   src={photoUrl}
                   alt={profile?.name || 'Raj Chaudhary'}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  loading="eager"
+                  decoding="async"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-t from-[#D6CFBF] to-[#E8E2D5] dark:from-[#1E1E22] dark:to-[#2B2B30] flex flex-col items-center justify-center p-8 text-center">
@@ -120,20 +126,22 @@ export default function Hero({ profile, onOpenAbilityCard }) {
                     {profile?.name || 'Raj Chaudhary'}
                   </p>
                   <p className="text-xs text-[#736D64] dark:text-[#9A9388] mt-1">
-                    Senior Backend Architect
+                    Full Stack &amp; iOS Engineer
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Floating Pill: "My ability card" */}
+            {/* Floating Pill: Official Hackathon Creative Feature with Visible Hint */}
             <motion.button
               onClick={onOpenAbilityCard}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="absolute -bottom-3 sm:-bottom-4 z-20 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all bg-[#1C1A18] hover:bg-black dark:bg-white dark:hover:bg-[#FAF7F2] text-white dark:text-[#121212] border border-white/20 dark:border-black/20 shadow-2xl backdrop-blur-md flex items-center gap-2 group cursor-pointer"
+              className="absolute -bottom-4 sm:-bottom-5 z-20 px-5 py-2.5 rounded-full text-[11px] sm:text-xs font-bold tracking-wider uppercase transition-all bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white shadow-[0_10px_28px_rgba(245,158,11,0.4)] border border-amber-300/40 backdrop-blur-md flex items-center gap-2 group cursor-pointer"
+              title="Interactive Creative Feature: Tap to reveal 3D Holographic Ability Card"
             >
-              <span>My ability card</span>
+              <Sparkles size={13} className="text-amber-200 animate-spin" />
+              <span>✨ Unlock Ability Card</span>
             </motion.button>
           </div>
         </motion.div>
