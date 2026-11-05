@@ -1,5 +1,6 @@
 import time
-from pydantic import BaseModel, EmailStr
+from typing import Optional
+from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException
 
 from app.services.ses import send_contact_email
@@ -8,13 +9,13 @@ router = APIRouter(prefix="/api/contact", tags=["contact"])
 
 # Simple in-memory rate limiter: tracks (ip → last_sent_timestamp)
 _rate_limit_store: dict[str, float] = {}
-RATE_LIMIT_SECONDS = 60  # one message per minute per "sender"
+RATE_LIMIT_SECONDS = 30  # 30 seconds rate limit per sender
 
 
 class ContactForm(BaseModel):
     name: str
-    email: str  # plain str so we don't need EmailStr at runtime
-    subject: str
+    email: str
+    subject: Optional[str] = "Portfolio Contact Message"
     message: str
 
 
@@ -22,7 +23,7 @@ class ContactForm(BaseModel):
 def send_contact(body: ContactForm):
     """
     Send a contact-form email via AWS SES (public).
-    Basic rate limit: one submission per email address per minute.
+    Basic rate limit: one submission per email address per 30 seconds.
     """
     sender_key = body.email.lower().strip()
     now = time.time()
@@ -35,10 +36,12 @@ def send_contact(body: ContactForm):
             detail=f"Please wait {wait} seconds before sending another message.",
         )
 
+    subj = (body.subject or "").strip() or f"Portfolio inquiry from {body.name.strip()}"
+
     send_contact_email(
         name=body.name.strip(),
         email=sender_key,
-        subject=body.subject.strip(),
+        subject=subj,
         message=body.message.strip(),
     )
 

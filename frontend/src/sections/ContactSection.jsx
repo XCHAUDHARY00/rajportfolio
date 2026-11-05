@@ -23,11 +23,18 @@ export default function ContactSection({ profile }) {
     }
     setLoading(true);
     try {
-      await sendContact(form);
+      await sendContact({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        subject: `Portfolio Inquiry from ${form.name.trim()}`,
+        message: form.message.trim(),
+      });
       toast.success('Message sent successfully! I will reply shortly.');
       setForm({ name: '', email: '', message: '' });
-    } catch {
-      toast.error('Failed to send message. Please email me directly.');
+    } catch (err) {
+      const detail = err.response?.data?.detail;
+      const msg = typeof detail === 'string' ? detail : 'Failed to send message. Please email me directly.';
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
