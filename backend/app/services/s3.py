@@ -62,6 +62,35 @@ def upload_file(
     unique_name = f"{uuid.uuid4().hex}_{filename}"
     key = f"{folder}{unique_name}"
 
+    # Server-side Pillow optimization for raster images (strips bloated EXIF, reduces payload)
+    if content_type.startswith("image/") and "svg" not in content_type:
+        try:
+            import io
+            from PIL import Image
+
+            img = Image.open(io.BytesIO(file_bytes))
+            if img.width > 2000 or img.height > 2000:
+                img.thumbnail((2000, 2000), Image.Resampling.LANCZOS)
+
+            buf = io.BytesIO()
+            fmt = img.format or "JPEG"
+            if fmt in ("JPEG", "JPG"):
+                if img.mode != "RGB":
+                    img = img.convert("RGB")
+                img.save(buf, format="JPEG", quality=85, optimize=True)
+            elif fmt == "PNG":
+                img.save(buf, format="PNG", optimize=True)
+            elif fmt == "WEBP":
+                img.save(buf, format="WEBP", quality=85)
+            else:
+                img.save(buf, format=fmt)
+
+            optimized_bytes = buf.getvalue()
+            if 0 < len(optimized_bytes) < len(file_bytes):
+                file_bytes = optimized_bytes
+        except Exception as opt_err:
+            logger.debug("Pillow image optimization skipped: %s", opt_err)
+
     if not is_aws_configured():
         dest_dir = UPLOADS_DIR / folder.strip("/")
         dest_dir.mkdir(parents=True, exist_ok=True)
