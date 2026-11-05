@@ -63,7 +63,6 @@ function playPaperFoldSound() {
 export default function SpiralNotebook({ profile = {}, roles = null }) {
   const [index, setIndex] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
-  const userInteractedRef = useRef(false);
 
   // Parse roles from profile or fallback to strictly the 5 specified roles
   const parsedRoles = (profile?.hero_roles_list || '')
@@ -78,20 +77,18 @@ export default function SpiralNotebook({ profile = {}, roles = null }) {
       ? roles
       : DEFAULT_ROLES;
 
+  // Silent automatic flip: strictly no sound on auto rotation
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % activeRoles.length);
-      if (userInteractedRef.current) {
-        playPaperFoldSound();
-      }
-    }, 4200);
+    }, 4500);
     return () => clearInterval(timer);
   }, [activeRoles.length]);
 
+  // Manual click / tap: plays crisp paper fold sound on explicit user action only
   const handleNext = () => {
-    userInteractedRef.current = true;
-    setIsFlipping(true);
     playPaperFoldSound();
+    setIsFlipping(true);
     setIndex((prev) => (prev + 1) % activeRoles.length);
     setTimeout(() => setIsFlipping(false), 700);
   };
@@ -217,7 +214,7 @@ export default function SpiralNotebook({ profile = {}, roles = null }) {
             <div className="flex items-center justify-between text-[11px] font-mono text-[#8C877D] dark:text-[#88837A] pt-2 z-10 border-t border-black/[0.05] dark:border-white/[0.06]">
               <span className="text-[10px] uppercase tracking-wider opacity-85 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                <span>Tap page to flip &bull; Sound enabled</span>
+                <span>Tap to flip (paper sound on tap)</span>
               </span>
               <span className="font-semibold text-[#1C1A18] dark:text-[#FAF7F2]">
                 {pageNumber} / {totalPages}
