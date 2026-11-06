@@ -61,6 +61,19 @@ Right in the Hero section beneath my portrait cameo, visitors see an unmistakabl
 
 ---
 
+#### 📸 Verified AWS Setup & Architecture Proofs
+
+##### 1. AWS Amplify Hosting (Continuous Deployment - Deployed & Live)
+![AWS Amplify Deployment](https://raw.githubusercontent.com/XCHAUDHARY00/rajportfolio/main/docs/images/aws-amplify-deployment.png)
+
+##### 2. Amazon S3 Asset Storage (Immutable Assets & High-Speed Cloud Delivery)
+![Amazon S3 Storage](https://raw.githubusercontent.com/XCHAUDHARY00/rajportfolio/main/docs/images/aws-s3-bucket.png)
+
+##### 3. Live Production Interface & Creative Feature
+![Portfolio Showcase](https://raw.githubusercontent.com/XCHAUDHARY00/rajportfolio/main/docs/images/portfolio-showcase.png)
+
+---
+
 #### 🧗 Challenges Overcome & What I Learned
 1. **SPA Rewrites on AWS Amplify**:  
    Direct links to routes like `/skills` or `/projects/web` returned 404s on static edge nodes. I learned how AWS CloudFront routing works and configured an automated regex rewrite rule in Amplify Console to route all non-file paths back to `/index.html`.

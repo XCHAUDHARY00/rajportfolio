@@ -116,6 +116,28 @@ Unlike typical static student portfolio templates, this application integrates:
 
 ---
 
+## 📸 Verified AWS Setup & Architecture Proofs
+
+### 1. AWS Amplify Hosting (Continuous Deployment — Deployed & Live)
+Deployed on AWS Amplify with continuous deployment pipeline connected to GitHub `main` branch.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/XCHAUDHARY00/rajportfolio/main/docs/images/aws-amplify-deployment.png" alt="AWS Amplify Deployment" width="900" />
+</div>
+
+### 2. Amazon S3 Asset Storage (Immutable Cloud Caching)
+Dedicated storage bucket `raj-portfolio-assets-903987171597` holding production profile cameos, certifications, and project artifacts.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/XCHAUDHARY00/rajportfolio/main/docs/images/aws-s3-bucket.png" alt="Amazon S3 Bucket" width="900" />
+</div>
+
+### 3. Production Frontend Interface & The Creative Feature
+Interactive portfolio showcasing the 3D skeuomorphic interface, calendar roles flip, and the glowing **`✨ UNLOCK ABILITY CARD`** visible hint button.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/XCHAUDHARY00/rajportfolio/main/docs/images/portfolio-showcase.png" alt="Portfolio Showcase" width="900" />
+</div>
+
+---
+
 ## 🛠️ Key Engineering Innovations
 
 ### 1. Ultra-Fast Client-Side WebP Compression (100x Upload Speedup)
