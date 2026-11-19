@@ -431,14 +431,14 @@ export default function ProjectCategoryView({
           </p>
         </motion.div>
 
-        {/* Visual Paper Stacking Top Sheets — Only shown on desktop where card stacking is active */}
-        <div className="hidden lg:flex relative w-full flex-col items-center pointer-events-none mb-[-14px]">
-          <div className="w-[88%] h-3.5 rounded-t-[2rem] bg-[#D4CEC2] dark:bg-[#202024] border-t border-x border-black/10 dark:border-white/5 opacity-60 transform -translate-y-2" />
-          <div className="w-[94%] h-3.5 rounded-t-[2.2rem] bg-[#E0DAD0] dark:bg-[#26262B] border-t border-x border-black/10 dark:border-white/5 opacity-80 transform -translate-y-1" />
+        {/* Visual Paper Stacking Top Sheets */}
+        <div className="flex relative w-full flex-col items-center pointer-events-none mb-[-12px] sm:mb-[-14px]">
+          <div className="w-[88%] h-3 sm:h-3.5 rounded-t-[1.6rem] sm:rounded-t-[2rem] bg-[#D4CEC2] dark:bg-[#202024] border-t border-x border-black/10 dark:border-white/5 opacity-60 transform -translate-y-2" />
+          <div className="w-[94%] h-3 sm:h-3.5 rounded-t-[1.8rem] sm:rounded-t-[2.2rem] bg-[#E0DAD0] dark:bg-[#26262B] border-t border-x border-black/10 dark:border-white/5 opacity-80 transform -translate-y-1" />
         </div>
 
-        {/* ── Stacking Cards Deck (Paper Stacking on Desktop, Clean Flow on Mobile) ── */}
-        <div className="relative space-y-8 sm:space-y-12 lg:space-y-16">
+        {/* ── Stacking Cards Deck (Smooth Slide & Stack Transition) ── */}
+        <div className="relative space-y-14 sm:space-y-18 lg:space-y-24 pb-16">
           {displayedProjects.map((project, idx) => {
             const imgs =
               project.images && project.images.length > 0
@@ -464,11 +464,15 @@ export default function ProjectCategoryView({
             return (
               <motion.div
                 key={project.id || idx}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                style={isDesktop ? { top: `calc(5rem + ${idx * 16}px)` } : {}}
-                className="relative lg:sticky rounded-2xl sm:rounded-3xl lg:rounded-[2.5rem] bg-white dark:bg-[#1A1A1E] border border-[#DDD5C7] dark:border-white/10 p-4 sm:p-8 lg:p-10 shadow-lg lg:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.14)] dark:shadow-[0_24px_55px_-12px_rgba(0,0,0,0.7)] overflow-hidden"
+                transition={{ duration: 0.5, delay: idx * 0.06 }}
+                style={{
+                  top: isDesktop
+                    ? `calc(5rem + ${idx * 16}px)`
+                    : `calc(4.5rem + ${idx * 10}px)`,
+                }}
+                className="sticky rounded-[1.8rem] sm:rounded-[2.5rem] bg-white dark:bg-[#1A1A1E] border border-[#DDD5C7] dark:border-white/10 p-4 sm:p-8 lg:p-10 shadow-[0_16px_45px_-12px_rgba(0,0,0,0.16)] dark:shadow-[0_24px_55px_-12px_rgba(0,0,0,0.7)] transition-all overflow-hidden"
               >
                 {/* 1. Device Mockup: iPhone frame for iOS, Studio Display for Web/Backend */}
                 {isIOS ? (
