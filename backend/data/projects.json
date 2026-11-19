@@ -76,15 +76,14 @@
     "end_date": "2026-05",
     "featured": true,
     "bullets": [
-      "Architected a native iOS 18 task and habit scheduling system with SwiftUI and SwiftData delivering sub-16ms smooth 120Hz ProMotion animations.",
-      "Engineered ActivityKit & Dynamic Island integration displaying live task progress, countdown timers, and priority alerts with zero background battery overhead.",
-      "Implemented customizable interactive Home Screen and Lock Screen widgets powered by WidgetKit with real-time app state synchronization.",
-      "Built intelligent recurring reminder scheduling engine with UserNotifications framework supporting custom notification actions and snooze protocols.",
-      "Adopted MVVM-C architecture with Combine and Swift 6 concurrency (async/await, Actors) ensuring race-condition free data streams."
+      "Live Activities aur Dynamic Island me real-time countdown timers aur priority task alerts.",
+      "SwiftData local persistence ke sath smooth 120Hz ProMotion animations.",
+      "Interactive Lock Screen aur Home Screen widgets via WidgetKit.",
+      "UserNotifications ke through smart recurring reminder engine."
     ],
-    "image_url": "/images/auratasks-ios.png",
+    "image_url": "https://raj-portfolio-assets-903987171597.s3.ap-south-1.amazonaws.com/projects/auratasks-ios.png",
     "images": [
-      "/images/auratasks-ios.png"
+      "https://raj-portfolio-assets-903987171597.s3.ap-south-1.amazonaws.com/projects/auratasks-ios.png"
     ],
     "created_at": "2026-11-19T16:56:00.539898"
   }
