@@ -92,28 +92,26 @@ export default function Hero({ profile, onOpenAbilityCard }) {
           </div>
         </motion.div>
 
-        {/* Right Column (5 cols): Colorful Oval Portrait with Floating Ability Card Pill */}
+        {/* Right Column (5 cols): Ultra-Aesthetic Modern Studio Portrait Showcase */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 flex flex-col items-center lg:items-end justify-center relative mt-6 lg:mt-0"
         >
-          <div className="relative w-full max-w-[290px] sm:max-w-[350px] aspect-[3/4] flex items-center justify-center">
-            {/* Outer Oval Ambient Shadow & Subtle Bevel Ring */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/80 via-white/30 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent p-[3px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] pointer-events-none z-10" />
+          {/* Ambient Warm Studio Glow Behind Portrait */}
+          <div className="absolute -inset-4 bg-gradient-to-tr from-amber-500/20 via-orange-500/10 to-transparent dark:from-amber-500/15 dark:via-purple-500/10 dark:to-transparent rounded-[3.5rem] blur-2xl pointer-events-none" />
 
-            {/* Inner Colorful Oval Portrait - Clickable to open Creative Feature */}
-            <div
-              onClick={onOpenAbilityCard}
-              className="relative w-full h-full overflow-hidden rounded-full border-[5px] sm:border-[6px] border-[#FCFAF6] dark:border-[#222226] bg-[#E8E2D5] dark:bg-[#1E1E22] shadow-inner flex items-center justify-center cursor-pointer group"
-              title="Click photo to unlock 3D Holographic Ability Card"
-            >
+          {/* Luxury Studio Portrait Frame */}
+          <div className="relative w-full max-w-[290px] xs:max-w-[320px] sm:max-w-[360px] aspect-[3/4] p-2.5 sm:p-3 rounded-[2.6rem] sm:rounded-[3.2rem] bg-gradient-to-b from-white/90 via-white/50 to-white/20 dark:from-white/15 dark:via-white/5 dark:to-transparent backdrop-blur-2xl border border-white/70 dark:border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18),0_10px_30px_-5px_rgba(217,119,6,0.12)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.8),0_0_50px_rgba(245,158,11,0.15)] group select-none">
+            
+            {/* Inner High-Resolution Photo Container */}
+            <div className="relative w-full h-full rounded-[2.1rem] sm:rounded-[2.7rem] overflow-hidden bg-[#141418] shadow-inner">
               {photoUrl ? (
                 <img
                   src={photoUrl}
                   alt={profile?.name || 'Raj Chaudhary'}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-top filter contrast-[1.12] saturate-[1.18] brightness-[0.97] transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="eager"
                   decoding="async"
                 />
@@ -130,19 +128,32 @@ export default function Hero({ profile, onOpenAbilityCard }) {
                   </p>
                 </div>
               )}
-            </div>
 
-            {/* Floating Pill: Official Hackathon Creative Feature with Visible Hint */}
-            <motion.button
-              onClick={onOpenAbilityCard}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="absolute -bottom-4 sm:-bottom-5 z-20 px-5 py-2.5 rounded-full text-[11px] sm:text-xs font-bold tracking-wider uppercase transition-all bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white shadow-[0_10px_28px_rgba(245,158,11,0.4)] border border-amber-300/40 backdrop-blur-md flex items-center gap-2 group cursor-pointer"
-              title="Interactive Creative Feature: Tap to reveal 3D Holographic Ability Card"
-            >
-              <Sparkles size={13} className="text-amber-200 animate-spin" />
-              <span>✨ Unlock Ability Card</span>
-            </motion.button>
+              {/* Floating Status Badge at Top Left */}
+              <div className="absolute top-3.5 left-3.5 z-20 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-mono font-bold tracking-wider uppercase text-white flex items-center gap-2 shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>{profile?.hero_status || 'OPEN TO SDE ROLES'}</span>
+              </div>
+
+              {/* Bottom Cinematic Gradient Vignette & Nameplate */}
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/85 via-black/45 to-transparent flex flex-col justify-end text-left pointer-events-none">
+                <p className="text-white text-base sm:text-lg font-bold font-sans tracking-tight drop-shadow-sm">
+                  {profile?.name || 'Raj Chaudhary'}
+                </p>
+                <p className="text-white/80 text-[10px] sm:text-[11px] font-mono tracking-wider uppercase">
+                  Full Stack Cloud &bull; iOS Developer
+                </p>
+              </div>
+
+              {/* Diagonal Glass Sheen Reflection */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-20"
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 45%, transparent 60%)',
+                }}
+              />
+            </div>
           </div>
         </motion.div>
       </div>
