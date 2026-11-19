@@ -161,15 +161,16 @@ export default function ProjectCategoryView({
   activeCategoryId = 'backend',
   onSelectCategory,
   onBackToDoors,
+  showAllOnHome = false,
 }) {
   const [selectedImageModal, setSelectedImageModal] = useState(null);
   const [detailProject, setDetailProject] = useState(null);
 
   const activeCategory =
-    DOOR_CATEGORIES.find((c) => c.id === activeCategoryId) || DOOR_CATEGORIES[0];
+    showAllOnHome ? null : DOOR_CATEGORIES.find((c) => c.id === activeCategoryId) || DOOR_CATEGORIES[0];
 
   // Robust project filtering
-  const filteredProjects = (projects || []).filter((p) => {
+  const filteredProjects = showAllOnHome ? (projects || []) : (projects || []).filter((p) => {
     if (!activeCategoryId) return true;
     const stackArr = getStackArray(p.stack);
     const stackStr = stackArr.join(' ').toLowerCase();
@@ -249,8 +250,29 @@ export default function ProjectCategoryView({
       id="doors"
       className="relative min-h-screen pt-24 pb-28 px-4 sm:px-8 bg-[#EFECE6] dark:bg-[#121212] transition-colors"
     >
-      {/* ── EXPANDED WIDE CONTAINER (Generous max-w-4xl to max-w-5xl) ── */}
+      {/* ── EXPANDED WIDE CONTAINER ── */}
       <div className="max-w-4xl lg:max-w-5xl mx-auto w-full">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl mb-16"
+        >
+          <div className="text-[#8C877D] dark:text-[#88837A] text-[11px] font-semibold uppercase tracking-[0.16em] mb-3">
+            &mdash; SELECTED WORK
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] leading-tight">
+            {showAllOnHome ? 'Explore in Studio Display' : (activeCategory?.title || 'Projects')}
+          </h2>
+          <p className="text-[#5E5A53] dark:text-[#9A9388] text-sm mt-3 font-light leading-relaxed">
+            {showAllOnHome
+              ? 'Full-stack and backend projects featuring high-concurrency architectures, clean RESTful APIs, and AI integrations.'
+              : (activeCategory?.subtitle || 'Production-grade systems & platforms')}
+          </p>
+        </motion.div>
+
         {/* Visual Paper Stacking Top Sheets */}
         <div className="relative w-full flex flex-col items-center pointer-events-none mb-[-14px]">
           <div className="w-[88%] h-3.5 rounded-t-[2rem] bg-[#D4CEC2] dark:bg-[#202024] border-t border-x border-black/10 dark:border-white/5 opacity-60 transform -translate-y-2" />

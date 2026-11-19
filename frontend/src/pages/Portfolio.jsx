@@ -8,7 +8,6 @@ import CertificatesModal from '../sections/CertificatesModal';
 import SkillsModal from '../sections/SkillsModal';
 import Skills from '../sections/Skills';
 import Certifications from '../sections/Certifications';
-import DoorsSection from '../sections/DoorsSection';
 import ProjectCategoryView from '../sections/ProjectCategoryView';
 import StoryTimeline from '../sections/StoryTimeline';
 import ContactSection from '../sections/ContactSection';
@@ -121,7 +120,7 @@ export default function Portfolio() {
       {/* ── Fixed Header with Live Clock & Pull-Cord Light Switch ── */}
       <Header
         profile={profile}
-        onSelectDoorCategory={handleEnterCategory}
+        onSelectDoorCategory={(id) => navigate(`/projects/${id}`)}
         onOpenCertificates={handleOpenCertificates}
         onOpenSkills={handleOpenSkills}
         isInsideDoorCategory={Boolean(insideDoorCategory)}
@@ -140,35 +139,26 @@ export default function Portfolio() {
             onOpenAbilityCard={handleOpenAbilityCard}
           />
 
-          {/* ── 2. "Magic happens behind the doors" ── */}
-          {insideDoorCategory ? (
-            <ProjectCategoryView
-              projects={projects}
-              activeCategoryId={insideDoorCategory}
-              onSelectCategory={(id) => navigate(`/projects/${id}`)}
-              onBackToDoors={handleBackToDoors}
-            />
-          ) : (
-            <>
-              <DoorsSection
-                profile={profile}
-                projects={projects}
-                onEnterCategory={handleEnterCategory}
-              />
+          {/* ── 2. Projects — Studio Display Stacking Cards (Always Visible) ── */}
+          <ProjectCategoryView
+            projects={projects}
+            activeCategoryId={insideDoorCategory || 'all'}
+            onSelectCategory={(id) => navigate(`/projects/${id}`)}
+            onBackToDoors={handleBackToDoors}
+            showAllOnHome={!insideDoorCategory}
+          />
 
-              {/* ── 3. Skills Section (Single Page Application Flow) ── */}
-              <Skills
-                skills={skills}
-                onOpenFullSkills={handleOpenSkillsModal}
-              />
+          {/* ── 3. Skills Section (Single Page Application Flow) ── */}
+          <Skills
+            skills={skills}
+            onOpenFullSkills={handleOpenSkillsModal}
+          />
 
-              {/* ── 4. Verified Certifications & Credentials Section ── */}
-              <Certifications
-                certifications={certifications}
-                onOpenFullCertificates={handleOpenCertificatesModal}
-              />
-            </>
-          )}
+          {/* ── 4. Verified Certifications & Credentials Section ── */}
+          <Certifications
+            certifications={certifications}
+            onOpenFullCertificates={handleOpenCertificatesModal}
+          />
 
           {/* ── 5. "My story / Let's go back in time" (Timeline Dial) ── */}
           <StoryTimeline
