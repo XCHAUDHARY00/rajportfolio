@@ -103,13 +103,11 @@ export default function Portfolio() {
 
   const handleOpenCertificates = () => {
     const el = document.querySelector('#certificates');
-    if (el && !insideDoorCategory) {
+    if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      navigate('/certificates');
     }
   };
-  const handleOpenCertificatesModal = () => navigate('/certificates');
+  const handleOpenCertificatesModal = () => handleOpenCertificates();
   const handleCloseCertificates = () => navigate('/');
 
   const handleOpenAbilityCard = () => navigate('/ability');
@@ -154,10 +152,11 @@ export default function Portfolio() {
             onOpenFullSkills={handleOpenSkillsModal}
           />
 
-          {/* ── 4. Verified Certifications & Credentials Section ── */}
+          {/* ── 4. Verified Certifications & Credentials Section (Direct 3D Card Stack) ── */}
           <Certifications
             certifications={certifications}
-            onOpenFullCertificates={handleOpenCertificatesModal}
+            achievements={achievements}
+            profile={profile || {}}
           />
 
           {/* ── 5. "My story / Let's go back in time" (Timeline Dial) ── */}
