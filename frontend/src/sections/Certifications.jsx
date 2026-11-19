@@ -95,10 +95,10 @@ export default function Certifications({
   const [cardTilt, setCardTilt] = useState({ rotateX: 0, rotateY: 0 });
   const cardRef = useRef(null);
 
-  const certList = certifications && certifications.length > 0 ? certifications : FALLBACK_CERTS;
-  const achList = achievements && achievements.length > 0 ? achievements : FALLBACK_ACHIEVEMENTS;
+  const certList = Array.isArray(certifications) && certifications.length > 0 ? certifications : FALLBACK_CERTS;
+  const achList = Array.isArray(achievements) && achievements.length > 0 ? achievements : FALLBACK_ACHIEVEMENTS;
 
-  const currentCert = certList[certIndex % certList.length];
+  const currentCert = (certList && certList.length > 0) ? (certList[certIndex % certList.length] || certList[0]) : FALLBACK_CERTS[0];
 
   const handleNextCert = () => {
     setCertIndex((prev) => (prev + 1) % certList.length);

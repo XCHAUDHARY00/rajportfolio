@@ -402,12 +402,16 @@ export default function ProjectCategoryView({
                 : [];
 
             const stackItems = getStackArray(project.stack);
+            const stackJoined = stackItems.join(' ').toLowerCase();
+            const categoryStr = String(project.category || '').toLowerCase();
+            const projectTypeStr = String(project.project_type || '').toLowerCase();
+
             const isIOS =
-              (project.category || '').toLowerCase() === 'ios' ||
-              (project.category || '').toLowerCase() === 'app' ||
-              (project.project_type || '').toLowerCase() === 'ios' ||
-              (project.stack || '').toLowerCase().includes('swift') ||
-              (project.stack || '').toLowerCase().includes('ios');
+              categoryStr === 'ios' ||
+              categoryStr === 'app' ||
+              projectTypeStr === 'ios' ||
+              stackJoined.includes('swift') ||
+              stackJoined.includes('ios');
 
             const tagLabel = isIOS ? 'IOS APPLICATION' : (stackItems[0] || 'PRODUCTION');
 
