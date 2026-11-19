@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ProjectCreate(BaseModel):
@@ -14,6 +14,24 @@ class ProjectCreate(BaseModel):
     featured: bool = False
     bullets: List[str] = []
     images: List[str] = Field(default_factory=list)
+
+    @field_validator("stack", mode="before")
+    @classmethod
+    def parse_stack(cls, v):
+        if isinstance(v, str):
+            return [s.strip() for s in v.split(",") if s.strip()]
+        if isinstance(v, list):
+            return [str(s).strip() for s in v if str(s).strip()]
+        return []
+
+    @field_validator("bullets", mode="before")
+    @classmethod
+    def parse_bullets(cls, v):
+        if isinstance(v, str):
+            return [s.strip() for s in v.split("\n") if s.strip()]
+        if isinstance(v, list):
+            return [str(s).strip() for s in v if str(s).strip()]
+        return []
 
 
 class ProjectResponse(ProjectCreate):

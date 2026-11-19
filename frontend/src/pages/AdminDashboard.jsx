@@ -613,11 +613,39 @@ function ProjectsTab() {
   const refresh = () => getProjects().then((r) => setProjects(r.data));
 
   const handleSubmit = async () => {
+    let parsedStack = [];
+    if (Array.isArray(form.stack)) {
+      parsedStack = form.stack;
+    } else if (typeof form.stack === 'string') {
+      parsedStack = form.stack.split(',').map((s) => s.trim()).filter(Boolean);
+    }
+
+    let parsedBullets = [];
+    if (Array.isArray(form.bullets)) {
+      parsedBullets = form.bullets;
+    } else if (typeof form.bullets === 'string') {
+      parsedBullets = form.bullets.split('\n').map((s) => s.trim()).filter(Boolean);
+    }
+
     const payload = {
-      ...form,
+      title: (form.title || '').trim(),
+      description: (form.description || '').trim(),
       category: form.category || 'web',
-      bullets: form.bullets ? form.bullets.split('\n').filter(Boolean) : [],
+      stack: parsedStack,
+      bullets: parsedBullets,
+      github_url: form.github_url ? form.github_url.trim() : null,
+      live_url: form.live_url ? form.live_url.trim() : null,
+      start_date: form.start_date || '',
+      end_date: form.end_date || null,
+      featured: Boolean(form.featured),
+      images: Array.isArray(form.images) ? form.images : [],
     };
+
+    if (!payload.title) {
+      toast.error('Project title is required.');
+      return;
+    }
+
     try {
       if (editId) {
         await updateProject(editId, payload);
@@ -630,8 +658,15 @@ function ProjectsTab() {
       setEditId(null);
       setShowForm(false);
       refresh();
-    } catch {
-      toast.error('Failed to save project.');
+    } catch (err) {
+      console.error('Failed to save project:', err);
+      const detail = err.response?.data?.detail;
+      const msg = typeof detail === 'string'
+        ? detail
+        : Array.isArray(detail)
+          ? detail.map((d) => d.msg || `${d.loc?.slice(-1)[0]}: invalid`).join(', ')
+          : 'Failed to save project.';
+      toast.error(msg);
     }
   };
 
@@ -639,6 +674,7 @@ function ProjectsTab() {
     setForm({
       ...p,
       category: p.category || 'web',
+      stack: Array.isArray(p.stack) ? p.stack.join(', ') : (p.stack || ''),
       bullets: Array.isArray(p.bullets) ? p.bullets.join('\n') : (p.bullets || ''),
     });
     setEditId(p.id);
