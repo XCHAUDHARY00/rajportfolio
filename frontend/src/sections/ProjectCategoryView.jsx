@@ -11,6 +11,8 @@ import {
   Layers,
   Sparkles,
   ArrowUpRight,
+  Laptop,
+  Smartphone,
 } from 'lucide-react';
 import { DOOR_CATEGORIES } from './DoorsSection';
 
@@ -156,6 +158,116 @@ function ModernAppleDisplay({ project, image, onOpenDetail }) {
   );
 }
 
+// ── Ultra-Realistic Premium Apple iPhone Mockup Screen (for iOS Projects) ──
+function ModernIPhoneDisplay({ project, image, onOpenDetail }) {
+  return (
+    <div className="flex flex-col items-center w-full select-none mb-6">
+      {/* iPhone 16 Pro Frame with Titanium Bezel & Dynamic Island */}
+      <div
+        onClick={onOpenDetail}
+        className="w-full max-w-[280px] sm:max-w-[310px] aspect-[9/19.5] max-h-[560px] rounded-[48px] sm:rounded-[54px] bg-[#121214] border-[7px] sm:border-[9px] border-[#252528] ring-1 ring-white/20 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] p-1 relative overflow-hidden flex flex-col justify-between cursor-pointer group transition-transform duration-300 hover:scale-[1.015]"
+        title="Click screen to view full project information"
+      >
+        {/* Top Speaker Ear-Slit */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 sm:w-12 h-1 bg-black/70 rounded-full z-40" />
+
+        {/* Dynamic Island */}
+        <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-24 sm:w-28 h-6 sm:h-7 bg-black rounded-full z-30 flex items-center justify-between px-3 shadow-md">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#111625] border border-blue-900/50" />
+          <div className="w-1.5 h-1.5 rounded-full bg-[#18181B]" />
+        </div>
+
+        {/* Inner OLED Display */}
+        <div className="relative w-full h-full rounded-[40px] sm:rounded-[44px] bg-black overflow-hidden flex flex-col justify-between text-left">
+          {image ? (
+            <div className="relative w-full h-full">
+              <img
+                src={image}
+                alt={project.title}
+                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-amber-400/50 text-[11px] font-semibold tracking-wide flex items-center gap-1.5 shadow-2xl transform scale-95 group-hover:scale-100 transition-transform text-amber-300">
+                  <Info size={13} className="text-amber-400" />
+                  <span>View Details</span>
+                  <Maximize2 size={12} className="text-white/80" />
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Sleek Native iOS App Mockup View */
+            <div className="w-full h-full bg-gradient-to-b from-[#18181D] via-[#101014] to-[#0A0A0C] text-white p-4 pt-12 flex flex-col justify-between font-sans relative">
+              {/* iOS Status Bar */}
+              <div className="absolute top-3 inset-x-5 flex items-center justify-between text-[11px] font-semibold text-white/90 z-20">
+                <span>9:41</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] tracking-tight">5G</span>
+                  <div className="w-4 h-2 border border-white/80 rounded-xs p-0.5 flex items-center">
+                    <div className="w-full h-full bg-white rounded-2xs" />
+                  </div>
+                </div>
+              </div>
+
+              {/* iOS Navigation Bar */}
+              <div className="mt-2">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold block mb-1">
+                  NATIVE IOS APP
+                </span>
+                <h4 className="text-lg sm:text-xl font-bold tracking-tight text-white leading-tight line-clamp-2">
+                  {project.title}
+                </h4>
+              </div>
+
+              {/* iOS App Content Widget Card */}
+              <div className="my-auto py-2 space-y-2.5">
+                <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-sm">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">SWIFTUI &bull; IOS</span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  </div>
+                  <p className="text-xs text-white/90 leading-relaxed line-clamp-3">
+                    {project.description || 'Native Apple iOS application crafted with modern Swift and Human Interface Guidelines.'}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-1">
+                  {getStackArray(project.stack).slice(0, 3).map((st, i) => (
+                    <span key={i} className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-white/70">
+                      {st}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* iOS Home Indicator Bar */}
+              <div className="w-28 sm:w-32 h-1 bg-white/40 rounded-full mx-auto mb-1 flex-shrink-0" />
+
+              {/* Hover Prompt */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-amber-400/50 text-[11px] font-semibold tracking-wide flex items-center gap-1.5 shadow-2xl text-amber-300">
+                  <Info size={13} className="text-amber-400" />
+                  <span>Click to view full details</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Glossy Curved Glass Reflection */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-20"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 55%)',
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Subtle iPhone base elevation shadow */}
+      <div className="w-36 sm:w-44 h-2.5 rounded-full bg-black/30 dark:bg-black/60 blur-md mt-2" />
+    </div>
+  );
+}
+
 export default function ProjectCategoryView({
   projects = [],
   activeCategoryId = 'backend',
@@ -261,14 +373,14 @@ export default function ProjectCategoryView({
           className="max-w-2xl mb-16"
         >
           <div className="text-[#8C877D] dark:text-[#88837A] text-[11px] font-semibold uppercase tracking-[0.16em] mb-3">
-            &mdash; SELECTED WORK
+            &mdash; FEATURED WORK &amp; ENGINEERING
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] leading-tight">
-            {showAllOnHome ? 'Explore in Studio Display' : (activeCategory?.title || 'Projects')}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] leading-tight font-sans">
+            {showAllOnHome ? 'Flagship Projects & Systems' : (activeCategory?.title || 'Projects')}
           </h2>
           <p className="text-[#5E5A53] dark:text-[#9A9388] text-sm mt-3 font-light leading-relaxed">
             {showAllOnHome
-              ? 'Full-stack and backend projects featuring high-concurrency architectures, clean RESTful APIs, and AI integrations.'
+              ? 'Production-grade full-stack web architectures, high-throughput backend services, and native iOS applications built with precision.'
               : (activeCategory?.subtitle || 'Production-grade systems & platforms')}
           </p>
         </motion.div>
@@ -290,7 +402,14 @@ export default function ProjectCategoryView({
                 : [];
 
             const stackItems = getStackArray(project.stack);
-            const tagLabel = stackItems[0] || 'PRODUCTION';
+            const isIOS =
+              (project.category || '').toLowerCase() === 'ios' ||
+              (project.category || '').toLowerCase() === 'app' ||
+              (project.project_type || '').toLowerCase() === 'ios' ||
+              (project.stack || '').toLowerCase().includes('swift') ||
+              (project.stack || '').toLowerCase().includes('ios');
+
+            const tagLabel = isIOS ? 'IOS APPLICATION' : (stackItems[0] || 'PRODUCTION');
 
             return (
               <motion.div
@@ -303,19 +422,37 @@ export default function ProjectCategoryView({
                 }}
                 className="sticky rounded-[2.5rem] bg-white dark:bg-[#1A1A1E] border border-[#DDD5C7] dark:border-white/10 p-6 sm:p-10 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.14)] dark:shadow-[0_24px_55px_-12px_rgba(0,0,0,0.7)] overflow-hidden"
               >
-                {/* 1. Modern Apple Studio Display Screen Mockup (Full proper width) */}
-                <ModernAppleDisplay
-                  project={project}
-                  image={imgs[0]}
-                  onOpenDetail={() => setDetailProject(project)}
-                />
+                {/* 1. Device Mockup: iPhone frame for iOS, Studio Display for Web/Backend */}
+                {isIOS ? (
+                  <ModernIPhoneDisplay
+                    project={project}
+                    image={imgs[0]}
+                    onOpenDetail={() => setDetailProject(project)}
+                  />
+                ) : (
+                  <ModernAppleDisplay
+                    project={project}
+                    image={imgs[0]}
+                    onOpenDetail={() => setDetailProject(project)}
+                  />
+                )}
 
                 {/* 2. Project Meta & Details */}
                 <div className="text-left mt-4">
                   {/* Category & Status Tag */}
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest text-[#736D64] dark:text-[#88837A] uppercase">
-                      {tagLabel} &bull; LIVE SYSTEM
+                    <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest text-[#736D64] dark:text-[#88837A] uppercase flex items-center gap-1.5">
+                      {isIOS ? (
+                        <>
+                          <Smartphone size={13} className="text-amber-600 dark:text-amber-400" />
+                          <span>IOS DEVELOPER &bull; APPLE ECOSYSTEM</span>
+                        </>
+                      ) : (
+                        <>
+                          <Laptop size={13} className="text-amber-600 dark:text-amber-400" />
+                          <span>{tagLabel} &bull; LIVE SYSTEM</span>
+                        </>
+                      )}
                     </span>
                   </div>
 

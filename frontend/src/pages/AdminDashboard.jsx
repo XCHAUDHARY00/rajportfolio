@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import {
   User, FolderOpen, Wrench, Briefcase, Award, Trophy, LogOut,
   Plus, Trash2, Edit2, Save, X, Upload, ChevronDown, ChevronUp,
+  Laptop, Smartphone,
 } from 'lucide-react';
 import {
   getProfile, updateProfile, uploadProfilePhoto, uploadResume,
@@ -701,25 +702,75 @@ function ProjectsTab() {
             ))}
           </div>
 
+          {/* ── Project Type & Device Mockup Selector (Web Developer vs iOS Developer) ── */}
+          <div className="space-y-2">
+            <label className={labelCls}>Project Type &amp; Device Mockup Screen</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, category: 'web' })}
+                className={`p-4 rounded-xl border flex items-center gap-3.5 transition-all text-left ${
+                  (form.category || 'web') !== 'ios'
+                    ? 'border-[#1C1A18] bg-[#1C1A18] text-white shadow-sm'
+                    : 'border-[#EDE7DD] bg-[#FAF7F2] text-[#5E5A53] hover:border-[#CCC4B4]'
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  (form.category || 'web') !== 'ios' ? 'bg-white/15 text-white' : 'bg-white border border-[#EDE7DD] text-[#1C1A18]'
+                }`}>
+                  <Laptop size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider">Web Developer</p>
+                  <p className={`text-[11px] mt-0.5 ${(form.category || 'web') !== 'ios' ? 'text-white/70' : 'text-[#8C877D]'}`}>
+                    Apple Studio Display (Laptop / PC)
+                  </p>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, category: 'ios' })}
+                className={`p-4 rounded-xl border flex items-center gap-3.5 transition-all text-left ${
+                  form.category === 'ios'
+                    ? 'border-amber-600 bg-amber-600 text-white shadow-sm'
+                    : 'border-[#EDE7DD] bg-[#FAF7F2] text-[#5E5A53] hover:border-[#CCC4B4]'
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                  form.category === 'ios' ? 'bg-white/15 text-white' : 'bg-white border border-[#EDE7DD] text-[#1C1A18]'
+                }`}>
+                  <Smartphone size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider">iOS Developer</p>
+                  <p className={`text-[11px] mt-0.5 ${form.category === 'ios' ? 'text-white/70' : 'text-[#8C877D]'}`}>
+                    Apple iPhone 16 Pro Frame (Mobile)
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className={labelCls}>Category</label>
+              <label className={labelCls}>Category Filter Tag</label>
               <select
                 className={inputCls}
                 value={form.category || 'web'}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
               >
-                <option value="ios">iOS Developer</option>
-                <option value="web">Web Developer</option>
-                <option value="backend">Backend Developer</option>
-                <option value="systems">Distributed Systems</option>
-                <option value="cloud">Cloud &amp; DevOps</option>
-                <option value="other">Other / Full-Stack</option>
+                <option value="web">Web Developer (Studio Display)</option>
+                <option value="ios">iOS Developer (iPhone Frame)</option>
+                <option value="backend">Backend Developer (Studio Display)</option>
+                <option value="systems">Distributed Systems (Studio Display)</option>
+                <option value="cloud">Cloud &amp; DevOps (Studio Display)</option>
+                <option value="other">Full-Stack / AI (Studio Display)</option>
               </select>
             </div>
             <div>
               <label className={labelCls}>Stack (comma-separated)</label>
-              <input className={inputCls} placeholder="Swift, Python, React, etc." value={form.stack || ''} onChange={(e) => setForm({ ...form, stack: e.target.value })} />
+              <input className={inputCls} placeholder="Swift, SwiftUI, Python, React, etc." value={form.stack || ''} onChange={(e) => setForm({ ...form, stack: e.target.value })} />
             </div>
           </div>
 
@@ -757,8 +808,22 @@ function ProjectsTab() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-sans font-semibold text-[#1C1A18] text-base">{p.title}</p>
                     {p.category && (
-                      <span className="text-[10px] bg-amber-500/10 text-amber-800 px-2.5 py-0.5 rounded-full font-mono font-semibold uppercase tracking-wider border border-amber-500/20">
-                        {p.category === 'ios' ? 'iOS Developer' : p.category === 'web' ? 'Web Developer' : p.category}
+                      <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-semibold uppercase tracking-wider border inline-flex items-center gap-1 ${
+                        p.category === 'ios'
+                          ? 'bg-amber-500/10 text-amber-800 border-amber-500/30'
+                          : 'bg-blue-500/10 text-blue-800 border-blue-500/30'
+                      }`}>
+                        {p.category === 'ios' ? (
+                          <>
+                            <Smartphone size={10} />
+                            <span>iOS Developer (iPhone Frame)</span>
+                          </>
+                        ) : (
+                          <>
+                            <Laptop size={10} />
+                            <span>Web Developer (Laptop / Studio Display)</span>
+                          </>
+                        )}
                       </span>
                     )}
                     {p.featured && <span className="text-[10px] bg-[#EDE7DD] text-[#1C1A18] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Featured</span>}
