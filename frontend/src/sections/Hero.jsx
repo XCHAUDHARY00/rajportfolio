@@ -111,7 +111,7 @@ export default function Hero({ profile, onOpenAbilityCard }) {
                 <img
                   src={photoUrl}
                   alt={profile?.name || 'Raj Chaudhary'}
-                  className="w-full h-full object-cover object-top filter contrast-[1.12] saturate-[1.18] brightness-[0.97] transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="eager"
                   decoding="async"
                 />
