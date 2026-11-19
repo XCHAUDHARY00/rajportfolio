@@ -31,18 +31,18 @@ function ModernAppleDisplay({ project, image, onOpenDetail }) {
     (project.title || '').toLowerCase().includes('career');
 
   return (
-    <div className="flex flex-col items-center w-full select-none mb-6">
+    <div className="flex flex-col items-center w-full select-none mb-4 sm:mb-6">
       {/* Studio Display Bezel Frame - Click anywhere on screen to open full project details */}
       <div
         onClick={onOpenDetail}
-        className="w-full aspect-[16/10] max-h-[460px] rounded-2xl bg-[#0D0D10] border-[4px] sm:border-[5px] border-[#222226] shadow-2xl p-1.5 sm:p-2.5 relative overflow-hidden flex flex-col justify-between cursor-pointer group transition-transform duration-300 hover:scale-[1.008]"
+        className="w-full aspect-[16/10] max-h-[220px] xs:max-h-[260px] sm:max-h-[360px] lg:max-h-[440px] rounded-xl sm:rounded-2xl bg-[#0D0D10] border-[3px] sm:border-[5px] border-[#222226] shadow-xl sm:shadow-2xl p-1 sm:p-2.5 relative overflow-hidden flex flex-col justify-between cursor-pointer group transition-transform duration-300 hover:scale-[1.008]"
         title="Click screen to view full project information"
       >
         {/* Subtle Top Camera Dot */}
-        <div className="absolute top-1.5 sm:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black border border-white/10 z-20" />
+        <div className="absolute top-1 sm:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black border border-white/10 z-20" />
 
         {/* Inner Glass Display */}
-        <div className="relative w-full h-full rounded-xl bg-black overflow-hidden flex flex-col justify-between">
+        <div className="relative w-full h-full rounded-lg sm:rounded-xl bg-black overflow-hidden flex flex-col justify-between">
           {image ? (
             <div className="relative w-full h-full">
               <img
@@ -150,10 +150,10 @@ function ModernAppleDisplay({ project, image, onOpenDetail }) {
       </div>
 
       {/* Modern Apple Display Aluminum Stand Neck */}
-      <div className="w-12 h-5 bg-gradient-to-b from-[#B0ACA5] via-[#8E8A82] to-[#6E6A63] shadow-inner" />
+      <div className="w-8 sm:w-12 h-3 sm:h-5 bg-gradient-to-b from-[#B0ACA5] via-[#8E8A82] to-[#6E6A63] shadow-inner" />
 
       {/* Modern Apple Display Oval Aluminum Foot */}
-      <div className="w-36 sm:w-44 h-2 rounded-full bg-gradient-to-r from-[#9E9A92] via-[#C4C0B8] to-[#9E9A92] shadow-md -mt-0.5" />
+      <div className="w-28 sm:w-44 h-1.5 sm:h-2 rounded-full bg-gradient-to-r from-[#9E9A92] via-[#C4C0B8] to-[#9E9A92] shadow-md -mt-0.5" />
     </div>
   );
 }
@@ -161,7 +161,7 @@ function ModernAppleDisplay({ project, image, onOpenDetail }) {
 // ── Ultra-Realistic Premium Apple iPhone 16 Pro Mockup (Bezel-Less & 3D Tilted) ──
 function ModernIPhoneDisplay({ project, image, onOpenDetail }) {
   return (
-    <div className="relative w-full flex flex-col items-center select-none py-2 group">
+    <div className="relative w-full flex flex-col items-center select-none py-1 sm:py-2 group">
       {/* 3D Perspective Canvas Container */}
       <div
         className="w-full flex justify-center"
@@ -170,16 +170,16 @@ function ModernIPhoneDisplay({ project, image, onOpenDetail }) {
         <div
           onClick={onOpenDetail}
           title="Click to view full project information"
-          className="relative w-[260px] sm:w-[280px] lg:w-[290px] aspect-[9/19.5] cursor-pointer transition-all duration-700 ease-out"
+          className="relative w-[190px] xs:w-[215px] sm:w-[250px] lg:w-[285px] aspect-[9/19.5] max-h-[420px] xs:max-h-[460px] sm:max-h-[560px] cursor-pointer transition-all duration-700 ease-out"
           style={{
-            transform: 'rotateY(-13deg) rotateX(7deg) rotateZ(-2deg)',
+            transform: 'rotateY(-6deg) rotateX(3deg) rotateZ(-1deg)',
             transformStyle: 'preserve-3d',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'rotateY(0deg) rotateX(0deg) rotateZ(0deg) scale(1.03)';
+            e.currentTarget.style.transform = 'rotateY(0deg) rotateX(0deg) rotateZ(0deg) scale(1.02)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'rotateY(-13deg) rotateX(7deg) rotateZ(-2deg)';
+            e.currentTarget.style.transform = 'rotateY(-6deg) rotateX(3deg) rotateZ(-1deg)';
           }}
         >
           {/* Physical Hardware Buttons */}
@@ -313,6 +313,16 @@ export default function ProjectCategoryView({
 }) {
   const [selectedImageModal, setSelectedImageModal] = useState(null);
   const [detailProject, setDetailProject] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(typeof window !== 'undefined' && window.innerWidth >= 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const activeCategory =
     showAllOnHome ? null : DOOR_CATEGORIES.find((c) => c.id === activeCategoryId) || DOOR_CATEGORIES[0];
@@ -421,14 +431,14 @@ export default function ProjectCategoryView({
           </p>
         </motion.div>
 
-        {/* Visual Paper Stacking Top Sheets */}
-        <div className="relative w-full flex flex-col items-center pointer-events-none mb-[-14px]">
+        {/* Visual Paper Stacking Top Sheets — Only shown on desktop where card stacking is active */}
+        <div className="hidden lg:flex relative w-full flex-col items-center pointer-events-none mb-[-14px]">
           <div className="w-[88%] h-3.5 rounded-t-[2rem] bg-[#D4CEC2] dark:bg-[#202024] border-t border-x border-black/10 dark:border-white/5 opacity-60 transform -translate-y-2" />
           <div className="w-[94%] h-3.5 rounded-t-[2.2rem] bg-[#E0DAD0] dark:bg-[#26262B] border-t border-x border-black/10 dark:border-white/5 opacity-80 transform -translate-y-1" />
         </div>
 
-        {/* ── Stacking Cards Deck (Paper Stacking Effect) ── */}
-        <div className="relative space-y-12 sm:space-y-16">
+        {/* ── Stacking Cards Deck (Paper Stacking on Desktop, Clean Flow on Mobile) ── */}
+        <div className="relative space-y-8 sm:space-y-12 lg:space-y-16">
           {displayedProjects.map((project, idx) => {
             const imgs =
               project.images && project.images.length > 0
@@ -454,13 +464,11 @@ export default function ProjectCategoryView({
             return (
               <motion.div
                 key={project.id || idx}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                style={{
-                  top: `calc(5rem + ${idx * 14}px)`,
-                }}
-                className="sticky rounded-[2.5rem] bg-white dark:bg-[#1A1A1E] border border-[#DDD5C7] dark:border-white/10 p-6 sm:p-10 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.14)] dark:shadow-[0_24px_55px_-12px_rgba(0,0,0,0.7)] overflow-hidden"
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                style={isDesktop ? { top: `calc(5rem + ${idx * 16}px)` } : {}}
+                className="relative lg:sticky rounded-2xl sm:rounded-3xl lg:rounded-[2.5rem] bg-white dark:bg-[#1A1A1E] border border-[#DDD5C7] dark:border-white/10 p-4 sm:p-8 lg:p-10 shadow-lg lg:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.14)] dark:shadow-[0_24px_55px_-12px_rgba(0,0,0,0.7)] overflow-hidden"
               >
                 {/* 1. Device Mockup: iPhone frame for iOS, Studio Display for Web/Backend */}
                 {isIOS ? (

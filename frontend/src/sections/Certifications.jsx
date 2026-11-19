@@ -186,12 +186,12 @@ export default function Certifications({
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleNextCert}
-                className="relative cursor-pointer select-none perspective-1200 w-full max-w-[540px] aspect-[1.4/1]"
+                className="relative cursor-pointer select-none perspective-1200 w-full max-w-[540px] aspect-[1.25/1] sm:aspect-[1.4/1]"
                 title="Tap certificate to flip to next"
               >
                 {/* Physical Underneath Cards Stack (Depth Effect) */}
-                <div className="absolute inset-x-4 -bottom-3 h-full rounded-3xl bg-[#D6CFBF] dark:bg-[#1E1E22] border border-black/10 dark:border-white/5 shadow-md transform translate-y-2 scale-[0.94] z-0 opacity-70" />
-                <div className="absolute inset-x-2 -bottom-1.5 h-full rounded-3xl bg-[#E6DECD] dark:bg-[#25252A] border border-black/10 dark:border-white/5 shadow-md transform translate-y-1 scale-[0.97] z-0 opacity-90" />
+                <div className="absolute inset-x-3 sm:inset-x-4 -bottom-3 h-full rounded-2xl sm:rounded-3xl bg-[#D6CFBF] dark:bg-[#1E1E22] border border-black/10 dark:border-white/5 shadow-md transform translate-y-2 scale-[0.94] z-0 opacity-70" />
+                <div className="absolute inset-x-1.5 sm:inset-x-2 -bottom-1.5 h-full rounded-2xl sm:rounded-3xl bg-[#E6DECD] dark:bg-[#25252A] border border-black/10 dark:border-white/5 shadow-md transform translate-y-1 scale-[0.97] z-0 opacity-90" />
 
                 {/* Active Top Certificate with 3D Mouse Parallax & Smooth Slide Physics */}
                 <AnimatePresence mode="wait">
@@ -215,7 +215,7 @@ export default function Certifications({
                     style={{
                       transformStyle: 'preserve-3d',
                     }}
-                    className="relative z-10 w-full h-full rounded-3xl bg-[#FCFAF5] dark:bg-[#1D1D21] border-[10px] border-[#EDE6D6] dark:border-[#2C2C32] p-5 sm:p-7 flex flex-col justify-between shadow-[0_24px_50px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
+                    className="relative z-10 w-full h-full rounded-2xl sm:rounded-3xl bg-[#FCFAF5] dark:bg-[#1D1D21] border-[5px] sm:border-[10px] border-[#EDE6D6] dark:border-[#2C2C32] p-3.5 sm:p-7 flex flex-col justify-between shadow-[0_24px_50px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
                   >
                     {currentCert.badge_url ? (
                       /* Actual Uploaded Certificate Image Mode */

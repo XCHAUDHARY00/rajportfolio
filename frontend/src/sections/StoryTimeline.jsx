@@ -206,7 +206,7 @@ export default function StoryTimeline({
             </h2>
 
             {/* Rotating Dotted Circles & Skeuomorphic Compass Dial */}
-            <div className="relative my-4 sm:my-8 lg:my-10 w-40 h-40 sm:w-72 sm:h-72 lg:w-96 lg:h-96 flex items-center justify-center select-none">
+            <div className="relative my-2 xs:my-4 sm:my-8 lg:my-10 w-28 h-28 xs:w-36 xs:h-36 sm:w-72 sm:h-72 lg:w-96 lg:h-96 flex items-center justify-center select-none flex-shrink-0">
               {/* Rotating Dotted & Dashed Concentric Orbit Rings & Radial Graduation Ticks */}
               <motion.div
                 animate={{ rotate: activeYearIndex * 45 }}
@@ -214,13 +214,13 @@ export default function StoryTimeline({
                 className="absolute inset-0 flex items-center justify-center pointer-events-none"
               >
                 {/* Outer Dashed Orbit Ring */}
-                <div className="absolute w-[150px] h-[150px] sm:w-[280px] sm:h-[280px] lg:w-[370px] lg:h-[370px] rounded-full border border-dashed border-black/20 dark:border-white/20" />
+                <div className="absolute w-[105px] h-[105px] xs:w-[135px] xs:h-[135px] sm:w-[280px] sm:h-[280px] lg:w-[370px] lg:h-[370px] rounded-full border border-dashed border-black/20 dark:border-white/20" />
 
                 {/* Middle Dotted Orbit Ring */}
-                <div className="absolute w-[115px] h-[115px] sm:w-[220px] sm:h-[220px] lg:w-[290px] lg:h-[290px] rounded-full border border-dotted border-black/20 dark:border-white/25" />
+                <div className="absolute w-[80px] h-[80px] xs:w-[105px] xs:h-[105px] sm:w-[220px] sm:h-[220px] lg:w-[290px] lg:h-[290px] rounded-full border border-dotted border-black/20 dark:border-white/25" />
 
                 {/* Inner Dashed Ring */}
-                <div className="absolute w-[80px] h-[80px] sm:w-[160px] sm:h-[160px] lg:w-[210px] lg:h-[210px] rounded-full border border-dashed border-black/15 dark:border-white/15" />
+                <div className="absolute w-[55px] h-[55px] xs:w-[75px] xs:h-[75px] sm:w-[160px] sm:h-[160px] lg:w-[210px] lg:h-[210px] rounded-full border border-dashed border-black/15 dark:border-white/15" />
 
                 {/* Radial Graduation Tick Marks */}
                 {dialTicks.map((_, i) => (
@@ -232,8 +232,8 @@ export default function StoryTimeline({
                     <div
                       className={`h-[1px] ${
                         i % 3 === 0
-                          ? 'w-[8px] sm:w-[14px] bg-black/40 dark:bg-white/45'
-                          : 'w-[4px] sm:w-[6px] bg-black/20 dark:bg-white/20'
+                          ? 'w-[5px] xs:w-[8px] sm:w-[14px] bg-black/40 dark:bg-white/45'
+                          : 'w-[3px] xs:w-[4px] sm:w-[6px] bg-black/20 dark:bg-white/20'
                       }`}
                     />
                   </div>
@@ -241,7 +241,7 @@ export default function StoryTimeline({
               </motion.div>
 
               {/* Central Big Year & Period Display */}
-              <div className="text-center z-10 px-1 sm:px-4 flex flex-col items-center">
+              <div className="text-center z-10 px-0.5 xs:px-1 sm:px-4 flex flex-col items-center">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentEvent.year}
@@ -250,7 +250,7 @@ export default function StoryTimeline({
                     exit={{ opacity: 0, scale: 0.88, y: 12 }}
                     transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <span className="text-4xl sm:text-7xl lg:text-[100px] font-black text-[#1C1A18] dark:text-white font-sans tracking-tight block leading-none select-none drop-shadow-xs">
+                    <span className="text-2xl xs:text-3xl sm:text-7xl lg:text-[100px] font-black text-[#1C1A18] dark:text-white font-sans tracking-tight block leading-none select-none drop-shadow-xs">
                       {currentEvent.year}
                     </span>
                   </motion.div>
@@ -263,19 +263,19 @@ export default function StoryTimeline({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.22 }}
-                    className="text-[8px] sm:text-xs lg:text-sm font-mono tracking-widest uppercase text-[#5E5A53] dark:text-[#A8A196] mt-1 sm:mt-3 block font-bold"
+                    className="text-[7px] xs:text-[8px] sm:text-xs lg:text-sm font-mono tracking-wider sm:tracking-widest uppercase text-[#5E5A53] dark:text-[#A8A196] mt-0.5 xs:mt-1 sm:mt-3 block font-bold truncate max-w-[110px] xs:max-w-[130px] sm:max-w-none"
                   >
                     {currentEvent.period}
                   </motion.span>
                 </AnimatePresence>
 
                 {/* Counter & Progress Line */}
-                <div className="flex items-center gap-1.5 sm:gap-3 text-[9px] sm:text-xs font-mono text-[#736D64] dark:text-white/60 mt-2 sm:mt-4">
+                <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 text-[8px] xs:text-[9px] sm:text-xs font-mono text-[#736D64] dark:text-white/60 mt-1 xs:mt-2 sm:mt-4">
                   <Clock size={10} className="text-[#1C1A18] dark:text-amber-400 flex-shrink-0 hidden sm:block" />
                   <span className="font-bold text-[#1C1A18] dark:text-amber-400">
                     {stepNumber} / {totalSteps}
                   </span>
-                  <div className="w-10 sm:w-20 lg:w-28 h-1 rounded-full bg-black/15 dark:bg-white/15 overflow-hidden">
+                  <div className="w-6 xs:w-10 sm:w-20 lg:w-28 h-1 rounded-full bg-black/15 dark:bg-white/15 overflow-hidden">
                     <div
                       className="h-full bg-[#1C1A18] dark:bg-amber-400 rounded-full transition-all duration-400"
                       style={{
@@ -289,11 +289,11 @@ export default function StoryTimeline({
           </div>
 
           {/* ── RIGHT COLUMN: Continuous Connected Timeline Track ── */}
-          <div className="col-span-7 sm:col-span-7 lg:col-span-7 relative pl-4 sm:pl-6 lg:pl-8">
+          <div className="col-span-7 sm:col-span-7 lg:col-span-7 relative pl-2 xs:pl-4 sm:pl-6 lg:pl-8">
             {/* Continuous Vertical Timeline Line */}
-            <div className="absolute left-[7px] sm:left-[11px] top-4 bottom-4 w-[2px] bg-black/20 dark:bg-gradient-to-b dark:from-amber-400/60 dark:via-white/20 dark:to-transparent" />
+            <div className="absolute left-[5px] sm:left-[11px] top-4 bottom-4 w-[2px] bg-black/20 dark:bg-gradient-to-b dark:from-amber-400/60 dark:via-white/20 dark:to-transparent" />
 
-            <div className="space-y-14 sm:space-y-20 pb-8">
+            <div className="space-y-10 xs:space-y-14 sm:space-y-20 pb-8">
               {uniqueEvents.map((item, idx) => {
                 const isActive = activeYearIndex === idx;
 
@@ -302,7 +302,7 @@ export default function StoryTimeline({
                     key={idx}
                     ref={(el) => (itemRefs.current[idx] = el)}
                     onClick={() => handleEventClick(idx)}
-                    className={`relative pl-8 sm:pl-10 cursor-pointer transition-all duration-300 ${
+                    className={`relative pl-5 xs:pl-7 sm:pl-10 cursor-pointer transition-all duration-300 ${
                       isActive ? 'opacity-100 scale-[1.01]' : 'opacity-45 hover:opacity-85'
                     }`}
                   >
