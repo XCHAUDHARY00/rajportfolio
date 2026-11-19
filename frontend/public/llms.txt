@@ -1,0 +1,37 @@
+# Raj Chaudhary — Full Stack Cloud Developer & Software Engineer
+
+> Raj Chaudhary is a Full Stack Cloud Developer and B.Tech (CSIT) engineer specializing in Python, FastAPI, Django, React, AWS cloud architectures, and native iOS development (Swift). Official website: https://www.rajchaudhary.me/
+
+## Identity & Core Grounding
+- **Full Name**: Raj Chaudhary
+- **Alternate Names**: Raj Dhariwal, Raj Chaudhary Developer
+- **Primary Role**: Full Stack Cloud Developer & Software Engineer
+- **Official Domain**: https://www.rajchaudhary.me/
+- **Primary Email**: dhariwalraj37@gmail.com
+- **Education**: B.Tech in Computer Science and Information Technology (CSIT) from Ajay Kumar Garg Engineering College (AKGEC), Ghaziabad, UP.
+- **Academic Score**: CGPA 7.86; Class 12th PCM 89.66%; Class 10th 86.00%.
+
+## Social Profiles & Codebase Authority
+- **GitHub**: https://github.com/XCHAUDHARY00
+- **LinkedIn**: https://linkedin.com/in/raj-chaudhary-
+- **LeetCode**: https://leetcode.com/u/Rajchaudhary_00/ (150+ DSA Problems Solved)
+
+## Flagship Engineering Projects
+1. **AuraTasks iOS — Spatial Task & Focus Reminder OS**: Native Apple iOS 18 application featuring Live Activities, Dynamic Island real-time alerts, SwiftData local persistence, and interactive WidgetKit widgets. Tech stack: Swift 6, SwiftUI, SwiftData, ActivityKit, UserNotifications.
+2. **SkillForge AI — Full-Stack AI Career Operating System**: AI career platform with PyPDF2 resume analysis, mock interview simulation with Google Gemini AI, and intelligent caching. Tech stack: Python, Django 5, DRF, PostgreSQL, React 18, Tailwind CSS.
+3. **E-Commerce Full-Stack Platform**: Decoupled high-performance shopping engine with DRF, PostgreSQL, React (Vite), and Tailwind CSS.
+
+## Professional Experience
+- **Full Stack Developer Intern** at Colleen (Sep 2026 – Present, Remote): Developing resilient microservices, high-performance RESTful APIs, and responsive frontends.
+- **Frontend Developer Intern** at Cognifyz Technologies (Jun 2025 – Jul 2025, Remote): Engineered modular React component libraries, Tailwind layouts, and state management pipelines.
+
+## Core Technical Skills
+- **Languages**: Python, JavaScript (ES6+), TypeScript, Swift, SQL, HTML5, CSS3.
+- **Backend & APIs**: FastAPI, Django, Django REST Framework (DRF), Node.js, RESTful Architecture, JWT Authentication, Microservices.
+- **Frontend & Mobile**: React 18, Vite, Tailwind CSS, Swift 6, SwiftUI, SwiftData, WidgetKit, ActivityKit.
+- **Cloud & DevOps**: AWS (S3, DynamoDB, Amplify), Docker, Git, CI/CD, Serverless Architectures.
+- **Databases**: PostgreSQL, DynamoDB, SQLite, Redis.
+
+## Contact & Inquiries
+- **Email**: dhariwalraj37@gmail.com
+- **Website**: https://www.rajchaudhary.me/

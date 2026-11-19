@@ -1,0 +1,39 @@
+# Robots.txt for https://www.rajchaudhary.me/
+# Allow all major search engines and AI search engines
+
+User-agent: *
+Allow: /
+
+# OpenAI ChatGPT Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google & Gemini AI Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity AI Crawler
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic Claude Crawler
+User-agent: ClaudeBot
+Allow: /
+
+# Microsoft Bing
+User-agent: Bingbot
+Allow: /
+
+# Applebot
+User-agent: Applebot
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.rajchaudhary.me/sitemap.xml
+Sitemap: https://rajchaudhary.me/sitemap.xml
