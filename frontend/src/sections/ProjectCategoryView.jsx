@@ -158,112 +158,148 @@ function ModernAppleDisplay({ project, image, onOpenDetail }) {
   );
 }
 
-// ── Ultra-Realistic Premium Apple iPhone Mockup Screen (for iOS Projects) ──
+// ── Ultra-Realistic Premium Apple iPhone 16 Pro Mockup (Bezel-Less & 3D Tilted) ──
 function ModernIPhoneDisplay({ project, image, onOpenDetail }) {
   return (
-    <div className="flex flex-col items-center w-full select-none mb-6">
-      {/* iPhone 16 Pro Frame with Titanium Bezel & Dynamic Island */}
+    <div className="relative w-full flex flex-col items-center select-none py-2 group">
+      {/* 3D Perspective Canvas Container */}
       <div
-        onClick={onOpenDetail}
-        className="w-full max-w-[280px] sm:max-w-[310px] aspect-[9/19.5] max-h-[560px] rounded-[48px] sm:rounded-[54px] bg-[#121214] border-[7px] sm:border-[9px] border-[#252528] ring-1 ring-white/20 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] p-1 relative overflow-hidden flex flex-col justify-between cursor-pointer group transition-transform duration-300 hover:scale-[1.015]"
-        title="Click screen to view full project information"
+        className="w-full flex justify-center"
+        style={{ perspective: '1200px' }}
       >
-        {/* Top Speaker Ear-Slit */}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 sm:w-12 h-1 bg-black/70 rounded-full z-40" />
+        <div
+          onClick={onOpenDetail}
+          title="Click to view full project information"
+          className="relative w-[260px] sm:w-[280px] lg:w-[290px] aspect-[9/19.5] cursor-pointer transition-all duration-700 ease-out"
+          style={{
+            transform: 'rotateY(-13deg) rotateX(7deg) rotateZ(-2deg)',
+            transformStyle: 'preserve-3d',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'rotateY(0deg) rotateX(0deg) rotateZ(0deg) scale(1.03)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'rotateY(-13deg) rotateX(7deg) rotateZ(-2deg)';
+          }}
+        >
+          {/* Physical Hardware Buttons */}
+          {/* Left: Action Button & Volume */}
+          <div className="absolute -left-[3px] top-[74px] w-[3px] h-6 bg-[#4E4C54] rounded-l-xs shadow-sm" />
+          <div className="absolute -left-[3px] top-[112px] w-[3px] h-11 bg-[#4E4C54] rounded-l-xs shadow-sm" />
+          <div className="absolute -left-[3px] top-[162px] w-[3px] h-11 bg-[#4E4C54] rounded-l-xs shadow-sm" />
+          {/* Right: Power & Camera Control */}
+          <div className="absolute -right-[3px] top-[120px] w-[3px] h-16 bg-[#4E4C54] rounded-r-xs shadow-sm" />
+          <div className="absolute -right-[3px] top-[208px] w-[3px] h-12 bg-[#3A3840] rounded-r-xs shadow-sm" />
 
-        {/* Dynamic Island */}
-        <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-24 sm:w-28 h-6 sm:h-7 bg-black rounded-full z-30 flex items-center justify-between px-3 shadow-md">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#111625] border border-blue-900/50" />
-          <div className="w-1.5 h-1.5 rounded-full bg-[#18181B]" />
-        </div>
+          {/* Outer Bezel-less Natural Titanium Frame */}
+          <div className="relative w-full h-full rounded-[48px] sm:rounded-[52px] p-[2.5px] sm:p-[3px] bg-gradient-to-tr from-[#323136] via-[#686670] to-[#252428] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.7),0_15px_30px_-10px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.45)] ring-1 ring-white/10">
+            {/* Inner Black OLED Bezel (Ultra-thin 1.5mm edge) */}
+            <div className="relative w-full h-full rounded-[45px] sm:rounded-[49px] p-[2px] bg-black overflow-hidden flex flex-col justify-between">
+              
+              {/* Top Speaker Ear-Slit */}
+              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-10 h-0.5 bg-black/80 rounded-full z-50 pointer-events-none" />
 
-        {/* Inner OLED Display */}
-        <div className="relative w-full h-full rounded-[40px] sm:rounded-[44px] bg-black overflow-hidden flex flex-col justify-between text-left">
-          {image ? (
-            <div className="relative w-full h-full">
-              <img
-                src={image}
-                alt={project.title}
-                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
-                <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-amber-400/50 text-[11px] font-semibold tracking-wide flex items-center gap-1.5 shadow-2xl transform scale-95 group-hover:scale-100 transition-transform text-amber-300">
-                  <Info size={13} className="text-amber-400" />
-                  <span>View Details</span>
-                  <Maximize2 size={12} className="text-white/80" />
+              {/* Dynamic Island */}
+              <div className="absolute top-2.5 sm:top-3 left-1/2 -translate-x-1/2 w-24 sm:w-28 h-6 sm:h-6.5 bg-black rounded-full z-40 flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.9)] pointer-events-none">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#080d1a] ring-[0.5px] ring-white/15 flex items-center justify-center">
+                  <div className="w-1 h-1 rounded-full bg-[#1b2b4f]" />
                 </div>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#141416]" />
               </div>
-            </div>
-          ) : (
-            /* Sleek Native iOS App Mockup View */
-            <div className="w-full h-full bg-gradient-to-b from-[#18181D] via-[#101014] to-[#0A0A0C] text-white p-4 pt-12 flex flex-col justify-between font-sans relative">
-              {/* iOS Status Bar */}
-              <div className="absolute top-3 inset-x-5 flex items-center justify-between text-[11px] font-semibold text-white/90 z-20">
+
+              {/* iOS Live Status Bar (Superimposed on top of image or fallback) */}
+              <div className="absolute top-2.5 inset-x-5 flex items-center justify-between text-[10px] sm:text-[11px] font-semibold text-white/90 z-35 pointer-events-none">
                 <span>9:41</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] tracking-tight">5G</span>
+                  <span className="text-[9px] font-bold tracking-tight">5G</span>
                   <div className="w-4 h-2 border border-white/80 rounded-xs p-0.5 flex items-center">
                     <div className="w-full h-full bg-white rounded-2xs" />
                   </div>
                 </div>
               </div>
 
-              {/* iOS Navigation Bar */}
-              <div className="mt-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold block mb-1">
-                  NATIVE IOS APP
-                </span>
-                <h4 className="text-lg sm:text-xl font-bold tracking-tight text-white leading-tight line-clamp-2">
-                  {project.title}
-                </h4>
-              </div>
-
-              {/* iOS App Content Widget Card */}
-              <div className="my-auto py-2 space-y-2.5">
-                <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-sm">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">SWIFTUI &bull; IOS</span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              {/* Edge-to-Edge Bezel-less Screen Display */}
+              <div className="relative w-full h-full rounded-[43px] sm:rounded-[47px] bg-black overflow-hidden flex flex-col justify-between text-left">
+                {image ? (
+                  <div className="relative w-full h-full">
+                    <img
+                      src={image}
+                      alt={project.title}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                      <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-amber-400/50 text-[11px] font-semibold tracking-wide flex items-center gap-1.5 shadow-2xl transform scale-95 group-hover:scale-100 transition-transform text-amber-300">
+                        <Info size={13} className="text-amber-400" />
+                        <span>View Details</span>
+                        <Maximize2 size={12} className="text-white/80" />
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-xs text-white/90 leading-relaxed line-clamp-3">
-                    {project.description || 'Native Apple iOS application crafted with modern Swift and Human Interface Guidelines.'}
-                  </p>
-                </div>
+                ) : (
+                  /* Sleek Native iOS App Mockup View */
+                  <div className="w-full h-full bg-gradient-to-b from-[#16161B] via-[#0E0E12] to-[#08080A] text-white p-4 pt-12 flex flex-col justify-between font-sans relative">
+                    {/* iOS Navigation Header */}
+                    <div className="mt-2">
+                      <span className="text-[9px] font-mono uppercase tracking-widest text-amber-400 font-bold block mb-1">
+                        NATIVE IOS APP
+                      </span>
+                      <h4 className="text-base sm:text-lg font-bold tracking-tight text-white leading-tight line-clamp-2">
+                        {project.title}
+                      </h4>
+                    </div>
 
-                <div className="flex flex-wrap gap-1">
-                  {getStackArray(project.stack).slice(0, 3).map((st, i) => (
-                    <span key={i} className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-white/70">
-                      {st}
-                    </span>
-                  ))}
-                </div>
-              </div>
+                    {/* iOS App Content Widget Card */}
+                    <div className="my-auto py-2 space-y-2.5">
+                      <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-sm">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[9px] font-mono text-white/60 uppercase tracking-wider">SWIFTUI &bull; IOS</span>
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        </div>
+                        <p className="text-xs text-white/90 leading-relaxed line-clamp-3">
+                          {project.description || 'Native Apple iOS application crafted with modern Swift and Human Interface Guidelines.'}
+                        </p>
+                      </div>
 
-              {/* iOS Home Indicator Bar */}
-              <div className="w-28 sm:w-32 h-1 bg-white/40 rounded-full mx-auto mb-1 flex-shrink-0" />
+                      <div className="flex flex-wrap gap-1">
+                        {getStackArray(project.stack).slice(0, 3).map((st, i) => (
+                          <span key={i} className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-white/70">
+                            {st}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
 
-              {/* Hover Prompt */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
-                <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-amber-400/50 text-[11px] font-semibold tracking-wide flex items-center gap-1.5 shadow-2xl text-amber-300">
-                  <Info size={13} className="text-amber-400" />
-                  <span>Click to view full details</span>
-                </div>
+                    {/* Hover Prompt */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white backdrop-blur-[2px]">
+                      <div className="px-3.5 py-1.5 rounded-full bg-black/85 border border-amber-400/50 text-[11px] font-semibold tracking-wide flex items-center gap-1.5 shadow-2xl text-amber-300">
+                        <Info size={13} className="text-amber-400" />
+                        <span>Click to view full details</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* iOS Home Indicator Bar */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 sm:w-32 h-1 bg-white/50 rounded-full z-35 pointer-events-none" />
+
+                {/* Glossy Diagonal Glass Sheen Reflection */}
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-20"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.05) 45%, transparent 60%)',
+                  }}
+                />
               </div>
             </div>
-          )}
+          </div>
 
-          {/* Glossy Curved Glass Reflection */}
+          {/* 3D Angled Ground Shadow underneath Phone */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-20"
-            style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 55%)',
-            }}
+            className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-[85%] h-7 bg-black/50 dark:bg-black/80 blur-xl rounded-full pointer-events-none"
+            style={{ transform: 'rotate(-4deg)' }}
           />
         </div>
       </div>
-
-      {/* Subtle iPhone base elevation shadow */}
-      <div className="w-36 sm:w-44 h-2.5 rounded-full bg-black/30 dark:bg-black/60 blur-md mt-2" />
     </div>
   );
 }
@@ -428,91 +464,164 @@ export default function ProjectCategoryView({
               >
                 {/* 1. Device Mockup: iPhone frame for iOS, Studio Display for Web/Backend */}
                 {isIOS ? (
-                  <ModernIPhoneDisplay
-                    project={project}
-                    image={imgs[0]}
-                    onOpenDetail={() => setDetailProject(project)}
-                  />
-                ) : (
-                  <ModernAppleDisplay
-                    project={project}
-                    image={imgs[0]}
-                    onOpenDetail={() => setDetailProject(project)}
-                  />
-                )}
-
-                {/* 2. Project Meta & Details */}
-                <div className="text-left mt-4">
-                  {/* Category & Status Tag */}
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest text-[#736D64] dark:text-[#88837A] uppercase flex items-center gap-1.5">
-                      {isIOS ? (
-                        <>
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                    {/* Left Column: Project Meta & Details */}
+                    <div className="lg:col-span-7 order-2 lg:order-1 text-left flex flex-col justify-center">
+                      {/* Category & Status Tag */}
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest text-[#736D64] dark:text-[#88837A] uppercase flex items-center gap-1.5">
                           <Smartphone size={13} className="text-amber-600 dark:text-amber-400" />
                           <span>IOS DEVELOPER &bull; APPLE ECOSYSTEM</span>
-                        </>
-                      ) : (
-                        <>
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] font-sans leading-tight">
+                        {project.title}
+                      </h3>
+
+                      {/* Subtitle / Tech overview */}
+                      <p className="text-xs sm:text-sm font-sans text-[#736D64] dark:text-[#9A9388] mt-1.5 font-medium">
+                        {stackItems.slice(0, 5).join(' • ') || 'SwiftUI • iOS Architecture'}
+                      </p>
+
+                      {/* Description */}
+                      <p className="text-xs sm:text-base font-sans text-[#4A453E] dark:text-[#C5BFB5] leading-relaxed my-4">
+                        {project.description ||
+                          'Production-grade native iOS application built with precision.'}
+                      </p>
+
+                      {/* Bullet Features (First 3) */}
+                      {project.bullets && project.bullets.length > 0 && (
+                        <ul className="space-y-2 mb-5">
+                          {project.bullets.slice(0, 3).map((b, bi) => (
+                            <li key={bi} className="text-xs sm:text-sm font-sans text-[#5E5A53] dark:text-[#9A9388] flex items-start gap-2">
+                              <span className="text-amber-500 font-bold mt-0.5">•</span>
+                              <span className="line-clamp-2 leading-relaxed">{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-3 pt-1">
+                        {project.live_url && (
+                          <a
+                            href={project.live_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="bg-[#1C1A18] hover:bg-black dark:bg-[#FAF7F2] dark:hover:bg-white text-white dark:text-[#121212] px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-md inline-flex items-center gap-2 active:scale-95"
+                          >
+                            <span>App Store / TestFlight</span>
+                            <ExternalLink size={13} />
+                          </a>
+                        )}
+
+                        {project.github_url && (
+                          <a
+                            href={project.github_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all border border-[#CCC4B4] dark:border-[#3D3D42] text-[#2C2926] dark:text-[#FAF7F2] hover:bg-black/5 dark:hover:bg-white/10 inline-flex items-center gap-1.5 active:scale-95"
+                          >
+                            <Github size={13} />
+                            <span>Source Code</span>
+                          </a>
+                        )}
+
+                        <button
+                          onClick={() => setDetailProject(project)}
+                          className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/50 text-[#1C1A18] dark:text-amber-300 inline-flex items-center gap-2 active:scale-95 shadow-sm"
+                        >
+                          <Info size={14} className="text-amber-500 dark:text-amber-400" />
+                          <span>View Full Information</span>
+                          <ArrowUpRight size={13} className="text-amber-500 dark:text-amber-400" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Tilted Bezel-Less iPhone Mockup on the side */}
+                    <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center items-center py-2">
+                      <ModernIPhoneDisplay
+                        project={project}
+                        image={imgs[0]}
+                        onOpenDetail={() => setDetailProject(project)}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <ModernAppleDisplay
+                      project={project}
+                      image={imgs[0]}
+                      onOpenDetail={() => setDetailProject(project)}
+                    />
+
+                    {/* 2. Project Meta & Details */}
+                    <div className="text-left mt-4">
+                      {/* Category & Status Tag */}
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest text-[#736D64] dark:text-[#88837A] uppercase flex items-center gap-1.5">
                           <Laptop size={13} className="text-amber-600 dark:text-amber-400" />
                           <span>{tagLabel} &bull; LIVE SYSTEM</span>
-                        </>
-                      )}
-                    </span>
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-2xl sm:text-4xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] font-sans leading-tight">
+                        {project.title}
+                      </h3>
+
+                      {/* Subtitle / Tech overview */}
+                      <p className="text-xs sm:text-sm font-sans text-[#736D64] dark:text-[#9A9388] mt-1.5 font-medium">
+                        {stackItems.slice(0, 4).join(' • ') || 'Production Architecture'}
+                      </p>
+
+                      {/* Description */}
+                      <p className="text-xs sm:text-base font-sans text-[#4A453E] dark:text-[#C5BFB5] leading-relaxed my-4 max-w-3xl">
+                        {project.description ||
+                          'Production-grade system built with strict reliability, high availability, and clean modular code.'}
+                      </p>
+
+                      {/* Action Buttons: Live site, Source Code, and VIEW FULL INFORMATION Button */}
+                      <div className="flex flex-wrap items-center gap-3.5 pt-2">
+                        {project.live_url && (
+                          <a
+                            href={project.live_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="bg-[#1C1A18] hover:bg-black dark:bg-[#FAF7F2] dark:hover:bg-white text-white dark:text-[#121212] px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-md inline-flex items-center gap-2 active:scale-95"
+                          >
+                            <span>Visit live site</span>
+                            <ExternalLink size={13} />
+                          </a>
+                        )}
+
+                        {project.github_url && (
+                          <a
+                            href={project.github_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all border border-[#CCC4B4] dark:border-[#3D3D42] text-[#2C2926] dark:text-[#FAF7F2] hover:bg-black/5 dark:hover:bg-white/10 inline-flex items-center gap-1.5 active:scale-95"
+                          >
+                            <Github size={13} />
+                            <span>Source Code</span>
+                          </a>
+                        )}
+
+                        {/* ── "View Full Information" Button as requested ── */}
+                        <button
+                          onClick={() => setDetailProject(project)}
+                          className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/50 text-[#1C1A18] dark:text-amber-300 inline-flex items-center gap-2 active:scale-95 shadow-sm"
+                        >
+                          <Info size={14} className="text-amber-500 dark:text-amber-400" />
+                          <span>View Full Information</span>
+                          <ArrowUpRight size={13} className="text-amber-500 dark:text-amber-400" />
+                        </button>
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Title */}
-                  <h3 className="text-2xl sm:text-4xl font-bold tracking-tight text-[#1C1A18] dark:text-[#FAF7F2] font-sans leading-tight">
-                    {project.title}
-                  </h3>
-
-                  {/* Subtitle / Tech overview */}
-                  <p className="text-xs sm:text-sm font-sans text-[#736D64] dark:text-[#9A9388] mt-1.5 font-medium">
-                    {stackItems.slice(0, 4).join(' • ') || 'Production Architecture'}
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-xs sm:text-base font-sans text-[#4A453E] dark:text-[#C5BFB5] leading-relaxed my-4 max-w-3xl">
-                    {project.description ||
-                      'Production-grade system built with strict reliability, high availability, and clean modular code.'}
-                  </p>
-
-                  {/* Action Buttons: Live site, Source Code, and VIEW FULL INFORMATION Button */}
-                  <div className="flex flex-wrap items-center gap-3.5 pt-2">
-                    {project.live_url && (
-                      <a
-                        href={project.live_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="bg-[#1C1A18] hover:bg-black dark:bg-[#FAF7F2] dark:hover:bg-white text-white dark:text-[#121212] px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all shadow-md inline-flex items-center gap-2 active:scale-95"
-                      >
-                        <span>Visit live site</span>
-                        <ExternalLink size={13} />
-                      </a>
-                    )}
-
-                    {project.github_url && (
-                      <a
-                        href={project.github_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all border border-[#CCC4B4] dark:border-[#3D3D42] text-[#2C2926] dark:text-[#FAF7F2] hover:bg-black/5 dark:hover:bg-white/10 inline-flex items-center gap-1.5 active:scale-95"
-                      >
-                        <Github size={13} />
-                        <span>Source Code</span>
-                      </a>
-                    )}
-
-                    {/* ── "View Full Information" Button as requested ── */}
-                    <button
-                      onClick={() => setDetailProject(project)}
-                      className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/50 text-[#1C1A18] dark:text-amber-300 inline-flex items-center gap-2 active:scale-95 shadow-sm"
-                    >
-                      <Info size={14} className="text-amber-500 dark:text-amber-400" />
-                      <span>View Full Information</span>
-                      <ArrowUpRight size={13} className="text-amber-500 dark:text-amber-400" />
-                    </button>
-                  </div>
-                </div>
+                )}
               </motion.div>
             );
           })}

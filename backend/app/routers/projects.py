@@ -60,6 +60,31 @@ _SEED_PROJECTS = [
         "images": [],
         "created_at": datetime.utcnow().isoformat(),
     },
+    {
+        "id": "proj-003",
+        "title": "AuraTasks iOS — Spatial Task & Focus Reminder OS",
+        "description": (
+            "A native Apple iOS 18 productivity and intelligent task reminder application featuring "
+            "Live Activities, Dynamic Island real-time countdowns, SwiftData persistence, and interactive widgets."
+        ),
+        "category": "ios",
+        "stack": ["Swift 6", "SwiftUI", "SwiftData", "WidgetKit", "ActivityKit", "Combine", "UserNotifications"],
+        "github_url": "https://github.com/XCHAUDHARY00",
+        "live_url": None,
+        "start_date": "2026-02",
+        "end_date": "2026-05",
+        "featured": True,
+        "bullets": [
+            "Architected a native iOS 18 task and habit scheduling system with SwiftUI and SwiftData delivering sub-16ms smooth 120Hz ProMotion animations.",
+            "Engineered ActivityKit & Dynamic Island integration displaying live task progress, countdown timers, and priority alerts with zero background battery overhead.",
+            "Implemented customizable interactive Home Screen and Lock Screen widgets powered by WidgetKit with real-time app state synchronization.",
+            "Built intelligent recurring reminder scheduling engine with UserNotifications framework supporting custom notification actions and snooze protocols.",
+            "Adopted MVVM-C architecture with Combine and Swift 6 concurrency (async/await, Actors) ensuring race-condition free data streams.",
+        ],
+        "image_url": "/images/auratasks-ios.png",
+        "images": ["/images/auratasks-ios.png"],
+        "created_at": datetime.utcnow().isoformat(),
+    },
 ]
 
 
